@@ -18,15 +18,17 @@ public class ListenerMP extends JPanel implements TuioListener {
     
 	private TuioClient client;
 	private JFrame frame;
+	private Puntaje pts;
 	
 	
-    public ListenerMP(TuioClient client, int v, int n) {
+    public ListenerMP(TuioClient client, Puntaje p) {
     	this.client = client;
+    	pts = p;
+		//System.out.println("Puntos V: "+pts.getEquipoV()+" Puntos N: "+pts.getEquipoO());
     	frame = new JFrame("Menu Principal");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
-        frame.add(new MenuPanel(v,n)); 
-        //frame.add(this);
+        frame.add(new MenuPanel(p.getEquipoV(),p.getEquipoO())); 
         frame.setVisible(true);
     }
 
@@ -40,10 +42,10 @@ public class ListenerMP extends JPanel implements TuioListener {
 	public void addTuioCursor(TuioCursor tc) {
 		// Cuando presiono con el cursor la parte superior de la pantalla desactiva el listener, cierra el frame 
 		// y activa el listener del desafio 1
-		if (tc.getY()<0.5) {
+		if (tc.getY()<0.5 && tc.getX()>0.4 && tc.getX()<0.6) {
 			client.removeTuioListener(this);
 			frame.dispose();
-			client.addTuioListener(new ListenerD1(client));
+			client.addTuioListener(new ListenerD1(client,pts));
 		}
 	}
 

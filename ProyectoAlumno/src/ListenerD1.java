@@ -23,16 +23,19 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private int tiempoTotalV, tiempoTotalO;
 	private boolean pantallaBenef=false;
 	private boolean terminoO=false, terminoV=false;
+	private int progresoO=1, progresoV=1;
+	private Puntaje pts;
+
 	//Agregar lista de comidas
 
-	public ListenerD1(TuioClient client) {
+	public ListenerD1(TuioClient client, Puntaje p) {
+		pts = p;
     	this.client = client;
     	frame = new JFrame("Desafio 1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         panel = new Desafio1(frame.getHeight(), frame.getWidth());
         frame.add(panel); 
-        //frame.add(this);
         frame.setVisible(true);
     }
 	
@@ -65,10 +68,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 					}
 				}
 			}
+			
 			if(pantallaBenef) {
+				pts.aumentarEquipoO(puntosO);
+				pts.aumentarEquipoV(puntosV);
 				client.removeTuioListener(this);
 				frame.dispose();
-				client.addTuioListener(new ListenerMP(client,puntosV,puntosO));
+				client.addTuioListener(new ListenerMP(client,pts));
 			}
 			pantallaBenef=true;
 		}
@@ -79,60 +85,73 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		if (tc.getX()>0.5 && tc.getY()>0.5 && !terminoV) {
 			// Traigo el progreso actual del equipo Violeta, si es null es porque termino
 			JLabel label = panel.getPEquipoV();
-			if (label != null) {
-				// Genero un random: 0 error (0 pts), 1 incompleto (1 pt), 2 correcto (3 pts)
-				Random rd = new Random();
-				int ok = rd.nextInt(3);
-				if(ok==2) {
-					//Sumo 3 pts y pongo progreso en verde
-					label.setBackground(Color.green);
-					puntosV+=3;
-				}
-				else {
-					if(ok==1) {
-						//Sumo 1 pt y pongo progreso en amarillo
-						label.setBackground(Color.yellow);
-						puntosV++;
-					}
-					else {
-						//Pongo progreso en rojo
-						label.setBackground(Color.red);
-					}
-				}
+			if (progresoV<5) {
+				this.evaluarV(label);
 			}
-			else {
+			if(progresoV==5) {
 				//Indico que termino el equipo Violeta y le paso los puntos, y me traigo tiempo total transcurrido
+				this.evaluarV(label);
 				tiempoTotalV = panel.terminoV(puntosV);
 				terminoV=true;
 				terminaron++;
 			}
+			progresoV++;
+
 		}
 		else {
 			//Se repite lo mismo que el anterior pero con el equipo naranja
 			if (tc.getX()<0.5 && tc.getY()>0.5 && !terminoO) {
 				JLabel label = panel.getPEquipoO();
-				if (label != null) {
-					Random rd = new Random();
-					int ok = rd.nextInt(3);
-					if(ok==2) {
-						label.setBackground(Color.green);
-						puntosO+=3;
-					}
-					else {
-						if(ok==1) {
-							label.setBackground(Color.yellow);
-							puntosO++;
-						}
-						else {
-							label.setBackground(Color.red);
-						}
-					}				
+				if (progresoO<5) {
+						this.evaluarO(label);		
 				}
-				else {
+			    if(progresoO==5)  {
+			    	this.evaluarO(label);
 					tiempoTotalO = panel.terminoO(puntosO);
 					terminoO=true;
 					terminaron++;
 				}
+				progresoO++;
+			}
+		}
+	}
+	
+	public void evaluarO(JLabel label) {
+		Random rd = new Random();
+		int ok = rd.nextInt(3);
+		if(ok==2) {
+			label.setBackground(Color.green);
+			puntosO+=3;
+		}
+		else {
+			if(ok==1) {
+				label.setBackground(Color.yellow);
+				puntosO++;
+			}
+			else {
+				label.setBackground(Color.red);
+			}
+		}	
+	}
+	
+	public void evaluarV(JLabel label) {
+		// Genero un random: 0 error (0 pts), 1 incompleto (1 pt), 2 correcto (3 pts)
+		Random rd = new Random();
+		int ok = rd.nextInt(3);
+		if(ok==2) {
+			//Sumo 3 pts y pongo progreso en verde
+			label.setBackground(Color.green);
+			puntosV+=3;
+		}
+		else {
+			if(ok==1) {
+				//Sumo 1 pt y pongo progreso en amarillo
+				label.setBackground(Color.yellow);
+				puntosV++;
+			}
+			else {
+				//Pongo progreso en rojo
+				label.setBackground(Color.red);
 			}
 		}
 	}

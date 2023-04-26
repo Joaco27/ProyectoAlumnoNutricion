@@ -1,12 +1,6 @@
 
 public class Puntaje {
-	private int equipoV, equipoO;
-
-	public Puntaje() {
-		super();
-		this.equipoV = 0;
-		this.equipoO = 0;
-	}
+	private int equipoV=0, equipoO=0;
 
 	public int getEquipoV() {
 		return equipoV;
