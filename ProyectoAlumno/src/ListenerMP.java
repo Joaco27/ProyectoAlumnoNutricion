@@ -27,8 +27,8 @@ public class ListenerMP extends JPanel implements TuioListener {
 		//System.out.println("Puntos V: "+pts.getEquipoV()+" Puntos N: "+pts.getEquipoO());
     	frame = new JFrame("Menu Principal");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.add(new MenuPanel(p.getEquipoV(),p.getEquipoO())); 
+        frame.setSize(1024, 768);
+        frame.add(new MenuPanel(p.getEquipoV(),p.getEquipoO(), frame.getWidth(), frame.getHeight())); 
         frame.setVisible(true);
     }
 

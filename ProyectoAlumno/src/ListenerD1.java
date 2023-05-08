@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.random.*;
 import java.awt.Frame;
@@ -21,10 +23,16 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private int puntosO=0, puntosV=0;
 	private int terminaron=0;
 	private int tiempoTotalV, tiempoTotalO;
-	private boolean pantallaBenef=false;
 	private boolean terminoO=false, terminoV=false;
 	private int progresoO=1, progresoV=1;
 	private Puntaje pts;
+	
+	private List<Integer> etiquetasO = new ArrayList<Integer>();
+	private List<Integer> etiquetasV = new ArrayList<Integer>();
+	
+	private List <Producto> productosO = new ListaProductos().getLista();
+	private List <Producto> productosV = new ListaProductos().getLista();
+
 
 	//Agregar lista de comidas
 
@@ -32,11 +40,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		pts = p;
     	this.client = client;
     	frame = new JFrame("Desafio 1");
+        frame.setSize(1024, 768);
+        //frame.setContentPane(new Desafio1(frame.getHeight(), frame.getWidth()));
+        frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
         panel = new Desafio1(frame.getHeight(), frame.getWidth());
         frame.add(panel); 
-        frame.setVisible(true);
     }
 	
 	
@@ -48,40 +57,9 @@ public class ListenerD1 extends JPanel implements TuioListener{
 
 	@Override
 	public void addTuioCursor(TuioCursor tc) {
-		// si los dos equipos terminaron informo el que gano y le sumo el beneficio
-		// una vez que muestro la pantalla de beneficio vuelvo al MP
-		if(terminaron==2) {
-			panel.termine();
-			if(!pantallaBenef) {
-				JLabel winner = panel.getPPanelWin();
-				if(tiempoTotalV<tiempoTotalO) {
-					winner.setText("Termino primero el Violeta +5 pts");
-					puntosV+=5;
-				}
-				else {
-					if(tiempoTotalV>tiempoTotalO) {
-						winner.setText("Termino primero el Naranja +5 pts");
-						puntosO+=5;
-					}
-					else {
-						winner.setText("Empate");
-					}
-				}
-			}
-			
-			if(pantallaBenef) {
-				pts.aumentarEquipoO(puntosO);
-				pts.aumentarEquipoV(puntosV);
-				client.removeTuioListener(this);
-				frame.dispose();
-				client.addTuioListener(new ListenerMP(client,pts));
-			}
-			pantallaBenef=true;
-		}
 		
 		// Si presiona el cursor en la mitad inferior de la pantalla y la parte derecha simula confirmacion del equipo
 		// violeta, de lo contrario por la izquierda el naranja
-		
 		if (tc.getX()>0.5 && tc.getY()>0.5 && !terminoV) {
 			// Traigo el progreso actual del equipo Violeta, si es null es porque termino
 			JLabel label = panel.getPEquipoV();
@@ -114,10 +92,18 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				progresoO++;
 			}
 		}
+		if(terminaron==2) {
+			pts.aumentarEquipoO(puntosO);
+			pts.aumentarEquipoV(puntosV);
+			client.removeTuioListener(this);
+			frame.dispose();
+			client.addTuioListener(new ListenerRD1(client,pts, tiempoTotalO, tiempoTotalV));			
+			}
 	}
 	
 	public void evaluarO(JLabel label) {
 		Random rd = new Random();
+		label.setOpaque(true);
 		int ok = rd.nextInt(3);
 		if(ok==2) {
 			label.setBackground(Color.green);
@@ -131,12 +117,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 			else {
 				label.setBackground(Color.red);
 			}
-		}	
+		}
 	}
 	
 	public void evaluarV(JLabel label) {
 		// Genero un random: 0 error (0 pts), 1 incompleto (1 pt), 2 correcto (3 pts)
 		Random rd = new Random();
+		label.setOpaque(true);
 		int ok = rd.nextInt(3);
 		if(ok==2) {
 			//Sumo 3 pts y pongo progreso en verde
@@ -181,9 +168,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	}
 
 	@Override
-	public void removeTuioObject(TuioObject arg0) {
-		// TODO Auto-generated method stub
-		
+	public void removeTuioObject(TuioObject to) {
+		if (to.getX()>0.5) {
+			this.etiquetasV.add(to.getSymbolID());
+		}
+		else {
+			this.etiquetasO.add(to.getSymbolID());
+		}
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.*;
 
@@ -8,122 +10,151 @@ public class Desafio1 extends JPanel{
 	
 	private JLabel [][] progreso = new JLabel[2][5];
 	private int pActualO = 5, pActualV = 5;
-	private JLabel termineO, termineV;
 	private DefaultTimer dt;
-	private JLabel ganador;
+	private Image img;
+
 	
 	public Desafio1(int alto, int ancho){
-		
+
+		setLayout(null);
 		//System.out.println("Alto: "+alto+" Ancho: "+ancho);
 		
-		ganador = new JLabel();
-		ganador.setBounds(300, 20, 200, 40);
-		add(ganador);
+		//ganador = new JLabel();
+		//ganador.setBounds(300, 20, 200, 40);
+		//add(ganador);
+		
 		
 		
 		int anchoBarra = ancho / 8;
 		int altoBarra = alto / 5;
+		int altoImg = alto/2;
+		int anchoImg = (ancho-anchoBarra*2)/2;
 		
-		setLayout(null);
+		
+		int derechaImg = anchoBarra + anchoImg;
+		int heightBtn = altoBarra/2;
+		
+		
+		int derechaBarra = anchoBarra+anchoImg*2;
+		
+		dt = new DefaultTimer();
+		dt.setOpaque(false);
+		dt.setBackground(new Color(0,0,0,0));
+		dt.setBounds(ancho/2-(ancho/6/2)-10, 10, ancho/6, heightBtn/2);
+		add(dt);
+		//JLabel desafio = new JLabel("Etiqueta el alimento que te corresponde");
+		//desafio.setBounds(anchoBarra*3, altoBarra/2, 300, 40);
+		//add(desafio);
+		
+	
+		
+		int anchoB = anchoBarra/4;	
+		int derechaB = anchoB/4;
+		
 		progreso[0][0] = new JLabel();
-		progreso[0][0].setOpaque(true);
-		progreso[0][0].setBackground(Color.gray);
-		progreso[0][0].setBounds(0, 0, anchoBarra, altoBarra);
+		progreso[0][0].setOpaque(false);
+		progreso[0][0].setBounds(derechaB, altoBarra/4, anchoB, altoBarra);
 		add(progreso[0][0]);
 		
 		progreso[0][1] = new JLabel();
-		progreso[0][1].setOpaque(true);
-		progreso[0][1].setBackground(Color.gray);
-		progreso[0][1].setBounds(0, altoBarra, anchoBarra, altoBarra);
+		progreso[0][1].setOpaque(false); 
+		progreso[0][1].setBounds(derechaB, altoBarra, anchoB, altoBarra);
 		add(progreso[0][1]);
 		
 		progreso[0][2] = new JLabel();
-		progreso[0][2].setOpaque(true);
-		progreso[0][2].setBackground(Color.gray);
-		progreso[0][2].setBounds(0, altoBarra*2, anchoBarra, altoBarra);
+		progreso[0][2].setOpaque(false);
+		progreso[0][2].setBounds(derechaB, altoBarra*2, anchoB, altoBarra);
 		add(progreso[0][2]);
 		
 		progreso[0][3] = new JLabel();
-		progreso[0][3].setOpaque(true);
-		progreso[0][3].setBackground(Color.gray);
-		progreso[0][3].setBounds(0, altoBarra*3, anchoBarra, altoBarra);
+		progreso[0][3].setOpaque(false);
+		progreso[0][3].setBounds(derechaB, altoBarra*3, anchoB, altoBarra);
 		add(progreso[0][3]);
 		
 		progreso[0][4] = new JLabel();
-		progreso[0][4].setOpaque(true);
-		progreso[0][4].setBackground(Color.gray);
-		progreso[0][4].setBounds(0, altoBarra*4, anchoBarra, altoBarra);
+		progreso[0][4].setOpaque(false);
+		progreso[0][4].setBounds(derechaB, altoBarra*4, anchoB, altoBarra-altoBarra/2+10);
 		add(progreso[0][4]);
 		
 		
 		progreso[1][0] = new JLabel();
-		progreso[1][0].setOpaque(true);
-		progreso[1][0].setBackground(Color.gray);
-		progreso[1][0].setBounds(700, 0, anchoBarra, altoBarra);
+		progreso[1][0].setOpaque(false);
+		progreso[1][0].setBounds(derechaBarra+anchoBarra/2+8, altoBarra/6, anchoB, altoBarra);
 		add(progreso[1][0]);
 		
 		progreso[1][1] = new JLabel();
-		progreso[1][1].setOpaque(true);
-		progreso[1][1].setBackground(Color.gray);
-		progreso[1][1].setBounds(700, altoBarra, anchoBarra, altoBarra);
+		progreso[1][1].setOpaque(false);
+		progreso[1][1].setBounds(derechaBarra+anchoBarra/2+8, altoBarra, anchoB, altoBarra);
 		add(progreso[1][1]);
 		
 		progreso[1][2] = new JLabel();
-		progreso[1][2].setOpaque(true);
-		progreso[1][2].setBackground(Color.gray);
-		progreso[1][2].setBounds(700, altoBarra*2, anchoBarra, altoBarra);
+		progreso[1][2].setOpaque(false);
+		progreso[1][2].setBounds(derechaBarra+anchoBarra/2+8, altoBarra*2, anchoB, altoBarra);
 		add(progreso[1][2]);
 		
 		progreso[1][3] = new JLabel();
-		progreso[1][3].setOpaque(true);
-		progreso[1][3].setBackground(Color.gray);
-		progreso[1][3].setBounds(700, altoBarra*3, anchoBarra, altoBarra);
+		progreso[1][3].setOpaque(false);
+		progreso[1][3].setBounds(derechaBarra+anchoBarra/2+8, altoBarra*3, anchoB, altoBarra);
 		add(progreso[1][3]);
 		
 		progreso[1][4] = new JLabel();
-		progreso[1][4].setOpaque(true);
-		progreso[1][4].setBackground(Color.gray);
-		progreso[1][4].setBounds(700, altoBarra*4, anchoBarra, altoBarra);
+		progreso[1][4].setOpaque(false);
+		progreso[1][4].setBounds(derechaBarra+anchoBarra/2+8, altoBarra*4, anchoB, altoBarra-altoBarra/2+10);
 		add(progreso[1][4]);
 		
-		int altoImg = 360;
-		int anchoImg = 300;
 		
-		JLabel imagen1 = new JLabel();
-		imagen1.setOpaque(true); 
-		imagen1.setBackground(Color.black);
-		imagen1.setBounds(100, 100, anchoImg, altoImg);
+		
+		JLabel imagen1 = new JLabel("IMG-1", SwingConstants.CENTER);
+		imagen1.setOpaque(false);
+		//imagen1.setBackground(Color.black);
+		imagen1.setBounds(anchoBarra-anchoB-20, alto/3-10, anchoImg, altoImg);
 		add(imagen1);
 		
-		JLabel imagen2 = new JLabel();
-		imagen2.setOpaque(true);
-		imagen2.setBackground(Color.blue);
-		imagen2.setBounds(400, 100, anchoImg, altoImg);
+		
+		
+		JLabel imagen2 = new JLabel("IMG-2", SwingConstants.CENTER);
+		imagen2.setOpaque(false);
+		//imagen2.setBackground(Color.blue);
+		imagen2.setBounds(derechaImg+anchoB+20, alto/3-10, anchoImg, altoImg);
 		add(imagen2);
 		
-		JLabel botonO = new JLabel("Confirmar", SwingConstants.CENTER);
-		botonO.setOpaque(true);
-		botonO.setBackground(Color.orange);
-		botonO.setBounds(200, 520, 100, 40);
-		add(botonO);
 		
-		JLabel botonV = new JLabel("Confirmar", SwingConstants.CENTER);
-		botonV.setOpaque(true);
-		botonV.setBackground(new Color(159, 0, 255));
-		botonV.setBounds(500, 520, 100, 40);
-		add(botonV);
+		//JLabel botonO = new JLabel("Listo", SwingConstants.CENTER);
+		//botonO.setOpaque(true);
+		//botonO.setForeground(Color.white);
+		//botonO.setBackground(Color.black);
+		//botonO.setBounds(derechaConf1, abajoConf, anchoBarra, heightBtn);
+		//add(botonO);
 		
-		dt = new DefaultTimer();
-		dt.setBounds(350, 520, 100, 40);
-		add(dt);
+		//JLabel botonV = new JLabel("Listo", SwingConstants.CENTER);
+		//botonV.setOpaque(true);
+		//botonV.setForeground(Color.white);
+		//botonV.setBackground(Color.black);
+		//botonV.setBounds(derechaConf2, abajoConf, anchoBarra, heightBtn);
+		//add(botonV);
 		
-		termineO = new JLabel();
-		termineO.setBounds(180, 40, 200, 40);
-		add(termineO);
 		
-		termineV = new JLabel();
-		termineV.setBounds(480, 40, 200, 40);
-		add(termineV);
+		
+		//termineO = new JLabel();
+		//termineO.setBounds(derechaWin1, abajoWin, widhtWin, altoBarra/2);
+		//add(termineO);
+		
+		//termineV = new JLabel();
+		//termineV.setBounds(derechaWin2, abajoWin, widhtWin, altoBarra/2);
+		//add(termineV);
+	}
+	
+	public void paint(Graphics g) {
+		
+		img = new ImageIcon(getClass().getResource("/imagenes/fondo(Barras Vacias).png")).getImage();
+		
+		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+		
+		setOpaque(false);
+		
+		setBackground(new Color(0,0,0,0));
+		
+		super.paint(g);
 	}
 	
 	public JLabel getPEquipoO() {
@@ -149,23 +180,23 @@ public class Desafio1 extends JPanel{
 
 	public int terminoO(int pts) {
 		//Muestra en pantalla los puntos y el tiempo que tardo el equipo naranja, y devuelve el tiempo total transcurrido
-		termineO.setText("Terminaste con "+pts+" puntos en "+dt.getTime());
+		//termineO.setText("Terminaste con "+pts+" puntos en "+dt.getTime());
 		return dt.getTotalTime();
 	}
 
 	public int terminoV(int pts) {
 		//Muestra en pantalla los puntos y el tiempo que tardo el equipo violeta, y devuelve el tiempo total transcurrido
-		termineV.setText("Terminaste con "+pts+" puntos en "+dt.getTime());
+		//termineV.setText("Terminaste con "+pts+" puntos en "+dt.getTime());
 		return dt.getTotalTime();
 	}
 	
-	public void termine() {
+	//public void termine() {
 		//Detengo el timer
-		dt.stop();
-	}
+		//dt.stop();
+	//}
 	
-	public JLabel getPPanelWin() {
+	//public JLabel getPPanelWin() {
 		//Retron el panel donde se informara equipo ganador y beneficio
-		return ganador;
-	}
+		//return ganador;
+	//}
 }

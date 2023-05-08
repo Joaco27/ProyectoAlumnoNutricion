@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +13,7 @@ public class DefaultTimer extends JPanel{
     public DefaultTimer() {
         // Crear el JLabel para mostrar el tiempo
         label = new JLabel("2:00");
+        label.setForeground(Color.white);
         add(label);
 
         // Crear el timer y establecer el ActionListener
