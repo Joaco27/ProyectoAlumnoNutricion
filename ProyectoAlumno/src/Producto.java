@@ -3,16 +3,19 @@ import java.util.List;
 
 public class Producto {
 	
-	private int id;
+	private String id;
 	private List <Integer> etiquetas;
 	private String path;
-	public Producto(int id) {
+	public Producto(String id) {
 		super();
 		this.id = id;
 		this.etiquetas = new ArrayList <Integer>();
 	}
-	public int getId() {
+	public String getId() {
 		return id;
+	}
+	public String getPath() {
+		return path;
 	}
 	public List<Integer> getEtiquetas() {
 		return etiquetas;

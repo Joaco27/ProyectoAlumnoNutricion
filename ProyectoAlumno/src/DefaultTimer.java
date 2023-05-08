@@ -7,12 +7,12 @@ import javax.swing.*;
 public class DefaultTimer extends JPanel{
 	private JLabel label;
     private Timer timer;
-    private int seconds = 120;
+    private int seconds = 300;
     private int minutes, secs, total=0;
 
     public DefaultTimer() {
         // Crear el JLabel para mostrar el tiempo
-        label = new JLabel("2:00");
+        label = new JLabel("5:00");
         label.setForeground(Color.white);
         add(label);
 
