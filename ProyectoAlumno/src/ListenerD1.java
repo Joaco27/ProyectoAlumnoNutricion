@@ -48,7 +48,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
         //frame.setContentPane(new Desafio1(frame.getHeight(), frame.getWidth()));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        panel = new Desafio1(frame.getHeight(), frame.getWidth());
+        panel = new Desafio1(frame.getHeight(), frame.getWidth(), this);
         productoO = productosO.getProducto();
         panel.paintImgO(productoO.getPath());
         productoV = productosV.getProducto();
@@ -66,17 +66,14 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	@Override
 	public void addTuioCursor(TuioCursor tc) {
 		if(terminaron==2 && tc.getY()>0.5) {
-			pts.aumentarEquipoO(puntosO);
-			pts.aumentarEquipoV(puntosV);
-			client.removeTuioListener(this);
-			frame.dispose();
-			client.addTuioListener(new ListenerRD1(client,pts, tiempoTotalO, tiempoTotalV));			
+			this.fin(true);	
 		}
 		if (tc.getX()>0.5 && tc.getY()>0.5 && !terminoV) {
 			if (progresoV%2!=0 && progresoV<9) {
 				JLabel label = panel.getPEquipoV();
 				this.evaluarV(label, etiquetasV, productoV.getEtiquetas());
 				this.mostrarEtiquetasV(panel.getEtiquetasV());
+				panel.removeImgV();
 			}
 			else {
 				if(progresoV%2==0) {
@@ -103,6 +100,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 					JLabel label = panel.getPEquipoO();
 					this.evaluarO(label, etiquetasO, productoO.getEtiquetas());
 					this.mostrarEtiquetasO(panel.getEtiquetasO());
+					panel.removeImgO();
 				}
 				else {
 					if(progresoO%2==0) {
@@ -127,6 +125,18 @@ public class ListenerD1 extends JPanel implements TuioListener{
 			panel.termine();
 			panel.continuar();			
 		}
+	}
+	
+	public void fin(boolean ok) {
+		if(!ok) {
+			tiempoTotalO=0;
+			tiempoTotalV=0;
+		}
+		pts.aumentarEquipoO(puntosO);
+		pts.aumentarEquipoV(puntosV);
+		client.removeTuioListener(this);
+		frame.dispose();
+		client.addTuioListener(new ListenerRD1(client,pts, tiempoTotalO, tiempoTotalV));
 	}
 	
 	public int contarElementosCompartidos(List<Integer> ets, List<Integer> etiquetas) {

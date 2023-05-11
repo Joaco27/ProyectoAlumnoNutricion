@@ -23,7 +23,7 @@ public class Desafio2 extends JPanel{
     int squareYLocation = -squareHeight;
     boolean numberCreated = false;
 
-	public Desafio2(int alto, int ancho){
+	public Desafio2(int alto, int ancho ){
 
 		setLayout(null);
 		//System.out.println("Alto: "+alto+" Ancho: "+ancho);

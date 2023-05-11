@@ -5,6 +5,8 @@ import java.awt.Image;
 
 import javax.swing.*;
 
+import TUIO.TuioListener;
+
 
 public class Desafio1 extends JPanel{
 	
@@ -16,7 +18,7 @@ public class Desafio1 extends JPanel{
 	private JLabel imagen1, imagen2, continuar;
 
 	
-	public Desafio1(int alto, int ancho){
+	public Desafio1(int alto, int ancho, ListenerD1 list){
 
 		setLayout(null);
 		//System.out.println("Alto: "+alto+" Ancho: "+ancho);
@@ -34,10 +36,10 @@ public class Desafio1 extends JPanel{
 		
 		int derechaBarra = anchoBarra+anchoImg*2;
 		
-		dt = new DefaultTimer();
+		dt = new DefaultTimer(list);
 		dt.setOpaque(false);
 		dt.setBackground(new Color(0,0,0,0));
-		dt.setBounds(ancho/2-(ancho/6/2)-10, 10, ancho/6, heightBtn/2);
+		dt.setBounds(ancho/2-(ancho/6/2)-10, 5, ancho/6, heightBtn/2);
 		add(dt);
 
 		continuar = new JLabel("", SwingConstants.CENTER);
@@ -56,26 +58,31 @@ public class Desafio1 extends JPanel{
 		progreso[0][0].setOpaque(false);
 		progreso[0][0].setBounds(derechaB, altoBarra/4, anchoB, altoBarra);
 		add(progreso[0][0]);
-		
+		//setComponentZOrder(progreso[0][0], 0);
+
 		progreso[0][1] = new JLabel();
 		progreso[0][1].setOpaque(false); 
 		progreso[0][1].setBounds(derechaB, altoBarra, anchoB, altoBarra);
 		add(progreso[0][1]);
+		//setComponentZOrder(progreso[0][1], 0);
 		
 		progreso[0][2] = new JLabel();
 		progreso[0][2].setOpaque(false);
 		progreso[0][2].setBounds(derechaB, altoBarra*2, anchoB, altoBarra);
 		add(progreso[0][2]);
+		//setComponentZOrder(progreso[0][2], 0);
 		
 		progreso[0][3] = new JLabel();
 		progreso[0][3].setOpaque(false);
 		progreso[0][3].setBounds(derechaB, altoBarra*3, anchoB, altoBarra);
 		add(progreso[0][3]);
+		//setComponentZOrder(progreso[0][3], 0);
 		
 		progreso[0][4] = new JLabel();
 		progreso[0][4].setOpaque(false);
 		progreso[0][4].setBounds(derechaB, altoBarra*4, anchoB, altoBarra-altoBarra/2+10);
 		add(progreso[0][4]);
+		//setComponentZOrder(progreso[0][4], 0);
 		
 		
 		progreso[1][0] = new JLabel();
@@ -164,16 +171,18 @@ public class Desafio1 extends JPanel{
 		
 		
 		
-		imagen1 = new JLabel("IMG-1", SwingConstants.CENTER);
+		imagen1 = new JLabel("<html>Levanta las<br> etiquetas!!</html>", SwingConstants.CENTER);
 		imagen1.setOpaque(false);
+		imagen1.setFont(new Font("Serif", Font.BOLD, 30));
 		//imagen1.setBackground(Color.black);
 		imagen1.setBounds(anchoBarra-anchoB-20, alto/3-10, anchoImg, altoImg);
 		add(imagen1);
 		
 		
 		
-		imagen2 = new JLabel("IMG-2", SwingConstants.CENTER);
+		imagen2 = new JLabel("<html>Levanta las<br> etiquetas!!</html>", SwingConstants.CENTER);
 		imagen2.setOpaque(false);
+		imagen2.setFont(new Font("Serif", Font.BOLD, 30));
 		//imagen2.setBackground(Color.blue);
 		imagen2.setBounds(derechaImg+anchoB+20, alto/3-10, anchoImg, altoImg);
 		add(imagen2);
@@ -196,6 +205,8 @@ public class Desafio1 extends JPanel{
 	
 	public void paintImgO(String path) {
 		
+		//imagen1.setOpaque(false);
+		
 		Icon img = new ImageIcon(new ImageIcon(getClass().getResource(path)).getImage()
 				.getScaledInstance(imagen1.getWidth(), imagen1.getHeight(), 0));
 		
@@ -210,11 +221,25 @@ public class Desafio1 extends JPanel{
 	
 	public void paintImgV(String path) {
 		
+		//imagen2.setOpaque(false);
+		
 		Icon img = new ImageIcon(new ImageIcon(getClass().getResource(path)).getImage()
 				.getScaledInstance(imagen2.getWidth(), imagen2.getHeight(), 0));
 		
 		imagen2.setIcon(img);
 
+	}
+	
+	public void removeImgV() {
+		imagen2.setIcon(null);
+		//imagen2.setOpaque(true);
+		//imagen2.setDisabledIcon(imagen2.getIcon());
+	}
+	
+	public void removeImgO() {
+		imagen1.setIcon(null);
+		//imagen1.setOpaque(true);
+		//imagen1.setDisabledIcon(imagen1.getIcon());
 	}
 	
 	public JLabel getPEquipoO() {
