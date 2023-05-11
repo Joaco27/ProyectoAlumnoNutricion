@@ -1,7 +1,7 @@
 
 public class Puntaje {
 	private int equipoV=0, equipoO=0;
-
+	
 	public int getEquipoV() {
 		return equipoV;
 	}

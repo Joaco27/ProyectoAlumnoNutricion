@@ -28,6 +28,10 @@ public class ListaProductos {
 		p.agregar(3);
 		p.setPath("/imagenes/turron.jpeg");
 		products.add(p);
+		
+		p = new Producto("Manzana");
+		p.setPath("/imagenes/ManzanaD2.png");
+		products.add(p);
 	}
 	
 	public List<Producto> getLista(){
@@ -39,6 +43,11 @@ public class ListaProductos {
 		int i = r.nextInt(this.products.size());
 		Producto p = this.products.get(i);
 		//this.products.remove(i);
+		return p;
+	}
+	
+	public Producto getProducto(int i) {
+		Producto p = this.products.get(i);
 		return p;
 	}
 	

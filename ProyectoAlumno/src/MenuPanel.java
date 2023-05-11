@@ -19,14 +19,23 @@ public class MenuPanel extends JPanel{
 		jl1.setFont(new Font(null, 0, 40));
 		add(jl1);
 		
-		int anchito = anchoBtn-anchoBtn/2/2;
-		JLabel jl2 = new JLabel("Seleccionar Desafio", SwingConstants.CENTER);
+		int anchito = ancho/4/2;
+		
+		JLabel jl2 = new JLabel("Desafio 1", SwingConstants.CENTER);
 		jl2.setForeground(Color.WHITE); 
 		jl2.setOpaque(true);
 		jl2.setBackground(Color.blue);
-		jl2.setBounds(anchito, abajoBtn*2, anchoBtn+anchoBtn/2, altoBtn);
+		jl2.setBounds(anchito, abajoBtn*2, anchoBtn/(3/2), altoBtn);
 		jl2.setFont(new Font(null, 0, 40));
 		add(jl2);
+		
+		JLabel jl5 = new JLabel("Desafio 2", SwingConstants.CENTER);
+		jl5.setForeground(Color.WHITE); 
+		jl5.setOpaque(true);
+		jl5.setBackground(Color.blue);
+		jl5.setBounds(anchito * 4, abajoBtn*2, anchoBtn/(3/2), altoBtn);
+		jl5.setFont(new Font(null, 0, 40));
+		add(jl5);
 		
 		int derechaTM = ancho/4/2;
 		

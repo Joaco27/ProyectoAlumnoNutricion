@@ -42,10 +42,15 @@ public class ListenerMP extends JPanel implements TuioListener {
 	public void addTuioCursor(TuioCursor tc) {
 		// Cuando presiono con el cursor la parte superior de la pantalla desactiva el listener, cierra el frame 
 		// y activa el listener del desafio 1
-		if (tc.getY()<0.5 && tc.getX()>0.4 && tc.getX()<0.6) {
+		if (tc.getY()<0.5 && tc.getX()>0.2 && tc.getX()<0.5) {
 			client.removeTuioListener(this);
 			frame.dispose();
 			client.addTuioListener(new ListenerD1(client,pts));
+		}
+		if (tc.getY()<0.5 && tc.getX()>0.5 && tc.getX()<0.8) {
+			client.removeTuioListener(this);
+			frame.dispose();
+			client.addTuioListener(new ListenerD2(client,pts));
 		}
 	}
 

@@ -196,14 +196,24 @@ public class ListenerD1 extends JPanel implements TuioListener{
 
 	@Override
 	public void addTuioObject(TuioObject to) {
-		if (to.getX()>0.5 && to.getY()>0.4) {
-			this.etiquetasV.add(to.getSymbolID());
-		}
-		else {
-			if(to.getX()<0.5 && to.getY()>0.4) {
-				this.etiquetasO.add(to.getSymbolID());
+		if (to.getSymbolID()<6) {
+			if (to.getX()>0.5) {
+				if (!this.etiquetasV.contains(to.getSymbolID())) {
+					System.out.println("V +"+to.getSymbolID());
+					this.etiquetasV.add(to.getSymbolID());
+
+				}
+			}
+			else {
+				if(to.getX()<0.5) {
+					if (!this.etiquetasO.contains(to.getSymbolID())) {
+						System.out.println("O +"+to.getSymbolID());
+						this.etiquetasO.add(to.getSymbolID());
+				}
+				}
 			}
 		}
+		
 		
 	}
 
@@ -227,14 +237,27 @@ public class ListenerD1 extends JPanel implements TuioListener{
 
 	@Override
 	public void removeTuioObject(TuioObject to) {
-		if (to.getX()>0.5) {
-			int i = this.etiquetasV.indexOf(to.getSymbolID());
-			this.etiquetasV.remove(i);
+		if(to.getSymbolID()<6) {
+			if (to.getX()>0.5) {
+				System.out.println("V -"+to.getSymbolID());
+				if (this.etiquetasV.contains(to.getSymbolID())) {
+					int i = this.etiquetasV.indexOf(to.getSymbolID());
+					//System.out.println(i);
+					this.etiquetasV.remove(i);
+				}
+				
+			}
+			else {
+				System.out.println("O -"+to.getSymbolID());
+				if(this.etiquetasO.contains(to.getSymbolID())) {
+					int i = this.etiquetasO.indexOf(to.getSymbolID());
+					//System.out.println(i);
+					this.etiquetasO.remove(i);
+				}
+				
+			}
 		}
-		else {
-			int i = this.etiquetasO.indexOf(to.getSymbolID());
-			this.etiquetasO.remove(i);
-		}
+		
 	}
 
 	@Override
