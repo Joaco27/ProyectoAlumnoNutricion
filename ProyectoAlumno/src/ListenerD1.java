@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.random.*;
 import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +29,9 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private int progresoO=1, progresoV=1;
 	private Puntaje pts;
 	
+	private ArrayList<TuioObject> objects = new ArrayList<TuioObject>();
+    private ArrayList<TuioCursor> cursors = new ArrayList<TuioCursor>();
+	
 	private ListaEtiquetas etiquetasTotales = new ListaEtiquetas();
 	
 	private List<Integer> etiquetasO = new ArrayList<Integer>();
@@ -36,6 +41,8 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private ListaProductos productosV = new ListaProductos();
 	
 	private Producto productoO, productoV;
+	
+	private FondoD1 fondo; 
 
 
 	//Agregar lista de comidas
@@ -46,14 +53,50 @@ public class ListenerD1 extends JPanel implements TuioListener{
     	frame = new JFrame("Desafio 1");
         frame.setSize(1024, 768);
         //frame.setContentPane(new Desafio1(frame.getHeight(), frame.getWidth()));
-        frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        panel = new Desafio1(frame.getHeight(), frame.getWidth(), this);
+        //frame.setBackground(new Color(0,0,0,0));
+        
+        fondo = new FondoD1(frame.getWidth(), frame.getHeight());
+        fondo.setOpaque(true);
+        //panelFondo.setBackground(new Color(0,0,0,0));
+        fondo.setBounds(0,0, frame.getWidth(), frame.getHeight());
+        fondo.setBackground(Color.gray);
+        //fondo.setLayout(null);
+        
+        panel = new Desafio1(frame.getHeight(), frame.getWidth(), this, fondo);
         productoO = productosO.getProducto();
         panel.paintImgO(productoO.getPath());
         productoV = productosV.getProducto();
         panel.paintImgV(productoV.getPath());
-        frame.add(panel); 
+        frame.add(panel);
+        frame.setVisible(true);
+        frame.add(fondo);
+        //frame.add(this);
+        frame.setVisible(true);
+
+    }
+	
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        for (TuioObject tuioObject : objects) {
+            int x = (int) (tuioObject.getScreenX(this.getWidth()) - 50 / 2);
+            int y = (int) (tuioObject.getScreenY(this.getHeight()) - 50 / 2);
+            int width = 50;
+            int height = 50;
+            g2d.setColor(new Color(0, 0, 0, 50));
+            g2d.fillOval(x, y, width, height);
+        } 
+        for (TuioCursor tuioC : cursors) {
+            int x = (int) (tuioC.getScreenX(this.getWidth()) - 50 / 2);
+            int y = (int) (tuioC.getScreenY(this.getHeight()) - 50 / 2);
+            int width = 50;
+            int height = 50;
+            g2d.setColor(new Color(0, 0, 0, 50));
+            g2d.fillOval(x, y, width, height);
+        }
+        
+        
     }
 	
 	
@@ -65,13 +108,20 @@ public class ListenerD1 extends JPanel implements TuioListener{
 
 	@Override
 	public void addTuioCursor(TuioCursor tc) {
+		cursors.add(tc);
+        this.repaint();
 		if(terminaron==2 && tc.getY()>0.5) {
 			this.fin(true);	
 		}
 		if (tc.getX()>0.5 && tc.getY()>0.5 && !terminoV) {
 			if (progresoV%2!=0 && progresoV<9) {
 				JLabel label = panel.getPEquipoV();
-				this.evaluarV(label, etiquetasV, productoV.getEtiquetas());
+				if(productoV.getEtiquetas().size()==0) {
+					this.evaluarBlancoV(label, etiquetasV);
+				}
+				else {
+					this.evaluarV(label, etiquetasV, productoV.getEtiquetas());
+				}
 				this.mostrarEtiquetasV(panel.getEtiquetasV());
 				panel.removeImgV();
 			}
@@ -84,7 +134,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				}
 				else {
 					JLabel label = panel.getPEquipoV();
-					this.evaluarV(label, etiquetasV, productoO.getEtiquetas());
+					if(productoV.getEtiquetas().size()==0) {
+						this.evaluarBlancoV(label, etiquetasV);
+					}
+					else {
+						this.evaluarV(label, etiquetasV, productoV.getEtiquetas());
+					}
 					this.mostrarEtiquetasV(panel.getEtiquetasV());
 					tiempoTotalV = panel.terminoV(puntosV);
 					terminoV=true;
@@ -98,7 +153,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 			if (tc.getX()<0.5 && tc.getY()>0.5 && !terminoO) {
 				if (progresoO%2!=0 && progresoO<9) {
 					JLabel label = panel.getPEquipoO();
-					this.evaluarO(label, etiquetasO, productoO.getEtiquetas());
+					if(productoO.getEtiquetas().size()==0) {
+						this.evaluarBlancoO(label, etiquetasO);
+					}
+					else {
+						this.evaluarO(label, etiquetasO, productoO.getEtiquetas());
+					}
 					this.mostrarEtiquetasO(panel.getEtiquetasO());
 					panel.removeImgO();
 				}
@@ -111,7 +171,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 					}
 					else {
 						JLabel label = panel.getPEquipoO();
-						this.evaluarO(label, etiquetasO, productoO.getEtiquetas());
+						if(productoO.getEtiquetas().size()==0) {
+							this.evaluarBlancoO(label, etiquetasO);
+						}
+						else {
+							this.evaluarO(label, etiquetasO, productoO.getEtiquetas());
+						}
 						this.mostrarEtiquetasO(panel.getEtiquetasO());
 						tiempoTotalO = panel.terminoO(puntosO);
 						terminoO=true;
@@ -152,7 +217,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
     }
 	
 	public void evaluarO(JLabel label, List<Integer> ets, List<Integer> etiquetas) {
-		label.setOpaque(true);
+		//label.setOpaque(true);
 		int ok = contarElementosCompartidos(ets, etiquetas);
 		if(ok==etiquetas.size()) {
 			label.setBackground(Color.green);
@@ -167,10 +232,11 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				label.setBackground(Color.red);
 			}
 		}
+		frame.repaint();
 	}
 	
 	public void evaluarV(JLabel label, List<Integer> ets, List<Integer> etiquetas) {
-		label.setOpaque(true);
+		//label.setOpaque(true);
 		int ok = contarElementosCompartidos(ets, etiquetas);
 		if(ok==etiquetas.size()) {
 			label.setBackground(Color.green);
@@ -185,27 +251,68 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				label.setBackground(Color.red);
 			}
 		}
+		frame.repaint();
+	}
+	
+	public void evaluarBlancoV(JLabel label, List<Integer> ets) {
+		label.setOpaque(true);
+		if (ets.size()>0) {
+			label.setBackground(Color.red);
+		}
+		else {
+			label.setBackground(Color.green);
+			puntosV+=3;
+		}
+		frame.repaint();
+
+	}
+	
+	public void evaluarBlancoO(JLabel label, List<Integer> ets) {
+		label.setOpaque(true);
+		if (ets.size()>0) {
+			label.setBackground(Color.red);
+		}
+		else {
+			label.setBackground(Color.green);
+			puntosO+=3;
+		}
+		frame.repaint();
 	}
 	
 	public void mostrarEtiquetasO(JLabel [] ets) {
-		for(int i=0;i<productoO.getEtiquetas().size();i++) {
-			ets[i].setText(etiquetasTotales.getLista().get(productoO.getEtiquetas().get(i)));
-			ets[i].setOpaque(true);
-			ets[i].setBackground(Color.black);
+		if(productoO.getEtiquetas().size()==0) {
+			panel.getSinEtiquetasO().setText("No Tiene Etiquetas");
+			panel.getSinEtiquetasO().setOpaque(true);
+		}
+		else {
+			for(int i=0;i<productoO.getEtiquetas().size();i++) {
+				ets[i].setText(etiquetasTotales.getLista().get(productoO.getEtiquetas().get(i)));
+				ets[i].setOpaque(true);
+				ets[i].setBackground(Color.black);
+			}
 		}
 	}
 	
 	public void mostrarEtiquetasV(JLabel [] ets) {
-		for(int i=0;i<productoV.getEtiquetas().size();i++) {
-			ets[i].setText(etiquetasTotales.getLista().get(productoV.getEtiquetas().get(i)));
-			ets[i].setOpaque(true);
-			ets[i].setBackground(Color.black);
+		if(productoV.getEtiquetas().size()==0) {
+			panel.getSinEtiquetasV().setText("No Tiene Etiquetas");
+			panel.getSinEtiquetasV().setOpaque(true);
 		}
+		else {
+			for(int i=0;i<productoV.getEtiquetas().size();i++) {
+				ets[i].setText(etiquetasTotales.getLista().get(productoV.getEtiquetas().get(i)));
+				ets[i].setOpaque(true);
+				ets[i].setBackground(Color.black);
+			}
+		}
+		
 	}
 	
 
 	@Override
 	public void addTuioObject(TuioObject to) {
+		objects.add(to);
+        this.repaint();
 		if (to.getSymbolID()<6) {
 			if (to.getX()>0.5) {
 				if (!this.etiquetasV.contains(to.getSymbolID())) {
@@ -240,13 +347,15 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	}
 
 	@Override
-	public void removeTuioCursor(TuioCursor arg0) {
-		// TODO Auto-generated method stub
-		
+	public void removeTuioCursor(TuioCursor tc) {
+		cursors.remove(tc);
+        this.repaint();
 	}
 
 	@Override
 	public void removeTuioObject(TuioObject to) {
+		objects.add(to);
+        this.repaint();
 		if(to.getSymbolID()<6) {
 			if (to.getX()>0.5) {
 				System.out.println("V -"+to.getSymbolID());
@@ -278,14 +387,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 
 	@Override
 	public void updateTuioCursor(TuioCursor arg0) {
-		// TODO Auto-generated method stub
-		
+			this.repaint();
 	}
 
 	@Override
 	public void updateTuioObject(TuioObject arg0) {
-		// TODO Auto-generated method stub
-		
+			this.repaint();
 	}
 
 }

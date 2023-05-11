@@ -26,11 +26,30 @@ public class ListaProductos {
 		p = new Producto("Turron");
 		p.agregar(2);
 		p.agregar(3);
-		p.setPath("/imagenes/turron.jpeg");
+		p.setPath("/imagenes/turron.png");
 		products.add(p);
 		
 		p = new Producto("Manzana");
 		p.setPath("/imagenes/ManzanaD2.png");
+		products.add(p);
+		
+		p = new Producto("Danonino");
+		p.setPath("/imagenes/danonino.png");
+		p.agregar(3);
+		products.add(p);
+		
+		p = new Producto("Galletitas Traviata");
+		p.setPath("/imagenes/galletitas-traviata.png");
+		p.agregar(0);
+		p.agregar(1);
+		p.agregar(2);
+		p.agregar(4);
+		products.add(p);
+		
+		p = new Producto("Jugo Baggio");
+		p.setPath("/imagenes/jugo-baggio.png");
+		p.agregar(2);
+		p.agregar(3);
 		products.add(p);
 	}
 	
@@ -42,7 +61,7 @@ public class ListaProductos {
 		Random r = new Random();
 		int i = r.nextInt(this.products.size());
 		Producto p = this.products.get(i);
-		//this.products.remove(i);
+		this.products.remove(i);
 		return p;
 	}
 	

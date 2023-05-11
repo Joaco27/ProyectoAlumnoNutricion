@@ -8,7 +8,7 @@ private List <String> ets=new ArrayList<String>();
 		this.agregar("<html>Exceso de<br>Grasas Totales</html>");	//0
 		this.agregar("<html>Exceso de<br>Grasas Saturadas</html>"); 	//1
 		this.agregar("<html>Exceso de<br>Calorias</html>");			//2
-		this.agregar("<html>Exceso de<br>Azucar</html>");				//3
+		this.agregar("<html>Exceso de<br>Azucares</html>");				//3
 		this.agregar("<html>Exceso de<br>Sodio</html>");				//4
 		this.agregar("<html>Contiene<br>Edulcorante</html>");			//5
 	}

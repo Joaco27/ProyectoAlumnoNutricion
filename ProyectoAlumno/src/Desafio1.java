@@ -15,10 +15,12 @@ public class Desafio1 extends JPanel{
 	private int pActualO = 5, pActualV = 5;
 	private DefaultTimer dt;
 	private Image img;
-	private JLabel imagen1, imagen2, continuar;
+	private JLabel imagen1, imagen2, continuar, noEts1, noEts2;
+	private FondoD1 fondo;
 
 	
-	public Desafio1(int alto, int ancho, ListenerD1 list){
+	public Desafio1(int alto, int ancho, ListenerD1 list, FondoD1 fondo){
+		this.fondo=fondo;
 
 		setLayout(null);
 		//System.out.println("Alto: "+alto+" Ancho: "+ancho);
@@ -54,67 +56,18 @@ public class Desafio1 extends JPanel{
 		int anchoB = anchoBarra/4;	
 		int derechaB = anchoB/4;
 		
-		progreso[0][0] = new JLabel();
-		progreso[0][0].setOpaque(false);
-		progreso[0][0].setBounds(derechaB, altoBarra/4, anchoB, altoBarra);
-		add(progreso[0][0]);
-		//setComponentZOrder(progreso[0][0], 0);
-
-		progreso[0][1] = new JLabel();
-		progreso[0][1].setOpaque(false); 
-		progreso[0][1].setBounds(derechaB, altoBarra, anchoB, altoBarra);
-		add(progreso[0][1]);
-		//setComponentZOrder(progreso[0][1], 0);
-		
-		progreso[0][2] = new JLabel();
-		progreso[0][2].setOpaque(false);
-		progreso[0][2].setBounds(derechaB, altoBarra*2, anchoB, altoBarra);
-		add(progreso[0][2]);
-		//setComponentZOrder(progreso[0][2], 0);
-		
-		progreso[0][3] = new JLabel();
-		progreso[0][3].setOpaque(false);
-		progreso[0][3].setBounds(derechaB, altoBarra*3, anchoB, altoBarra);
-		add(progreso[0][3]);
-		//setComponentZOrder(progreso[0][3], 0);
-		
-		progreso[0][4] = new JLabel();
-		progreso[0][4].setOpaque(false);
-		progreso[0][4].setBounds(derechaB, altoBarra*4, anchoB, altoBarra-altoBarra/2+10);
-		add(progreso[0][4]);
-		//setComponentZOrder(progreso[0][4], 0);
-		
-		
-		progreso[1][0] = new JLabel();
-		progreso[1][0].setOpaque(false);
-		progreso[1][0].setBounds(derechaBarra+anchoBarra/2+8, altoBarra/6, anchoB, altoBarra);
-		add(progreso[1][0]);
-		
-		progreso[1][1] = new JLabel();
-		progreso[1][1].setOpaque(false);
-		progreso[1][1].setBounds(derechaBarra+anchoBarra/2+8, altoBarra, anchoB, altoBarra);
-		add(progreso[1][1]);
-		
-		progreso[1][2] = new JLabel();
-		progreso[1][2].setOpaque(false);
-		progreso[1][2].setBounds(derechaBarra+anchoBarra/2+8, altoBarra*2, anchoB, altoBarra);
-		add(progreso[1][2]);
-		
-		progreso[1][3] = new JLabel();
-		progreso[1][3].setOpaque(false);
-		progreso[1][3].setBounds(derechaBarra+anchoBarra/2+8, altoBarra*3, anchoB, altoBarra);
-		add(progreso[1][3]);
-		
-		progreso[1][4] = new JLabel();
-		progreso[1][4].setOpaque(false);
-		progreso[1][4].setBounds(derechaBarra+anchoBarra/2+8, altoBarra*4, anchoB, altoBarra-altoBarra/2+10);
-		add(progreso[1][4]);
 		
 		
 		
 		int derechaET1 = anchoB*2;
 		int altoET = (alto/3-10)/2;
 		int anchoET = (ancho/2-derechaET1)/5;
+		
+		noEts1=new JLabel("", SwingConstants.CENTER);
+		noEts1.setOpaque(false);
+		noEts1.setFont(new Font("Serif", Font.BOLD, 30));
+		noEts1.setBounds(derechaET1, altoET, anchoET*3, altoET/2);
+		add(noEts1);
 		
 		etiquetas[0][0] = new JLabel("", SwingConstants.CENTER);
 		etiquetas[0][0].setOpaque(false);
@@ -142,6 +95,11 @@ public class Desafio1 extends JPanel{
 		
 		int derechaET2 = ancho/2+20;
 		
+		noEts2=new JLabel("", SwingConstants.CENTER);
+		noEts2.setFont(new Font("Serif", Font.BOLD, 30));
+		noEts2.setOpaque(false);
+		noEts2.setBounds(derechaET2, altoET, anchoET*3, altoET/2);
+		add(noEts2);
 		
 		etiquetas[1][0] = new JLabel("", SwingConstants.CENTER);
 		etiquetas[1][0].setOpaque(false);
@@ -247,7 +205,7 @@ public class Desafio1 extends JPanel{
 		// decremento porque el progreso de la primer posicion me quedo arriba, entonces lo invierto
 		if (pActualO>0) {
 			pActualO--;
-			return progreso[0][pActualO];
+			return fondo.getProgreso(0, pActualO);
 		}
 		return null;
 	}
@@ -257,7 +215,7 @@ public class Desafio1 extends JPanel{
 		// decremento porque el progreso de la primer posicion me quedo arriba, entonces lo invierto
 		if (pActualV>0) {
 			pActualV--;
-			return progreso[1][pActualV];
+			return fondo.getProgreso(1, pActualV);
 		}
 		return null;
 	}
@@ -269,7 +227,16 @@ public class Desafio1 extends JPanel{
 		return etiquetas[1];
 	}
 	
+	public JLabel getSinEtiquetasO() {
+		return noEts1;
+	}
+	public JLabel getSinEtiquetasV() {
+		return noEts2;
+	}
+	
 	public void blanquearEtsO() {
+		noEts1.setText("");
+		noEts1.setOpaque(false);
 		for (int i=0; i<4; i++) {
 			etiquetas[0][i].setText("");
 			etiquetas[0][i].setOpaque(false);
@@ -277,6 +244,8 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void blanquearEtsV() {
+		noEts2.setText("");
+		noEts2.setOpaque(false);
 		for (int i=0; i<4; i++) {
 			etiquetas[1][i].setText("");
 			etiquetas[1][i].setOpaque(false);
