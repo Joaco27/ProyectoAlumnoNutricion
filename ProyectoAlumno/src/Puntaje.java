@@ -18,6 +18,11 @@ public class Puntaje {
 		this.equipoO += equipoO;
 	}
 	
+	public void resetear() {
+		this.equipoO=0;
+		this.equipoV=0;
+	}
+	
 	
 	
 	

@@ -24,12 +24,12 @@ public class ResultD1 extends JPanel{
 		int abajoBtn = alto/3/2;
 		
 		JLabel titulo = new JLabel("", SwingConstants.CENTER);
-		if(terminoO>terminoV) {
+		if(pts.getEquipoV()>pts.getEquipoO()) {
 			pts.aumentarEquipoV(5);
 			titulo.setText("Ganador Violeta");
 		}
 		else {
-			if(terminoV>terminoO) {
+			if(pts.getEquipoV()<pts.getEquipoO()) {
 				titulo.setText("Ganador Naranja");
 				pts.aumentarEquipoO(5);
 			}

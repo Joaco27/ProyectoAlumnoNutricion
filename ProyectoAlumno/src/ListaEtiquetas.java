@@ -5,12 +5,13 @@ public class ListaEtiquetas {
 private List <String> ets=new ArrayList<String>();
 
 	public ListaEtiquetas() {
-		this.agregar("<html>Exceso de<br>Grasas Totales</html>");	//0
-		this.agregar("<html>Exceso de<br>Grasas Saturadas</html>"); 	//1
-		this.agregar("<html>Exceso de<br>Calorias</html>");			//2
-		this.agregar("<html>Exceso de<br>Azucares</html>");				//3
-		this.agregar("<html>Exceso de<br>Sodio</html>");				//4
-		this.agregar("<html>Contiene<br>Edulcorante</html>");			//5
+		this.agregar("/imagenes/ExcesoGrasasTot.png");		//0  112
+		this.agregar("/imagenes/ExcesoGrasasSat.png"); 		//1  113
+		this.agregar("/imagenes/ExcesoCalorias.png");		//2  114
+		this.agregar("/imagenes/ExcesoAzucar.png");			//3  115
+		this.agregar("/imagenes/ExcesoSodio.png");			//4  116
+		this.agregar("/imagenes/contieneEdulcorante.png");	//5  117
+		this.agregar("/imagenes/contieneEdulcorante.png");	//6  118
 	}
 	
 	public void agregar(String i) {
