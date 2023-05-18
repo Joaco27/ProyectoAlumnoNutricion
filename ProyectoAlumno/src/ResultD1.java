@@ -34,7 +34,14 @@ public class ResultD1 extends JPanel{
 				pts.aumentarEquipoO(5);
 			}
 			else {
-				titulo.setText("Empate");
+				if(terminoO>terminoV) {
+					pts.aumentarEquipoV(5);
+					titulo.setText("Ganador Violeta");
+				}
+				else {
+					titulo.setText("Ganador Naranja");
+					pts.aumentarEquipoO(5);
+				}
 			}
 		}
 		titulo.setBounds(anchoBtn, abajoBtn, anchoBtn, altoBtn);

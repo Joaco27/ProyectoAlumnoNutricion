@@ -15,7 +15,7 @@ public class Desafio1 extends JPanel{
 	private int pActualO = 5, pActualV = 5;
 	private DefaultTimer dt;
 	private Image img;
-	private JLabel imagen1, imagen2, continuar, noEts1, noEts2;
+	private JLabel imagen1, imagen2, continuar, noEts1, noEts2, sigImg1, sigImg2;
 	private FondoD1 fondo;
 
 	
@@ -47,8 +47,10 @@ public class Desafio1 extends JPanel{
 		continuar = new JLabel("", SwingConstants.CENTER);
 		continuar.setOpaque(false);
 		continuar.setBackground(new Color(0,0,0,0));
+		continuar.setFont(new Font("Serif", Font.BOLD, 25));
+		continuar.setBackground(Color.black);
 		continuar.setForeground(Color.white);
-		continuar.setBounds(ancho/2-(ancho/6/2)-7, alto-100, ancho/6, heightBtn/2);
+		continuar.setBounds(ancho/2-(ancho/6/2)-7, alto-130, ancho/6, heightBtn);
 		add(continuar);
 		
 	
@@ -68,31 +70,24 @@ public class Desafio1 extends JPanel{
 		noEts1.setBounds(derechaET1, abajoET, anchoET*3, altoET/2);
 		add(noEts1);
 		
-		etiquetas[0][0] = new JLabel("", SwingConstants.CENTER);
-		etiquetas[0][0].setOpaque(false);
-		etiquetas[0][0].setForeground(Color.white);
-		etiquetas[0][0].setBounds(derechaET1, abajoET, anchoET, altoET/2);
-		add(etiquetas[0][0]);
+		for(int i=0; i<4; i++) {
+			etiquetas[0][i] = new JLabel("", SwingConstants.CENTER);
+			etiquetas[0][i].setOpaque(false);
+			etiquetas[0][i].setForeground(Color.white);
+			etiquetas[0][i].setBounds(derechaET1+(anchoET+5)*i, abajoET, anchoET, altoET/2);
+			add(etiquetas[0][i]);
+		}
 		
-		etiquetas[0][1] = new JLabel("", SwingConstants.CENTER);
-		etiquetas[0][1].setOpaque(false); 
-		etiquetas[0][1].setForeground(Color.white);
-		etiquetas[0][1].setBounds(derechaET1+anchoET+5, abajoET, anchoET, altoET/2);
-		add(etiquetas[0][1]);
-		
-		etiquetas[0][2] = new JLabel("", SwingConstants.CENTER);
-		etiquetas[0][2].setOpaque(false);
-		etiquetas[0][2].setForeground(Color.white);
-		etiquetas[0][2].setBounds(derechaET1+(anchoET+5)*2, abajoET, anchoET, altoET/2);
-		add(etiquetas[0][2]);
-		
-		etiquetas[0][3] = new JLabel("", SwingConstants.CENTER);
-		etiquetas[0][3].setOpaque(false);
-		etiquetas[0][3].setForeground(Color.white);
-		etiquetas[0][3].setBounds(derechaET1+(anchoET+5)*3, abajoET, anchoET, altoET/2);
-		add(etiquetas[0][3]);
 		
 		int derechaET2 = ancho/2+20;
+		
+		for(int i=0; i<4; i++) {
+			etiquetas[1][i] = new JLabel("", SwingConstants.CENTER);
+			etiquetas[1][i].setOpaque(false);
+			etiquetas[1][i].setForeground(Color.white);
+			etiquetas[1][i].setBounds(derechaET2+(anchoET+5)*i, abajoET, anchoET, altoET/2);
+			add(etiquetas[1][i]);
+		}
 		
 		noEts2=new JLabel("", SwingConstants.CENTER);
 		noEts2.setFont(new Font("Serif", Font.BOLD, 30));
@@ -100,31 +95,7 @@ public class Desafio1 extends JPanel{
 		noEts2.setBounds(derechaET2, abajoET, anchoET*3, altoET/2);
 		add(noEts2);
 		
-		etiquetas[1][0] = new JLabel("", SwingConstants.CENTER);
-		etiquetas[1][0].setOpaque(false);
-		etiquetas[1][0].setForeground(Color.white);
-		etiquetas[1][0].setBounds(derechaET2, abajoET, anchoET, altoET/2);
-		add(etiquetas[1][0]);
 		
-		etiquetas[1][1] = new JLabel("", SwingConstants.CENTER);
-		etiquetas[1][1].setOpaque(false);
-		etiquetas[1][1].setForeground(Color.white);
-		etiquetas[1][1].setBounds(derechaET2+(anchoET+5), abajoET, anchoET, altoET/2);
-		add(etiquetas[1][1]);
-		
-		etiquetas[1][2] = new JLabel("", SwingConstants.CENTER);
-		etiquetas[1][2].setOpaque(false);
-		etiquetas[1][2].setForeground(Color.white);
-		etiquetas[1][2].setBounds(derechaET2+(anchoET+5)*2, abajoET, anchoET, altoET/2);
-		add(etiquetas[1][2]);
-		
-		etiquetas[1][3] = new JLabel();
-		etiquetas[1][3].setOpaque(false);
-		etiquetas[1][3].setForeground(Color.white);
-		etiquetas[1][3].setBounds(derechaET2+(anchoET+5)*3, abajoET, anchoET, altoET/2);
-		add(etiquetas[1][3]);
-		
-
 		
 		
 		
@@ -135,6 +106,17 @@ public class Desafio1 extends JPanel{
 		imagen1.setBounds(anchoBarra-anchoB-20, alto/3-10, anchoImg, altoImg);
 		add(imagen1);
 		
+		int derechaSig=(ancho/2)/2-(ancho/6)/2+17;
+		
+		sigImg1 = new JLabel("", SwingConstants.CENTER);
+		sigImg1.setOpaque(false);
+		//sigImg1.setBackground(new Color(0,0,0,0));
+		sigImg1.setFont(new Font("Serif", Font.BOLD, 20));
+		sigImg1.setBackground(Color.black);
+		sigImg1.setForeground(Color.white);
+		sigImg1.setBounds(derechaSig, alto-130, ancho/7, heightBtn-10);
+		add(sigImg1);
+		
 		
 		
 		imagen2 = new JLabel("<html>Levanta las<br> etiquetas!!</html>", SwingConstants.CENTER);
@@ -143,6 +125,15 @@ public class Desafio1 extends JPanel{
 		//imagen2.setBackground(Color.blue);
 		imagen2.setBounds(derechaImg+anchoB+20, alto/3-10, anchoImg, altoImg);
 		add(imagen2);
+		
+		sigImg2 = new JLabel("", SwingConstants.CENTER);
+		sigImg2.setOpaque(false);
+		//sigImg2.setBackground(new Color(0,0,0,0));
+		sigImg2.setFont(new Font("Serif", Font.BOLD, 20));
+		sigImg2.setBackground(Color.black);
+		sigImg2.setForeground(Color.white);
+		sigImg2.setBounds(derechaSig*4-71, alto-130, ancho/7, heightBtn-10);
+		add(sigImg2);
 		
 
 	}
@@ -220,20 +211,38 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public JLabel[] getEtiquetasO() {
+		if(pActualO>=1) {
+			sigImg1.setText("<html>Sig.<br>Imagen</html>");
+			sigImg1.setOpaque(true);
+		}
 		return etiquetas[0];
 	}
 	public JLabel[] getEtiquetasV() {
+		if(pActualV>=1) {
+			sigImg2.setText("<html>Sig.<br>Imagen</html>");
+			sigImg2.setOpaque(true);
+		}
 		return etiquetas[1];
 	}
 	
 	public JLabel getSinEtiquetasO() {
+		if(pActualO>=1) {
+			sigImg1.setText("<html>Sig.<br>Imagen</html>");
+			sigImg1.setOpaque(true);
+		}
 		return noEts1;
 	}
 	public JLabel getSinEtiquetasV() {
+		if(pActualV>=1) {
+			sigImg2.setText("<html>Sig.<br>Imagen</html>");
+			sigImg2.setOpaque(true);
+		}
 		return noEts2;
 	}
 	
 	public void blanquearEtsO() {
+		sigImg1.setOpaque(false);
+		sigImg1.setText("");
 		noEts1.setText("");
 		noEts1.setOpaque(false);
 		for (int i=0; i<4; i++) {
@@ -243,6 +252,8 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void blanquearEtsV() {
+		sigImg2.setOpaque(false);
+		sigImg2.setText("");
 		noEts2.setText("");
 		noEts2.setOpaque(false);
 		for (int i=0; i<4; i++) {
@@ -264,9 +275,9 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void continuar() {
-		continuar.setText("Continuar");
+		continuar.setText("<html>Ver<br>Resultado</html>");
 		continuar.setOpaque(true);
-		continuar.setBackground(Color.black);
+		
 	}
 	public void termine() {
 		//Detengo el timer

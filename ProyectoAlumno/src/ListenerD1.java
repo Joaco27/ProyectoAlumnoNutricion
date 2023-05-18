@@ -42,6 +42,10 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private ListaProductos listaProductosO = new ListaProductos();
 	private ListaProductos listaProductosV = new ListaProductos();
 	
+	// Lista de productos para cada equipo
+	private List<Integer> listaAciertosO = new ArrayList<Integer>();
+	private List<Integer> listaAciertosV = new ArrayList<Integer>();
+	
 	// Producto actual de cada equipo
 	private Producto productoO, productoV;
 	
@@ -115,18 +119,24 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				// sino evaluo cuantas etiquetas acerto
 				if(productoV.getEtiquetas().size()==0) {
 					this.evaluarBlancoV(label, etiquetasV);
+					this.cargarAciertos(etiquetasV, productoV.getEtiquetas(), listaAciertosV);
+					somb.sombrearV(listaAciertosV);
 				}
 				else {
 					this.evaluarV(label, etiquetasV, productoV.getEtiquetas());
+					this.cargarAciertos(etiquetasV, productoV.getEtiquetas(), listaAciertosV);
+					somb.sombrearV(listaAciertosV);
 				}
 				// Muestro las etiquetas correspondientes y remuevo la imagen
 				this.mostrarEtiquetasV(panel.getEtiquetasV());
-				panel.removeImgV();
+				//panel.removeImgV();
 			}
 			else {
 				if(progresoV%2==0) {
 					// Como el click es par limpio las etiquetas y muestro otra imagen
 					panel.blanquearEtsV();
+					this.listaAciertosV = new ArrayList<Integer>();
+					somb.setEvaluarV(false);
 					productoV = listaProductosV.getProducto();
 			        panel.paintImgV(productoV.getPath());
 					
@@ -136,9 +146,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 					JLabel label = panel.getPEquipoV();
 					if(productoV.getEtiquetas().size()==0) {
 						this.evaluarBlancoV(label, etiquetasV);
+						this.cargarAciertos(etiquetasV, productoV.getEtiquetas(), listaAciertosV);
+						somb.sombrearV(listaAciertosV);
 					}
 					else {
 						this.evaluarV(label, etiquetasV, productoV.getEtiquetas());
+						this.cargarAciertos(etiquetasV, productoV.getEtiquetas(), listaAciertosV);
+						somb.sombrearV(listaAciertosV);
 					}
 					this.mostrarEtiquetasV(panel.getEtiquetasV());
 					tiempoTotalV = panel.terminoV(puntosV);
@@ -155,15 +169,21 @@ public class ListenerD1 extends JPanel implements TuioListener{
 					JLabel label = panel.getPEquipoO();
 					if(productoO.getEtiquetas().size()==0) {
 						this.evaluarBlancoO(label, etiquetasO);
+						this.cargarAciertos(etiquetasO, productoO.getEtiquetas(), listaAciertosO);
+						somb.sombrearO(listaAciertosO);
 					}
 					else {
 						this.evaluarO(label, etiquetasO, productoO.getEtiquetas());
+						this.cargarAciertos(etiquetasO, productoO.getEtiquetas(), listaAciertosO);
+						somb.sombrearO(listaAciertosO);
 					}
 					this.mostrarEtiquetasO(panel.getEtiquetasO());
-					panel.removeImgO();
+					//panel.removeImgO();
 				}
 				else {
 					if(progresoO%2==0) {
+						this.listaAciertosO = new ArrayList<Integer>();
+						somb.setEvaluarO(false);
 						panel.blanquearEtsO();
 						productoO = listaProductosO.getProducto();
 				        panel.paintImgO(productoO.getPath());
@@ -173,9 +193,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 						JLabel label = panel.getPEquipoO();
 						if(productoO.getEtiquetas().size()==0) {
 							this.evaluarBlancoO(label, etiquetasO);
+							this.cargarAciertos(etiquetasO, productoO.getEtiquetas(), listaAciertosO);
+							somb.sombrearO(listaAciertosO);
 						}
 						else {
 							this.evaluarO(label, etiquetasO, productoO.getEtiquetas());
+							this.cargarAciertos(etiquetasO, productoO.getEtiquetas(), listaAciertosO);
+							somb.sombrearO(listaAciertosO);
 						}
 						this.mostrarEtiquetasO(panel.getEtiquetasO());
 						tiempoTotalO = panel.terminoO(puntosO);
@@ -196,10 +220,6 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	public void fin(boolean ok) {
 		// Finalizado el juego o el tiempo, sumo los puntos de los equipos, cierro el frame
 		// y activo listener del resultado de Desafio1
-		if(!ok) {
-			tiempoTotalO=0;
-			tiempoTotalV=0;
-		}
 		pts.aumentarEquipoO(puntosO);
 		pts.aumentarEquipoV(puntosV);
 		client.removeTuioListener(this);
@@ -219,6 +239,16 @@ public class ListenerD1 extends JPanel implements TuioListener{
         }
 
         return contador;
+    }
+	
+	public void cargarAciertos(List<Integer> ets, List<Integer> etiquetas, List<Integer> aciertos) {
+        // Cargo las etiquetas colocadas acertadas
+
+        for (int i = 0; i < ets.size(); i++) {
+            if (etiquetas.contains(ets.get(i))) {
+            	aciertos.add(ets.get(i));
+            }
+        }
     }
 	
 	public void evaluarO(JLabel label, List<Integer> ets, List<Integer> etiquetas) {
