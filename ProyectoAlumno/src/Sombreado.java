@@ -1,9 +1,15 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.Ellipse2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import TUIO.TuioCursor;
@@ -17,6 +23,7 @@ public class Sombreado extends JPanel {
     private List<Integer> aciertosO = new ArrayList<Integer>();
     private List<Integer> aciertosV = new ArrayList<Integer>();
     private boolean evaluarO=false,evaluarV=false;
+    private Image backgroundImage;
 	
 	public Sombreado() {
 		setLayout(null);
@@ -43,7 +50,10 @@ public class Sombreado extends JPanel {
             		g2d.setColor(Color.red);
             	}
             }
-            g2d.fillOval(x, y, width, height);
+            Ellipse2D.Double oval = new Ellipse2D.Double(x, y, width, height);
+            g2d.setStroke(new BasicStroke(5));
+            g2d.draw(oval);
+            //g2d.fillOval(x, y, width, height);
         } 
         for (TuioObject tuioObject : equipoO) {
             int x = (int) (tuioObject.getScreenX(this.getWidth()) - 50 / 2);
@@ -61,7 +71,10 @@ public class Sombreado extends JPanel {
             		g2d.setColor(Color.red);
             	}
             }            
-            g2d.fillOval(x, y, width, height);
+            Ellipse2D.Double oval = new Ellipse2D.Double(x, y, width, height);
+            g2d.setStroke(new BasicStroke(5));
+            g2d.draw(oval);
+            //g2d.fillOval(x, y, width, height);
         } 
         for (TuioCursor tuioC : cursors) {
             int x = (int) (tuioC.getScreenX(this.getWidth()) - 50 / 2);

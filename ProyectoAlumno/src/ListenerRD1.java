@@ -21,7 +21,6 @@ public class ListenerRD1 extends JPanel implements TuioListener{
 		this.client = client;
 		this.pts=pts;
     	frame = new JFrame("Resultados Desafio 1");
-        //frame.setContentPane(new Desafio1(frame.getHeight(), frame.getWidth()));
         frame.setSize(1024, 768);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

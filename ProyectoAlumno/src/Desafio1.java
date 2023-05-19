@@ -15,7 +15,7 @@ public class Desafio1 extends JPanel{
 	private int pActualO = 5, pActualV = 5;
 	private DefaultTimer dt;
 	private Image img;
-	private JLabel imagen1, imagen2, continuar, noEts1, noEts2, sigImg1, sigImg2;
+	private JLabel imagen1, imagen2, VR, noEts1, noEts2, sigImg1, sigImg2;
 	private FondoD1 fondo;
 
 	
@@ -44,14 +44,11 @@ public class Desafio1 extends JPanel{
 		dt.setBounds(ancho/2-(ancho/6/2)-10, 5, ancho/6, heightBtn/2);
 		add(dt);
 
-		continuar = new JLabel("", SwingConstants.CENTER);
-		continuar.setOpaque(false);
-		continuar.setBackground(new Color(0,0,0,0));
-		continuar.setFont(new Font("Serif", Font.BOLD, 25));
-		continuar.setBackground(Color.black);
-		continuar.setForeground(Color.white);
-		continuar.setBounds(ancho/2-(ancho/6/2)-7, alto-130, ancho/6, heightBtn);
-		add(continuar);
+		int anchoVR = ancho - ancho/8*2;
+		VR = new JLabel("", SwingConstants.CENTER);
+		VR.setOpaque(false);
+		VR.setBounds(ancho/8, alto-135, anchoVR, heightBtn+15);
+		add(VR);
 		
 	
 		
@@ -109,12 +106,8 @@ public class Desafio1 extends JPanel{
 		int derechaSig=(ancho/2)/2-(ancho/6)/2+17;
 		
 		sigImg1 = new JLabel("", SwingConstants.CENTER);
+		sigImg1.setBounds(derechaSig-5, alto-135, ancho/6+25, heightBtn+10);
 		sigImg1.setOpaque(false);
-		//sigImg1.setBackground(new Color(0,0,0,0));
-		sigImg1.setFont(new Font("Serif", Font.BOLD, 20));
-		sigImg1.setBackground(Color.black);
-		sigImg1.setForeground(Color.white);
-		sigImg1.setBounds(derechaSig, alto-130, ancho/7, heightBtn-10);
 		add(sigImg1);
 		
 		
@@ -122,17 +115,12 @@ public class Desafio1 extends JPanel{
 		imagen2 = new JLabel("<html>Levanta las<br> etiquetas!!</html>", SwingConstants.CENTER);
 		imagen2.setOpaque(false);
 		imagen2.setFont(new Font("Serif", Font.BOLD, 30));
-		//imagen2.setBackground(Color.blue);
 		imagen2.setBounds(derechaImg+anchoB+20, alto/3-10, anchoImg, altoImg);
 		add(imagen2);
 		
 		sigImg2 = new JLabel("", SwingConstants.CENTER);
+		sigImg2.setBounds(derechaSig*4-75, alto-135, ancho/6+25, heightBtn+10);
 		sigImg2.setOpaque(false);
-		//sigImg2.setBackground(new Color(0,0,0,0));
-		sigImg2.setFont(new Font("Serif", Font.BOLD, 20));
-		sigImg2.setBackground(Color.black);
-		sigImg2.setForeground(Color.white);
-		sigImg2.setBounds(derechaSig*4-71, alto-130, ancho/7, heightBtn-10);
 		add(sigImg2);
 		
 
@@ -212,14 +200,20 @@ public class Desafio1 extends JPanel{
 	
 	public JLabel[] getEtiquetasO() {
 		if(pActualO>=1) {
-			sigImg1.setText("<html>Sig.<br>Imagen</html>");
+			Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/siguienteO.png")).getImage()
+					.getScaledInstance(sigImg1.getWidth(), sigImg1.getHeight(), 0));
+			
+			sigImg1.setIcon(img1);
 			sigImg1.setOpaque(true);
 		}
 		return etiquetas[0];
 	}
 	public JLabel[] getEtiquetasV() {
 		if(pActualV>=1) {
-			sigImg2.setText("<html>Sig.<br>Imagen</html>");
+			Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/siguienteV.png")).getImage()
+					.getScaledInstance(sigImg2.getWidth(), sigImg2.getHeight(), 0));
+			
+			sigImg2.setIcon(img2);
 			sigImg2.setOpaque(true);
 		}
 		return etiquetas[1];
@@ -227,22 +221,28 @@ public class Desafio1 extends JPanel{
 	
 	public JLabel getSinEtiquetasO() {
 		if(pActualO>=1) {
-			sigImg1.setText("<html>Sig.<br>Imagen</html>");
+			Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/siguienteO.png")).getImage()
+					.getScaledInstance(sigImg1.getWidth(), sigImg1.getHeight(), 0));
+			
+			sigImg1.setIcon(img1);
 			sigImg1.setOpaque(true);
 		}
 		return noEts1;
 	}
 	public JLabel getSinEtiquetasV() {
 		if(pActualV>=1) {
-			sigImg2.setText("<html>Sig.<br>Imagen</html>");
+			Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/siguienteV.png")).getImage()
+					.getScaledInstance(sigImg2.getWidth(), sigImg2.getHeight(), 0));
+			
+			sigImg2.setIcon(img2);
 			sigImg2.setOpaque(true);
 		}
 		return noEts2;
 	}
 	
 	public void blanquearEtsO() {
+		sigImg1.setIcon(null);
 		sigImg1.setOpaque(false);
-		sigImg1.setText("");
 		noEts1.setText("");
 		noEts1.setOpaque(false);
 		for (int i=0; i<4; i++) {
@@ -252,8 +252,8 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void blanquearEtsV() {
+		sigImg2.setIcon(null);
 		sigImg2.setOpaque(false);
-		sigImg2.setText("");
 		noEts2.setText("");
 		noEts2.setOpaque(false);
 		for (int i=0; i<4; i++) {
@@ -275,8 +275,11 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void continuar() {
-		continuar.setText("<html>Ver<br>Resultado</html>");
-		continuar.setOpaque(true);
+		Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/BotonVerResultados.png")).getImage()
+				.getScaledInstance(VR.getWidth(), VR.getHeight(), 0));
+		
+		VR.setIcon(img2);
+		VR.setOpaque(true);
 		
 	}
 	public void termine() {
