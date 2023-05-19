@@ -7,6 +7,7 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -336,6 +337,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 						.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
 				
 				ets[i].setIcon(img);
+				if(this.listaAciertosO.contains(productoO.getEtiquetas().get(i))) {
+					ets[i].setBorder(BorderFactory.createLineBorder(Color.green));
+				}
+				else {
+					ets[i].setBorder(BorderFactory.createLineBorder(Color.red));
+				}
 			}
 		}
 	}
@@ -354,6 +361,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 						.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
 				
 				ets[i].setIcon(img);
+				if(this.listaAciertosV.contains(productoV.getEtiquetas().get(i))) {
+					ets[i].setBorder(BorderFactory.createLineBorder(Color.green));
+				}
+				else {
+					ets[i].setBorder(BorderFactory.createLineBorder(Color.red));
+				}
 			}
 		}
 		
