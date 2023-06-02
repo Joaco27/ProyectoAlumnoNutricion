@@ -51,6 +51,16 @@ public class ListaProductos {
 		p.agregar(114);
 		p.agregar(115);
 		products.add(p);
+		
+		p = new Producto("Garoto");
+		p.setPath("/imagenes/garoto.jpg");
+		p.agregar(112);
+		p.agregar(113);
+		p.agregar(114);
+		p.agregar(115);
+		p.agregar(117);
+		p.agregar(118);
+		products.add(p);
 	}
 	
 	public List<Producto> getLista(){

@@ -26,6 +26,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private JFrame frame;
 	private Desafio1 panel;
 	private int puntosO=0, puntosV=0;
+	private int aciertosV=10,aciertosO=10;
 	private int terminaron=0;
 	private int tiempoTotalV, tiempoTotalO;
 	private boolean terminoO=false, terminoV=false;
@@ -67,6 +68,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
         frame.setSize(1024, 768);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        // Quitar la barra superior de cierre y minimizar
+        //frame.setUndecorated(true);
+
+        // Establecer el estado del JFrame a pantalla completa
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
         // Creo panel Fondo
         fondo = new FondoD1(frame.getWidth(), frame.getHeight());
         fondo.setOpaque(true);
@@ -106,15 +113,15 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		somb.addCursor(tc);
         somb.repaint();
         // Si terminaron los dos finaliza el juego y si se presiona una vez mas muestra resultados
-		if(terminaron==2 && tc.getY()>0.5) {
+		if(terminaron==2 && tc.getY()>0.8) {
 			this.fin(true);	
 		}
 		// Si presiono del lado del equipo violeta y no termino
-		if (tc.getX()>0.5 && tc.getY()>0.5 && !terminoV) {
+		if (tc.getX()>0.5 && tc.getY()>0.8 && !terminoV) {
 			// Si mi mi click es impar muestro etiquetas, si es par cambio la imagen
 			if (progresoV%2!=0 && progresoV<9) {
 				// Me traigo la porcion del fondo que voy a pintar
-				JLabel label = panel.getPEquipoV();
+				JLabel[] label = panel.getPEquipoV();
 				// Si el tamaño la lista de etiquetas del producto es 0, evaluo el producto como
 				// sin etiquetas
 				// sino evaluo cuantas etiquetas acerto
@@ -144,7 +151,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				}
 				else {
 					// Si es el noveno click evaluo una ultima vez y me guardo el tiempo
-					JLabel label = panel.getPEquipoV();
+					JLabel[] label = panel.getPEquipoV();
 					if(productoV.getEtiquetas().size()==0) {
 						this.evaluarBlancoV(label, etiquetasV);
 						this.cargarAciertos(etiquetasV, productoV.getEtiquetas(), listaAciertosV);
@@ -165,9 +172,9 @@ public class ListenerD1 extends JPanel implements TuioListener{
 
 		}
 		else {
-			if (tc.getX()<0.5 && tc.getY()>0.5 && !terminoO) {
+			if (tc.getX()<0.5 && tc.getY()>0.8 && !terminoO) {
 				if (progresoO%2!=0 && progresoO<9) {
-					JLabel label = panel.getPEquipoO();
+					JLabel[] label = panel.getPEquipoO();
 					if(productoO.getEtiquetas().size()==0) {
 						this.evaluarBlancoO(label, etiquetasO);
 						this.cargarAciertos(etiquetasO, productoO.getEtiquetas(), listaAciertosO);
@@ -191,7 +198,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 						
 					}
 					else {
-						JLabel label = panel.getPEquipoO();
+						JLabel[] label = panel.getPEquipoO();
 						if(productoO.getEtiquetas().size()==0) {
 							this.evaluarBlancoO(label, etiquetasO);
 							this.cargarAciertos(etiquetasO, productoO.getEtiquetas(), listaAciertosO);
@@ -252,72 +259,78 @@ public class ListenerD1 extends JPanel implements TuioListener{
         }
     }
 	
-	public void evaluarO(JLabel label, List<Integer> ets, List<Integer> etiquetas) {
+	public void evaluarO(JLabel label[], List<Integer> ets, List<Integer> etiquetas) {
 		// Si el tamaño de la lista de etiquetas colocadas es igual al de las etiquetas del
 		// producto acierta, sino si al menos hay un elemento en comun es incompleto
 		// y si no tiene elementos en comun es fallo
 		int ok = contarElementosCompartidos(ets, etiquetas);
 		if(ok==etiquetas.size()) {
-			label.setBackground(Color.green);
+			aciertosO-=2;
+			for (int i=9; i>=aciertosO; i--) {
+				label[i].setBackground(Color.green);
+			}
 			puntosO+=3;
 		}
 		else {
 			if(ok>0) {
-				label.setBackground(Color.yellow);
+				aciertosO--;
+				for (int i=9; i>=aciertosO; i--) {
+					label[i].setBackground(Color.green);
+				}
 				puntosO++;
-			}
-			else {
-				label.setBackground(Color.red);
 			}
 		}
 		frame.repaint();
 	}
 	
-	public void evaluarV(JLabel label, List<Integer> ets, List<Integer> etiquetas) {
+	public void evaluarV(JLabel[] label, List<Integer> ets, List<Integer> etiquetas) {
 		// Si el tamaño de la lista de etiquetas colocadas es igual al de las etiquetas del
 		// producto acierta, sino si al menos hay un elemento en comun es incompleto
 		// y si no tiene elementos en comun es fallo
 		int ok = contarElementosCompartidos(ets, etiquetas);
 		if(ok==etiquetas.size()) {
-			label.setBackground(Color.green);
+			aciertosV-=2;
+			for (int i=9; i>=aciertosV; i--) {
+				label[i].setBackground(Color.green);
+			}
 			puntosV+=3;
 		}
 		else {
 			if(ok>0) {
-				label.setBackground(Color.yellow);
+				aciertosV--;
+				for (int i=9; i>=aciertosV; i--) {
+					label[i].setBackground(Color.green);
+				}
 				puntosV++;
-			}
-			else {
-				label.setBackground(Color.red);
 			}
 		}
 		frame.repaint();
 	}
 	
-	public void evaluarBlancoV(JLabel label, List<Integer> ets) {
+	public void evaluarBlancoV(JLabel[] label, List<Integer> ets) {
 		// Si el producto no tiene etiquetas, chequeo la lista de elementos colocados,
 		// si no hay ninguno es acierto y sino es fallo
-		label.setOpaque(true);
-		if (ets.size()>0) {
-			label.setBackground(Color.red);
-		}
-		else {
-			label.setBackground(Color.green);
+		if (ets.size()==0) {
+			aciertosV-=2;
+			for (int i=9; i>=aciertosV; i--) {
+				label[i].setOpaque(true);
+				label[i].setBackground(Color.green);
+			}
 			puntosV+=3;
 		}
 		frame.repaint();
 
 	}
 	
-	public void evaluarBlancoO(JLabel label, List<Integer> ets) {
+	public void evaluarBlancoO(JLabel label[], List<Integer> ets) {
 		// Si el producto no tiene etiquetas, chequeo la lista de elementos colocados,
 		// si no hay ninguno es acierto y sino es fallo
-		label.setOpaque(true);
-		if (ets.size()>0) {
-			label.setBackground(Color.red);
-		}
-		else {
-			label.setBackground(Color.green);
+		if (ets.size()==0) {
+			aciertosO-=2;
+			for (int i=9; i>=aciertosO; i--) {
+				label[i].setOpaque(true);
+				label[i].setBackground(Color.green);
+			}
 			puntosO+=3;
 		}
 		frame.repaint();
@@ -327,7 +340,8 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// Si el producto no tiene etiquetas se muestra en pantalla que no tiene
 		// sino muestra las etiquetas correspondientes
 		if(productoO.getEtiquetas().size()==0) {
-			panel.getSinEtiquetasO().setText("No Tiene Etiquetas");
+			panel.getSinEtiquetasO().setText("No Tiene Sellos");
+			panel.getSinEtiquetasO().setBackground(new Color(0,0,0,0));
 			panel.getSinEtiquetasO().setOpaque(true);
 		}
 		else {
@@ -338,10 +352,10 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				
 				ets[i].setIcon(img);
 				if(this.listaAciertosO.contains(productoO.getEtiquetas().get(i))) {
-					ets[i].setBorder(BorderFactory.createLineBorder(Color.green));
+					ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.green));
 				}
 				else {
-					ets[i].setBorder(BorderFactory.createLineBorder(Color.red));
+					ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.red));
 				}
 			}
 		}
@@ -351,7 +365,8 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// Si el producto no tiene etiquetas se muestra en pantalla que no tiene
 		// sino muestra las etiquetas correspondientes
 		if(productoV.getEtiquetas().size()==0) {
-			panel.getSinEtiquetasV().setText("No Tiene Etiquetas");
+			panel.getSinEtiquetasV().setText("No Tiene Sellos");
+			panel.getSinEtiquetasV().setBackground(new Color(0,0,0,0));
 			panel.getSinEtiquetasV().setOpaque(true);
 		}
 		else {
@@ -362,10 +377,10 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				
 				ets[i].setIcon(img);
 				if(this.listaAciertosV.contains(productoV.getEtiquetas().get(i))) {
-					ets[i].setBorder(BorderFactory.createLineBorder(Color.green));
+					ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.green));
 				}
 				else {
-					ets[i].setBorder(BorderFactory.createLineBorder(Color.red));
+					ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.red));
 				}
 			}
 		}

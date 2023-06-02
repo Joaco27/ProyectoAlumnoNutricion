@@ -79,7 +79,8 @@ public class DefaultTimer extends JPanel{
        
     }
     
-    public String getTime() {
+    
+	public String getTime() {
     	//devuelve el tiempo transcurrido en formato min:seg
     	int min = total / 60;
         int seg = total % 60;

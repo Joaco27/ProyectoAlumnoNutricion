@@ -11,7 +11,7 @@ private List <String> ets=new ArrayList<String>();
 		this.agregar("/imagenes/ExcesoAzucar.png");			//3  115
 		this.agregar("/imagenes/ExcesoSodio.png");			//4  116
 		this.agregar("/imagenes/contieneEdulcorante.png");	//5  117
-		this.agregar("/imagenes/contieneEdulcorante.png");	//6  118
+		this.agregar("/imagenes/contieneCafeina.png");		//6  118
 	}
 	
 	public void agregar(String i) {

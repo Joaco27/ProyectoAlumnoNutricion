@@ -11,7 +11,7 @@ import TUIO.TuioListener;
 
 public class Desafio1 extends JPanel{
 	
-	private JLabel [][] etiquetas = new JLabel[2][4];
+	private JLabel [][] etiquetas = new JLabel[2][6];
 	private int pActualO = 5, pActualV = 5;
 	private DefaultTimer dt;
 	private Image img;
@@ -61,7 +61,7 @@ public class Desafio1 extends JPanel{
 				
 		
 		int derechaET1 = anchoB*2;
-		int abajoET = (alto/3-10)/2;
+		int abajoET = (alto/3-10)/2-25;
 		int anchoET = (ancho/2-derechaET1)/5+15;
 		int altoET = abajoET+65;
 		
@@ -78,6 +78,13 @@ public class Desafio1 extends JPanel{
 			add(etiquetas[0][i]);
 		}
 		
+		for(int i=0; i<2; i++) {
+			etiquetas[0][i+4] = new JLabel("", SwingConstants.CENTER);
+			etiquetas[0][i+4].setOpaque(false);
+			etiquetas[0][i+4].setBounds(derechaET1+(anchoET+5)*i*2, abajoET+85, anchoET*2, altoET/1/3);
+			add(etiquetas[0][i+4]);
+		}
+		
 		
 		int derechaET2 = ancho/2+20;
 		
@@ -86,6 +93,13 @@ public class Desafio1 extends JPanel{
 			etiquetas[1][i].setOpaque(false);
 			etiquetas[1][i].setBounds(derechaET2+(anchoET+5)*i, abajoET, anchoET, altoET/2);
 			add(etiquetas[1][i]);
+		}
+		
+		for(int i=0; i<2; i++) {
+			etiquetas[1][i+4] = new JLabel("", SwingConstants.CENTER);
+			etiquetas[1][i+4].setOpaque(false);
+			etiquetas[1][i+4].setBounds(derechaET2+(anchoET+5)*i*2, abajoET+85, anchoET*2, altoET/1/3);
+			add(etiquetas[1][i+4]);
 		}
 		
 		noEts2=new JLabel("", SwingConstants.CENTER);
@@ -108,8 +122,9 @@ public class Desafio1 extends JPanel{
 		int derechaSig=(ancho/2)/2-(ancho/6)/2+17;
 		
 		sigImg1 = new JLabel("", SwingConstants.CENTER);
-		sigImg1.setBounds(derechaSig-5, alto-135, ancho/6+25, heightBtn+10);
+		sigImg1.setBounds(derechaSig-5, alto-135, ancho/6+35, heightBtn+20);
 		sigImg1.setOpaque(false);
+		sigImg1.setBackground(new Color(0,0,0,0));
 		add(sigImg1);
 		
 		
@@ -121,16 +136,19 @@ public class Desafio1 extends JPanel{
 		add(imagen2);
 		
 		sigImg2 = new JLabel("", SwingConstants.CENTER);
-		sigImg2.setBounds(derechaSig*4-75, alto-135, ancho/6+25, heightBtn+10);
+		sigImg2.setBounds(derechaSig*4-75, alto-135, ancho/6+35, heightBtn+20);
 		sigImg2.setOpaque(false);
+		sigImg2.setBackground(new Color(0,0,0,0));
 		add(sigImg2);
 		
 
 	}
 	
+	
+
 	public void paint(Graphics g) {
 		
-		img = new ImageIcon(getClass().getResource("/imagenes/fondo(Barras Vacias).png")).getImage();
+		img = new ImageIcon(getClass().getResource("/imagenes/fondoDesafio1V21024x768.png")).getImage();
 		
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 		
@@ -180,22 +198,22 @@ public class Desafio1 extends JPanel{
 		//imagen1.setDisabledIcon(imagen1.getIcon());
 	}
 	
-	public JLabel getPEquipoO() {
+	public JLabel[] getPEquipoO() {
 		//Retron progreso actual del equipo naranja o null si ya termino
 		// decremento porque el progreso de la primer posicion me quedo arriba, entonces lo invierto
 		if (pActualO>0) {
 			pActualO--;
-			return fondo.getProgreso(0, pActualO);
+			return fondo.getProgreso(0);
 		}
 		return null;
 	}
 	
-	public JLabel getPEquipoV() {
+	public JLabel[] getPEquipoV() {
 		//Retron progreso actual del equipo violeta o null si ya termino
 		// decremento porque el progreso de la primer posicion me quedo arriba, entonces lo invierto
 		if (pActualV>0) {
 			pActualV--;
-			return fondo.getProgreso(1, pActualV);
+			return fondo.getProgreso(1);
 		}
 		return null;
 	}
@@ -243,28 +261,28 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void blanquearEtsO() {
-		for(int i=0; i<4; i++) {
+		for(int i=0; i<6; i++) {
 			etiquetas[0][i].setBorder(null);
 		}
 		sigImg1.setIcon(null);
 		sigImg1.setOpaque(false);
 		noEts1.setText("");
 		noEts1.setOpaque(false);
-		for (int i=0; i<4; i++) {
+		for (int i=0; i<6; i++) {
 			etiquetas[0][i].setIcon(null);;
 			etiquetas[0][i].setOpaque(false);
 		}
 	}
 	
 	public void blanquearEtsV() {
-		for(int i=0; i<4; i++) {
+		for(int i=0; i<6; i++) {
 			etiquetas[1][i].setBorder(null);
 		}
 		sigImg2.setIcon(null);
 		sigImg2.setOpaque(false);
 		noEts2.setText("");
 		noEts2.setOpaque(false);
-		for (int i=0; i<4; i++) {
+		for (int i=0; i<6; i++) {
 			etiquetas[1][i].setIcon(null);;
 			etiquetas[1][i].setOpaque(false);
 		}

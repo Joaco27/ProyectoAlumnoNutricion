@@ -24,6 +24,7 @@ public class Sombreado extends JPanel {
     private List<Integer> aciertosV = new ArrayList<Integer>();
     private boolean evaluarO=false,evaluarV=false;
     private Image backgroundImage;
+    private final int tamañoO = 200;
 	
 	public Sombreado() {
 		setLayout(null);
@@ -35,10 +36,9 @@ public class Sombreado extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         for (TuioObject tuioObject : equipoV) {
-            int x = (int) (tuioObject.getScreenX(this.getWidth()) - 50 / 2);
-            int y = (int) (tuioObject.getScreenY(this.getHeight()) - 50 / 2);
-            int width = 150;
-            int height = 150;
+            //int x = (int) (tuioObject.getScreenX(this.getWidth())-tamañoO*2/3);
+        	int x = (int) (tuioObject.getScreenX(this.getWidth())*0.9);
+            int y = (int) (tuioObject.getScreenY(this.getHeight())-tamañoO*2/3);
             if(!evaluarV) {
                 g2d.setColor(Color.gray);
             }
@@ -50,16 +50,18 @@ public class Sombreado extends JPanel {
             		g2d.setColor(Color.red);
             	}
             }
-            Ellipse2D.Double oval = new Ellipse2D.Double(x, y, width, height);
-            g2d.setStroke(new BasicStroke(5));
+            Ellipse2D.Double oval = new Ellipse2D.Double(x, y, tamañoO, tamañoO);
+            /*final float dash1[] = {10.0f};
+            g2d.setStroke(new BasicStroke(1.0f,
+                    BasicStroke.CAP_BUTT,
+                    BasicStroke.JOIN_MITER,
+                    10.0f, dash1, 0.0f));*/
             g2d.draw(oval);
             //g2d.fillOval(x, y, width, height);
         } 
         for (TuioObject tuioObject : equipoO) {
-            int x = (int) (tuioObject.getScreenX(this.getWidth()) - 50 / 2);
-            int y = (int) (tuioObject.getScreenY(this.getHeight()) - 50 / 2);
-            int width = 150;
-            int height = 150;
+            int x = (int) (tuioObject.getScreenX(this.getWidth())-tamañoO*2/3);
+            int y = (int) (tuioObject.getScreenY(this.getHeight())-tamañoO*2/3);
             if(!evaluarO) {
                 g2d.setColor(Color.gray);
             }
@@ -71,14 +73,18 @@ public class Sombreado extends JPanel {
             		g2d.setColor(Color.red);
             	}
             }            
-            Ellipse2D.Double oval = new Ellipse2D.Double(x, y, width, height);
-            g2d.setStroke(new BasicStroke(5));
+            Ellipse2D.Double oval = new Ellipse2D.Double(x, y, tamañoO, tamañoO);
+            /*final float dash1[] = {10.0f};
+            g2d.setStroke(new BasicStroke(1.0f,
+                    BasicStroke.CAP_BUTT,
+                    BasicStroke.JOIN_MITER,
+                    10.0f, dash1, 0.0f));*/
             g2d.draw(oval);
             //g2d.fillOval(x, y, width, height);
         } 
         for (TuioCursor tuioC : cursors) {
-            int x = (int) (tuioC.getScreenX(this.getWidth()) - 50 / 2);
-            int y = (int) (tuioC.getScreenY(this.getHeight()) - 50 / 2);
+            int x = (int) (tuioC.getScreenX(this.getWidth()) -50 / 2);
+            int y = (int) (tuioC.getScreenY(this.getHeight())-50 / 2);
             int width = 50;
             int height = 50;
             g2d.setColor(Color.gray);
