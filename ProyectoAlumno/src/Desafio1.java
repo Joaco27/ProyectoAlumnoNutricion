@@ -15,7 +15,7 @@ public class Desafio1 extends JPanel{
 	private int pActualO = 5, pActualV = 5;
 	private DefaultTimer dt;
 	private Image img;
-	private JLabel imagen1, imagen2, VR, noEts1, noEts2, sigImg1, sigImg2;
+	private JLabel imagen1, imagen2, VR, noEts1, noEts2, sigImg1, sigImg2, contO, contV;
 	private FondoD1 fondo;
 	
 	Border lineaBordeV = BorderFactory.createLineBorder(Color.green);
@@ -42,6 +42,7 @@ public class Desafio1 extends JPanel{
 		
 		int derechaBarra = anchoBarra+anchoImg*2;
 		
+		
 		dt = new DefaultTimer(list);
 		dt.setOpaque(false);
 		dt.setBackground(new Color(0,0,0,0));
@@ -51,6 +52,7 @@ public class Desafio1 extends JPanel{
 		int anchoVR = ancho - ancho/8*2;
 		VR = new JLabel("", SwingConstants.CENTER);
 		VR.setOpaque(false);
+		VR.setBackground(new Color(0,0,0,0));
 		VR.setBounds(ancho/8, alto-135, anchoVR, heightBtn+15);
 		add(VR);
 		
@@ -127,7 +129,22 @@ public class Desafio1 extends JPanel{
 		sigImg1.setBackground(new Color(0,0,0,0));
 		add(sigImg1);
 		
+		contO = new JLabel("0X ");
+		contO.setOpaque(true);
+		contO.setBackground(new Color(0,0,0,0));
+		contO.setFont(new Font("Monospaced", Font.PLAIN, 24));
+		contO.setBounds(derechaSig-105, alto-138, ancho/16, heightBtn);
+		add(contO);
 		
+		
+		JLabel imgCO = new JLabel();
+		imgCO.setBounds(derechaSig-70, alto-135, ancho/22, heightBtn);
+		Icon imgcorO = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/unCorazon.png")).getImage()
+				.getScaledInstance(imgCO.getWidth(), imgCO.getHeight(), 0));
+		imgCO.setOpaque(true);
+		imgCO.setIcon(imgcorO);
+		imgCO.setBackground(new Color(0,0,0,0));
+		add(imgCO);
 		
 		imagen2 = new JLabel("<html>Levanta las<br> etiquetas!!</html>", SwingConstants.CENTER);
 		imagen2.setOpaque(false);
@@ -141,6 +158,23 @@ public class Desafio1 extends JPanel{
 		sigImg2.setBackground(new Color(0,0,0,0));
 		add(sigImg2);
 		
+		contV = new JLabel("0X ");
+		contV.setOpaque(true);
+		contV.setBackground(new Color(0,0,0,0));
+		contV.setFont(new Font("Monospaced", Font.PLAIN, 24));
+		contV.setBounds(derechaSig*4-75-105, alto-138, ancho/16, heightBtn);
+		add(contV);
+		
+		
+		JLabel imgCV = new JLabel();
+		imgCV.setBounds(derechaSig*4-75-70, alto-135, ancho/22, heightBtn);
+		Icon imgcorV = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/unCorazon.png")).getImage()
+				.getScaledInstance(imgCV.getWidth(), imgCV.getHeight(), 0));
+		imgCV.setOpaque(true);
+		imgCV.setIcon(imgcorO);
+		imgCV.setBackground(new Color(0,0,0,0));
+		add(imgCV);
+		
 
 	}
 	
@@ -148,7 +182,7 @@ public class Desafio1 extends JPanel{
 
 	public void paint(Graphics g) {
 		
-		img = new ImageIcon(getClass().getResource("/imagenes/fondoDesafio1V21024x768.png")).getImage();
+		img = new ImageIcon(getClass().getResource("/imagenes/fondoV2.png")).getImage();
 		
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 		
@@ -198,22 +232,22 @@ public class Desafio1 extends JPanel{
 		//imagen1.setDisabledIcon(imagen1.getIcon());
 	}
 	
-	public JLabel[] getPEquipoO() {
+	public JLabel getPEquipoO() {
 		//Retron progreso actual del equipo naranja o null si ya termino
 		// decremento porque el progreso de la primer posicion me quedo arriba, entonces lo invierto
 		if (pActualO>0) {
 			pActualO--;
-			return fondo.getProgreso(0);
+			return fondo.getProgreso(0,pActualO);
 		}
 		return null;
 	}
 	
-	public JLabel[] getPEquipoV() {
+	public JLabel getPEquipoV() {
 		//Retron progreso actual del equipo violeta o null si ya termino
 		// decremento porque el progreso de la primer posicion me quedo arriba, entonces lo invierto
 		if (pActualV>0) {
 			pActualV--;
-			return fondo.getProgreso(1);
+			return fondo.getProgreso(1,pActualV);
 		}
 		return null;
 	}
@@ -308,9 +342,32 @@ public class Desafio1 extends JPanel{
 		VR.setOpaque(true);
 		
 	}
+	
+	public void terminoJO() {
+		this.sigImg1.setText("<html>Espera al<br>otro jugador</html>");
+		this.sigImg1.setForeground(Color.white);
+		this.sigImg1.setBackground(Color.black);
+		this.sigImg1.setOpaque(true);
+	}
+	
+	public void terminoJV() {
+		this.sigImg2.setText("<html>Espera al<br>otro jugador</html>");
+		this.sigImg2.setForeground(Color.white);
+		this.sigImg2.setBackground(Color.black);
+		this.sigImg2.setOpaque(true);
+	}
+	
 	public void termine() {
 		//Detengo el timer
 		dt.stop();
+	}
+	
+	public JLabel getContadorCorazonesO() {
+		return this.contO;
+	}
+	
+	public JLabel getContadorCorazonesV() {
+		return this.contV;
 	}
 	
 }
