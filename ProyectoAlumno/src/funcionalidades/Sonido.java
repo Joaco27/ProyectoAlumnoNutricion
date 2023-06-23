@@ -11,10 +11,10 @@ public class Sonido {
 		try
 	    {
 			enviar=AudioSystem.getClip();
-			enviar.open(AudioSystem.getAudioInputStream(getClass().getResource("/pistas/wError.wav")));
+			//enviar.open(AudioSystem.getAudioInputStream(getClass().getResource("/pistas/wError.wav")));
 			fondo=AudioSystem.getClip();
-			fondo.open(AudioSystem.getAudioInputStream(getClass().getResource("/pistas/fondo.wav")));
-	  }catch(Exception ex){
+			//fondo.open(AudioSystem.getAudioInputStream(getClass().getResource("/pistas/fondo.wav")));
+	    }catch(Exception ex){
 		  	System.out.println("No se encontró el audio "+ex);
 	     }
 		

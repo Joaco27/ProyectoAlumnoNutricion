@@ -9,7 +9,7 @@ import javax.swing.border.Border;
 
 public class Desafio1 extends JPanel{
 	
-	private JLabel [][] etiquetas = new JLabel[2][6];
+	private JLabel [][] etiquetas = new JLabel[2][7];
 	private int pActualO = 5, pActualV = 5;
 	private DefaultTimer dt;
 	private Image img;
@@ -60,7 +60,7 @@ public class Desafio1 extends JPanel{
 		int derechaB = anchoB/4;
 				
 		
-		int derechaET1 = anchoB*2;
+		int derechaET1 = anchoB*2-15;
 		int abajoET = (alto/3-10)/2-25;
 		int anchoET = (ancho/2-derechaET1)/5+15;
 		int altoET = abajoET+65;
@@ -71,35 +71,37 @@ public class Desafio1 extends JPanel{
 		noEts1.setBounds(derechaET1, abajoET, anchoET*3, altoET/2);
 		add(noEts1);
 		
-		for(int i=0; i<4; i++) {
+		for(int i=0; i<5; i++) {
 			etiquetas[0][i] = new JLabel("", SwingConstants.CENTER);
 			etiquetas[0][i].setOpaque(false);
-			etiquetas[0][i].setBounds(derechaET1+(anchoET+5)*i, abajoET, anchoET, altoET/2);
+			etiquetas[0][i].setBounds(derechaET1 + (anchoET+5)*i - (25*i),
+					abajoET-(abajoET*((i+1) % 2))+(50*((i+1)%2)), anchoET, altoET/2);
 			add(etiquetas[0][i]);
 		}
 		
 		for(int i=0; i<2; i++) {
-			etiquetas[0][i+4] = new JLabel("", SwingConstants.CENTER);
-			etiquetas[0][i+4].setOpaque(false);
-			etiquetas[0][i+4].setBounds(derechaET1+(anchoET+5)*i*2, abajoET+85, anchoET*2, altoET/1/3);
-			add(etiquetas[0][i+4]);
+			etiquetas[0][i+5] = new JLabel("", SwingConstants.CENTER);
+			etiquetas[0][i+5].setOpaque(false);
+			etiquetas[0][i+5].setBounds(derechaET1+(anchoET+5)*i*2, abajoET+85, anchoET*2, altoET/1/3);
+			add(etiquetas[0][i+5]);
 		}
 		
 		
-		int derechaET2 = ancho/2+20;
+		int derechaET2 = ancho/2;
 		
-		for(int i=0; i<4; i++) {
+		for(int i=0; i<5; i++) {
 			etiquetas[1][i] = new JLabel("", SwingConstants.CENTER);
 			etiquetas[1][i].setOpaque(false);
-			etiquetas[1][i].setBounds(derechaET2+(anchoET+5)*i, abajoET, anchoET, altoET/2);
+			etiquetas[1][i].setBounds(derechaET2+(anchoET+5)*i - (25*i),
+					abajoET-(abajoET*((i+1) % 2))+(50*((i+1)%2)), anchoET, altoET/2);
 			add(etiquetas[1][i]);
 		}
 		
 		for(int i=0; i<2; i++) {
-			etiquetas[1][i+4] = new JLabel("", SwingConstants.CENTER);
-			etiquetas[1][i+4].setOpaque(false);
-			etiquetas[1][i+4].setBounds(derechaET2+(anchoET+5)*i*2, abajoET+85, anchoET*2, altoET/1/3);
-			add(etiquetas[1][i+4]);
+			etiquetas[1][i+5] = new JLabel("", SwingConstants.CENTER);
+			etiquetas[1][i+5].setOpaque(false);
+			etiquetas[1][i+5].setBounds(derechaET2+(anchoET+5)*i*2, abajoET+85, anchoET*2, altoET/1/3);
+			add(etiquetas[1][i+5]);
 		}
 		
 		noEts2=new JLabel("", SwingConstants.CENTER);
@@ -293,28 +295,28 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void blanquearEtsO() {
-		for(int i=0; i<6; i++) {
+		for(int i=0; i<7; i++) {
 			etiquetas[0][i].setBorder(null);
 		}
 		sigImg1.setIcon(null);
 		sigImg1.setOpaque(false);
 		noEts1.setText("");
 		noEts1.setOpaque(false);
-		for (int i=0; i<6; i++) {
+		for (int i=0; i<7; i++) {
 			etiquetas[0][i].setIcon(null);;
 			etiquetas[0][i].setOpaque(false);
 		}
 	}
 	
 	public void blanquearEtsV() {
-		for(int i=0; i<6; i++) {
+		for(int i=0; i<7; i++) {
 			etiquetas[1][i].setBorder(null);
 		}
 		sigImg2.setIcon(null);
 		sigImg2.setOpaque(false);
 		noEts2.setText("");
 		noEts2.setOpaque(false);
-		for (int i=0; i<6; i++) {
+		for (int i=0; i<7; i++) {
 			etiquetas[1][i].setIcon(null);;
 			etiquetas[1][i].setOpaque(false);
 		}

@@ -371,10 +371,10 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				
 				ets[i].setIcon(img);
 				if(this.listaAciertosO.contains(productoO.getEtiquetas().get(i))) {
-					ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.green));
+					//ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.green));
 				}
 				else {
-					ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.red));
+					//ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.red));
 				}
 			}
 		}
@@ -396,10 +396,10 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				
 				ets[i].setIcon(img);
 				if(this.listaAciertosV.contains(productoV.getEtiquetas().get(i))) {
-					ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.green));
+					//ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.green));
 				}
 				else {
-					ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.red));
+					//ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.red));
 				}
 			}
 		}
@@ -470,6 +470,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 					somb.removeObjectV(to);
 					somb.repaint();
 				}
+				else {
+					int i = this.etiquetasO.indexOf(to.getSymbolID());
+					//System.out.println(i);
+					this.etiquetasO.remove(i);
+					somb.removeObjectO(to);
+					somb.repaint();
+				}
 				
 			}
 			else {
@@ -479,6 +486,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 					//System.out.println(i);
 					this.etiquetasO.remove(i);
 					somb.removeObjectO(to);
+					somb.repaint();
+				}
+				else {
+					int i = this.etiquetasV.indexOf(to.getSymbolID());
+					//System.out.println(i);
+					this.etiquetasV.remove(i);
+					somb.removeObjectV(to);
 					somb.repaint();
 				}
 				

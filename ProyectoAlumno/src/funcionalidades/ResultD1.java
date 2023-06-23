@@ -27,22 +27,12 @@ public class ResultD1 extends JPanel{
 		setLayout(null);
 		
 		
-		if(pts.getEquipoV()>pts.getEquipoO()) {
-			pts.aumentarEquipoV(5);
-		}
-		else {
-			if(pts.getEquipoV()<pts.getEquipoO()) {
-				pts.aumentarEquipoO(5);
-			}
-			else {
-				if(terminoO>terminoV) {
-					pts.aumentarEquipoV(5);
-				}
-				else {
-					pts.aumentarEquipoO(5);
-				}
-			}
-		}
+		/*
+		 * if(pts.getEquipoV()>pts.getEquipoO()) { pts.aumentarEquipoV(5); } else {
+		 * if(pts.getEquipoV()<pts.getEquipoO()) { pts.aumentarEquipoO(5); } else {
+		 * if(terminoO>terminoV) { pts.aumentarEquipoV(5); } else {
+		 * pts.aumentarEquipoO(5); } } }
+		 */
 
 		
 		int anchoBtn = ancho/3;
