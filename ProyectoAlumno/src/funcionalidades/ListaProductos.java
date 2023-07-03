@@ -1,5 +1,4 @@
 package funcionalidades;
-import funcionalidades.*;
 import java.util.ArrayList;
 import java.util.Random;
 

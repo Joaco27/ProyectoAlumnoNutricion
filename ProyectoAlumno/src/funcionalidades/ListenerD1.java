@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import TUIO.TuioBlob;
 import TUIO.TuioCursor;
@@ -38,6 +39,8 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private boolean terminoO=false, terminoV=false;
 	private int progresoO=1, progresoV=1;
 	private Puntaje pts;
+	
+	private String [][] etiquetas;
 
 	private Sonido sonido;
 	// Listado de todas las etiquetas
@@ -65,6 +68,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 
 
 	public ListenerD1(TuioClient client, Puntaje p) {
+		
 		sonido = new Sonido();
 		sonido.escucharFondo();
 		// Reseteo los puntos
@@ -250,6 +254,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	public void fin(boolean ok) {
 		// Finalizado el juego o el tiempo, sumo los puntos de los equipos, cierro el frame
 		// y activo listener del resultado de Desafio1
+		if (!terminoO) {
+			tiempoTotalO = 300;
+		}
+		if (!terminoV) {
+			tiempoTotalV = 300;
+		}
 		pts.aumentarEquipoO(puntosO);
 		pts.aumentarEquipoV(puntosV);
 		sonido.detenerMusica();
@@ -359,22 +369,30 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// Si el producto no tiene etiquetas se muestra en pantalla que no tiene
 		// sino muestra las etiquetas correspondientes
 		if(productoO.getEtiquetas().size()==0) {
+			Border borde = BorderFactory.createLineBorder(Color.black, 3);
 			panel.getSinEtiquetasO().setText("Libre de Sellos");
 			panel.getSinEtiquetasO().setBackground(new Color(0,0,0,0));
+			panel.getSinEtiquetasO().setBorder(borde);
 			panel.getSinEtiquetasO().setOpaque(true);
 		}
 		else {
 			for(int i=0;i<productoO.getEtiquetas().size();i++) {
-				Icon img = new ImageIcon(
-						new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoO.getEtiquetas().get(i)-112))).getImage()
-						.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
-				
-				ets[i].setIcon(img);
+
 				if(this.listaAciertosO.contains(productoO.getEtiquetas().get(i))) {
-					//ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.green));
+					Icon img = new ImageIcon(
+							new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoO.getEtiquetas()
+									.get(i)-112)+"OK.png")).getImage()
+									.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
+					
+					ets[i].setIcon(img);
 				}
 				else {
-					//ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.red));
+					Icon img = new ImageIcon(
+							new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoO.getEtiquetas()
+									.get(i)-112)+"ERROR.png")).getImage()
+									.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
+					
+					ets[i].setIcon(img);
 				}
 			}
 		}
@@ -384,23 +402,26 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// Si el producto no tiene etiquetas se muestra en pantalla que no tiene
 		// sino muestra las etiquetas correspondientes
 		if(productoV.getEtiquetas().size()==0) {
+			Border borde = BorderFactory.createLineBorder(Color.black, 3);
 			panel.getSinEtiquetasV().setText("Libre de Sellos");
 			panel.getSinEtiquetasV().setBackground(new Color(0,0,0,0));
+			panel.getSinEtiquetasV().setBorder(borde);
 			panel.getSinEtiquetasV().setOpaque(true);
 		}
 		else {
 			for(int i=0;i<productoV.getEtiquetas().size();i++) {
-				Icon img = new ImageIcon(
-						new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoV.getEtiquetas().get(i)-112))).getImage()
-						.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
 				
-				ets[i].setIcon(img);
 				if(this.listaAciertosV.contains(productoV.getEtiquetas().get(i))) {
-					//ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.green));
-				}
+					Icon img = new ImageIcon(
+							new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoV.getEtiquetas()
+									.get(i)-112)+"OK.png")).getImage().getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
+					ets[i].setIcon(img);				}
 				else {
-					//ets[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.red));
-				}
+					Icon img = new ImageIcon(
+							new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoV.getEtiquetas()
+									.get(i)-112)+"ERROR.png")).getImage().getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
+					ets[i].setIcon(img);				
+					}
 			}
 		}
 		
@@ -473,9 +494,11 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				else {
 					int i = this.etiquetasO.indexOf(to.getSymbolID());
 					//System.out.println(i);
-					this.etiquetasO.remove(i);
-					somb.removeObjectO(to);
-					somb.repaint();
+					if(i != -1) {
+						this.etiquetasO.remove(i);
+						somb.removeObjectO(to);
+						somb.repaint();
+					}
 				}
 				
 			}
@@ -490,10 +513,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				}
 				else {
 					int i = this.etiquetasV.indexOf(to.getSymbolID());
-					//System.out.println(i);
-					this.etiquetasV.remove(i);
-					somb.removeObjectV(to);
-					somb.repaint();
+					if (i != -1) {
+						//System.out.println(i);
+						this.etiquetasV.remove(i);
+						somb.removeObjectV(to);
+						somb.repaint();
+					}
+					
 				}
 				
 			}
@@ -501,7 +527,6 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		
 	}
 	
-
 
 	@Override
 	public void updateTuioBlob(TuioBlob arg0) {

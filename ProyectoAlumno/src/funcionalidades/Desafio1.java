@@ -182,7 +182,7 @@ public class Desafio1 extends JPanel{
 
 	public void paint(Graphics g) {
 		
-		img = new ImageIcon(getClass().getResource("/imagenes/fondoV2.png")).getImage();
+		img = new ImageIcon(getClass().getResource("/imagenes/fondoV2SinTexto.png")).getImage();
 		
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 		
@@ -301,6 +301,7 @@ public class Desafio1 extends JPanel{
 		sigImg1.setIcon(null);
 		sigImg1.setOpaque(false);
 		noEts1.setText("");
+		noEts1.setBorder(null);
 		noEts1.setOpaque(false);
 		for (int i=0; i<7; i++) {
 			etiquetas[0][i].setIcon(null);;
@@ -315,6 +316,7 @@ public class Desafio1 extends JPanel{
 		sigImg2.setIcon(null);
 		sigImg2.setOpaque(false);
 		noEts2.setText("");
+		noEts2.setBorder(null);
 		noEts2.setOpaque(false);
 		for (int i=0; i<7; i++) {
 			etiquetas[1][i].setIcon(null);;

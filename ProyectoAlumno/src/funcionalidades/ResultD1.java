@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,14 +20,15 @@ import TUIO.TuioTime;
 
 public class ResultD1 extends JPanel{
 	private Image img;
-
+	private JLabel ganador;
+	private Puntaje pts;
 	
 	
 	public ResultD1(int alto, int ancho, Puntaje pts, int terminoO, int terminoV){
 		
 		setLayout(null);
 		
-		
+		this.pts = pts;
 		/*
 		 * if(pts.getEquipoV()>pts.getEquipoO()) { pts.aumentarEquipoV(5); } else {
 		 * if(pts.getEquipoV()<pts.getEquipoO()) { pts.aumentarEquipoO(5); } else {
@@ -72,6 +74,12 @@ public class ResultD1 extends JPanel{
 		tiempoV.setBounds(derechaTM*4+60, abajoBtn+40, anchoBtn, altoBtn);
 		add(tiempoV);
 		
+		ganador = new JLabel();
+		ganador.setOpaque(true);
+		ganador.setBackground(new Color(0,0,0,0));
+		ganador.setBounds(ancho/2-80, alto/2+90, 150, 150);		
+		add(ganador);
+		this.setGanador();
 		
 	}
 	
@@ -94,5 +102,20 @@ public class ResultD1 extends JPanel{
 			
 			super.paint(g);
 		}
+	
+	public void setGanador() {
+		if (pts.getEquipoO()>pts.getEquipoV()) {
+			ImageIcon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/ultGanadorNaranja.png")).getImage()
+					.getScaledInstance(ganador.getWidth(), ganador.getHeight(), 0));
+			ganador.setIcon(i);
+		}else {
+			if(pts.getEquipoO()<pts.getEquipoV()) {
+				ImageIcon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/ultGanadorVioleta.png")).getImage()
+						.getScaledInstance(ganador.getWidth(), ganador.getHeight(), 0));
+				ganador.setIcon(i);
+			}
+		}
+	}
+	
 		
 	}

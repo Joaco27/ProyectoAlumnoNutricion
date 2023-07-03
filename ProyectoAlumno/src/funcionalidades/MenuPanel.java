@@ -1,59 +1,58 @@
 package funcionalidades;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.*;
 
 public class MenuPanel extends JPanel{
+	private Image img;
+	private JLabel cSellos;
+
 	
 	public MenuPanel(int v, int n, int ancho, int alto) {
 		setLayout(null);
-		int anchoBtn = ancho/3;
-		int altoBtn = alto/8;
-		int abajoBtn = alto/3/2;
 		
-		JLabel jl1 = new JLabel("Comenzar", SwingConstants.CENTER);
-		jl1.setForeground(Color.WHITE);
-		jl1.setOpaque(true);
-		jl1.setBackground(Color.blue);
-		jl1.setBounds(anchoBtn, abajoBtn, anchoBtn, altoBtn);
-		jl1.setFont(new Font(null, 0, 40));
-		add(jl1);
 		
-		int anchito = ancho/4/2;
+		cSellos = new JLabel();
+		cSellos.setOpaque(true);
+		cSellos.setBounds(50, 200, 400, 400);
+		Icon carrera = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/InicioCarreraDeSellos.png")).getImage()
+				.getScaledInstance(cSellos.getWidth(), cSellos.getHeight(), 0));
+		cSellos.setIcon(carrera);
+		add(cSellos);
 		
-		JLabel jl2 = new JLabel("Desafio 1", SwingConstants.CENTER);
-		jl2.setForeground(Color.WHITE); 
-		jl2.setOpaque(true);
-		jl2.setBackground(Color.blue);
-		jl2.setBounds(anchito, abajoBtn*2, anchoBtn/(3/2), altoBtn);
-		jl2.setFont(new Font(null, 0, 40));
-		add(jl2);
+		this.setGanador(v, n);
 		
-		JLabel jl5 = new JLabel("Desafio 2", SwingConstants.CENTER);
-		jl5.setForeground(Color.WHITE); 
-		jl5.setOpaque(true);
-		jl5.setBackground(Color.blue);
-		jl5.setBounds(anchito * 4, abajoBtn*2, anchoBtn/(3/2), altoBtn);
-		jl5.setFont(new Font(null, 0, 40));
-		add(jl5);
 		
-		int derechaTM = ancho/4/2;
-		
-		JLabel jl3 = new JLabel("Equipo Violeta: "+v, SwingConstants.CENTER);
-		jl3.setForeground(Color.WHITE);
-		jl3.setOpaque(true);
-		jl3.setBackground(new Color(159, 0, 255));
-		jl3.setBounds(derechaTM*4, abajoBtn*3, anchoBtn, altoBtn);
-		jl3.setFont(new Font(null, 0, 30));
-		add(jl3);
-		
-		JLabel jl4 = new JLabel("Equipo Naranja: "+n, SwingConstants.CENTER);
-		jl4.setForeground(Color.WHITE);
-		jl4.setOpaque(true);
-		jl4.setBackground(Color.ORANGE);
-		jl4.setBounds(derechaTM, abajoBtn*3, anchoBtn, altoBtn);
-		jl4.setFont(new Font(null, 0, 30));
-		add(jl4);
+	}
+	
+	public void paint(Graphics g) {
+			
+			img = new ImageIcon(getClass().getResource("/imagenes/inicioVacio.png")).getImage();
+			
+			g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+			
+			setOpaque(false);
+			
+			setBackground(new Color(0,0,0,0));
+			
+			super.paint(g);
+		}
+	
+	public void setGanador(int v, int n) {
+		if (v>n) {
+			Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/InicioCarreraDeSellosConMedalla.png")).getImage()
+					.getScaledInstance(cSellos.getWidth(), cSellos.getHeight(), 0));
+			cSellos.setIcon(i);
+		}
+		else {
+			if(n>v) {
+				Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/InicioCarreraDeSellosConMedallaNaranja.png")).getImage()
+						.getScaledInstance(cSellos.getWidth(), cSellos.getHeight(), 0));
+				cSellos.setIcon(i);
+			}
+		}
 	}
 }
