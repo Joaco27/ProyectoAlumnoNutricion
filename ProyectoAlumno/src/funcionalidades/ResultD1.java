@@ -20,12 +20,14 @@ import TUIO.TuioTime;
 
 public class ResultD1 extends JPanel{
 	private Image img;
-	private JLabel ganador;
+	private JLabel ganadorO, ganadorV;
 	private Puntaje pts;
+	private int terminoO, terminoV;
 	
 	
 	public ResultD1(int alto, int ancho, Puntaje pts, int terminoO, int terminoV){
-		
+		this.terminoO = terminoO;
+		this.terminoV = terminoV;
 		setLayout(null);
 		
 		this.pts = pts;
@@ -74,13 +76,19 @@ public class ResultD1 extends JPanel{
 		tiempoV.setBounds(derechaTM*4+60, abajoBtn+40, anchoBtn, altoBtn);
 		add(tiempoV);
 		
-		ganador = new JLabel();
-		ganador.setOpaque(true);
-		ganador.setBackground(new Color(0,0,0,0));
-		ganador.setBounds(ancho/2-80, alto/2+90, 150, 150);		
-		add(ganador);
-		this.setGanador();
+		ganadorO = new JLabel();
+		ganadorO.setBounds(ancho/4-80, alto/2+120, 150, 150);	
+		ganadorO.setOpaque(true);
+		ganadorO.setBackground(new Color(0,0,0,0));
+		add(ganadorO);
 		
+		ganadorV = new JLabel();
+		ganadorV.setBounds(ancho/2+ancho/4-80, alto/2+120, 150, 150);
+		ganadorV.setOpaque(true);
+		ganadorV.setBackground(new Color(0,0,0,0));
+		add(ganadorV);
+		
+		this.setGanador();
 	}
 	
 	public String getTime(int tiempo) {
@@ -92,7 +100,7 @@ public class ResultD1 extends JPanel{
 	
 	public void paint(Graphics g) {
 			
-			img = new ImageIcon(getClass().getResource("/imagenes/fondoResultadosDesafio1024x768.png")).getImage();
+			img = new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/fondoResultadosDesafio1024x768.png")).getImage();
 			
 			g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 			
@@ -105,14 +113,31 @@ public class ResultD1 extends JPanel{
 	
 	public void setGanador() {
 		if (pts.getEquipoO()>pts.getEquipoV()) {
-			ImageIcon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/ultGanadorNaranja.png")).getImage()
-					.getScaledInstance(ganador.getWidth(), ganador.getHeight(), 0));
-			ganador.setIcon(i);
+			ImageIcon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/ganadorNaranja.png")).getImage()
+					.getScaledInstance(ganadorO.getWidth(), ganadorO.getHeight(), 0));
+			ganadorO.setIcon(i);
 		}else {
 			if(pts.getEquipoO()<pts.getEquipoV()) {
-				ImageIcon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/ultGanadorVioleta.png")).getImage()
-						.getScaledInstance(ganador.getWidth(), ganador.getHeight(), 0));
-				ganador.setIcon(i);
+				ImageIcon ic = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/ganadorVioleta.png")).getImage()
+						.getScaledInstance(ganadorV.getWidth(), ganadorV.getHeight(), 0));
+				ganadorV.setIcon(ic);
+			}
+//			else {
+//				this.setGanadorPorTiempo();
+//			}
+		}
+	}
+	
+	public void setGanadorPorTiempo() {
+		if (terminoV>terminoO) {
+			ImageIcon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/ganadorNaranja.png")).getImage()
+					.getScaledInstance(ganadorO.getWidth(), ganadorO.getHeight(), 0));
+			ganadorO.setIcon(i);
+		}else {
+			if(terminoV<terminoO) {
+				ImageIcon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/ganadorVioleta.png")).getImage()
+						.getScaledInstance(ganadorV.getWidth(), ganadorV.getHeight(), 0));
+				ganadorV.setIcon(i);
 			}
 		}
 	}

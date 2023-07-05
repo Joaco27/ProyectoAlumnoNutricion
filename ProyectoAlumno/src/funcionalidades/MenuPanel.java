@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class MenuPanel extends JPanel{
 	private Image img;
-	private JLabel cSellos;
+	private JLabel cSellos, cAlimentos;
 
 	
 	public MenuPanel(int v, int n, int ancho, int alto) {
@@ -17,11 +17,21 @@ public class MenuPanel extends JPanel{
 		
 		cSellos = new JLabel();
 		cSellos.setOpaque(true);
+		cSellos.setBackground(new Color(0,0,0,0));
 		cSellos.setBounds(50, 200, 400, 400);
-		Icon carrera = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/InicioCarreraDeSellos.png")).getImage()
+		Icon carrera = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/InicioCarreraDeSellos.png")).getImage()
 				.getScaledInstance(cSellos.getWidth(), cSellos.getHeight(), 0));
 		cSellos.setIcon(carrera);
 		add(cSellos);
+		
+		cAlimentos = new JLabel();
+		cAlimentos.setOpaque(true);
+		cAlimentos.setBackground(new Color(0,0,0,0));
+		cAlimentos.setBounds(550, 200, 400, 400);
+		Icon captura = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/inicioCapturaDeAlimentosPROX.png")).getImage()
+				.getScaledInstance(cAlimentos.getWidth(), cAlimentos.getHeight(), 0));
+		cAlimentos.setIcon(captura);
+		add(cAlimentos);
 		
 		this.setGanador(v, n);
 		
@@ -30,7 +40,7 @@ public class MenuPanel extends JPanel{
 	
 	public void paint(Graphics g) {
 			
-			img = new ImageIcon(getClass().getResource("/imagenes/inicioVacio.png")).getImage();
+			img = new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/inicioVacio.png")).getImage();
 			
 			g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 			
@@ -43,13 +53,15 @@ public class MenuPanel extends JPanel{
 	
 	public void setGanador(int v, int n) {
 		if (v>n) {
-			Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/InicioCarreraDeSellosConMedalla.png")).getImage()
+			cSellos.setBounds(50, 200, 400, 480);
+			Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/InicioCarreraDeSellosConMedalla.png")).getImage()
 					.getScaledInstance(cSellos.getWidth(), cSellos.getHeight(), 0));
 			cSellos.setIcon(i);
 		}
 		else {
 			if(n>v) {
-				Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/InicioCarreraDeSellosConMedallaNaranja.png")).getImage()
+				cSellos.setBounds(50, 200, 400, 480);
+				Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/InicioCarreraDeSellosConMedallaNaranja.png")).getImage()
 						.getScaledInstance(cSellos.getWidth(), cSellos.getHeight(), 0));
 				cSellos.setIcon(i);
 			}

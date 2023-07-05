@@ -12,7 +12,7 @@ public class ListaProductos {
 		Producto p = new Producto("Queso Casancrem");
 		p.agregar(113);
 		p.agregar(114);
-		p.setPath("/imagenes/casancrem.png");
+		p.setPath("/imagenes/Productos/casancrem.png");
 		products.add(p);
 		
 		p = new Producto("ChocoArroz Blanco");
@@ -20,26 +20,26 @@ public class ListaProductos {
 		p.agregar(113);
 		p.agregar(114);
 		p.agregar(116);
-		p.setPath("/imagenes/chocoarroz-blanco.png");
+		p.setPath("/imagenes/Productos/chocoarroz-blanco.png");
 		products.add(p);
 		
 		p = new Producto("Turron");
 		p.agregar(112);
 		p.agregar(116);
-		p.setPath("/imagenes/turron.png");
+		p.setPath("/imagenes/Productos/turron.png");
 		products.add(p);
 		
 		p = new Producto("Manzana");
-		p.setPath("/imagenes/ManzanaD2.png");
+		p.setPath("/imagenes/Productos/ManzanaD2.png");
 		products.add(p);
 		
 		p = new Producto("Danonino");
-		p.setPath("/imagenes/danonino.png");
+		p.setPath("/imagenes/Productos/danonino.png");
 		p.agregar(112);
 		products.add(p);
 		
 		p = new Producto("Galletitas Traviata");
-		p.setPath("/imagenes/galletitas-traviata.png");
+		p.setPath("/imagenes/Productos/galletitas-traviata.png");
 		p.agregar(113);
 		p.agregar(114);
 		p.agregar(115);
@@ -47,13 +47,13 @@ public class ListaProductos {
 		products.add(p);
 		
 		p = new Producto("Jugo Baggio");
-		p.setPath("/imagenes/jugo-baggio.png");
+		p.setPath("/imagenes/Productos/jugo-baggio.png");
 		p.agregar(112);
 		p.agregar(116);
 		products.add(p);
 		
 		p = new Producto("Garoto");
-		p.setPath("/imagenes/garoto.jpg");
+		p.setPath("/imagenes/Productos/garoto.jpg");
 		p.agregar(112);
 		p.agregar(113);
 		p.agregar(114);
@@ -61,6 +61,10 @@ public class ListaProductos {
 		p.agregar(116);
 		p.agregar(117);
 		p.agregar(118);
+		products.add(p);
+		
+		p = new Producto("Hoga");
+		p.setPath("/imagenes/Productos/galletitas_hogarenas_editada_1028x768.png");
 		products.add(p);
 	}
 	

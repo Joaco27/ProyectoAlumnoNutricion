@@ -262,10 +262,9 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		}
 		pts.aumentarEquipoO(puntosO);
 		pts.aumentarEquipoV(puntosV);
-		sonido.detenerMusica();
 		client.removeTuioListener(this);
 		frame.dispose();
-		client.addTuioListener(new ListenerRD1(client,pts, tiempoTotalO, tiempoTotalV));
+		client.addTuioListener(new ListenerRD1(client,pts, tiempoTotalO, tiempoTotalV, sonido));
 	}
 	
 	public int contarElementosCompartidos(List<Integer> ets, List<Integer> etiquetas) {
@@ -369,11 +368,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// Si el producto no tiene etiquetas se muestra en pantalla que no tiene
 		// sino muestra las etiquetas correspondientes
 		if(productoO.getEtiquetas().size()==0) {
-			Border borde = BorderFactory.createLineBorder(Color.black, 3);
-			panel.getSinEtiquetasO().setText("Libre de Sellos");
-			panel.getSinEtiquetasO().setBackground(new Color(0,0,0,0));
-			panel.getSinEtiquetasO().setBorder(borde);
-			panel.getSinEtiquetasO().setOpaque(true);
+			panel.libreSellosO();
 		}
 		else {
 			for(int i=0;i<productoO.getEtiquetas().size();i++) {
@@ -402,11 +397,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// Si el producto no tiene etiquetas se muestra en pantalla que no tiene
 		// sino muestra las etiquetas correspondientes
 		if(productoV.getEtiquetas().size()==0) {
-			Border borde = BorderFactory.createLineBorder(Color.black, 3);
-			panel.getSinEtiquetasV().setText("Libre de Sellos");
-			panel.getSinEtiquetasV().setBackground(new Color(0,0,0,0));
-			panel.getSinEtiquetasV().setBorder(borde);
-			panel.getSinEtiquetasV().setOpaque(true);
+			panel.libreSellosV();
 		}
 		else {
 			for(int i=0;i<productoV.getEtiquetas().size();i++) {

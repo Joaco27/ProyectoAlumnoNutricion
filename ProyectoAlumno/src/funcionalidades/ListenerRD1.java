@@ -13,9 +13,10 @@ public class ListenerRD1 extends JPanel implements TuioListener{
 	private JFrame frame;
 	private ResultD1 panel;
 	private Puntaje pts;
+	private Sonido sonido;
 	
-	public ListenerRD1(TuioClient client, Puntaje pts, int tiempoO, int tiempoV) {
-		
+	public ListenerRD1(TuioClient client, Puntaje pts, int tiempoO, int tiempoV, Sonido s) {
+		this.sonido = s;
 		this.client = client;
 		this.pts=pts;
     	frame = new JFrame("Resultados Desafio 1");
@@ -36,6 +37,7 @@ public class ListenerRD1 extends JPanel implements TuioListener{
 	public void addTuioCursor(TuioCursor tc) {
 		// TODO Auto-generated method stub
 		if(tc.getY()>0.5) {
+			sonido.detenerMusica();
 			client.removeTuioListener(this);
 			frame.dispose();
 			client.addTuioListener(new ListenerMP(client,pts));
