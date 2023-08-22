@@ -30,7 +30,8 @@ public class ListenerMP extends JPanel implements TuioListener {
     	frame = new JFrame("Menu Principal");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024, 768);
-        frame.add(new MenuPanel(p.getEquipoV(),p.getEquipoO(), frame.getWidth(), frame.getHeight())); 
+        frame.setUndecorated(true);
+        frame.add(new MenuPanel(p.getEquipoV(),p.getEquipoO(), frame.getWidth(), frame.getHeight(), pts)); 
         frame.setVisible(true);
     }
 
@@ -47,7 +48,13 @@ public class ListenerMP extends JPanel implements TuioListener {
 		if (tc.getY()<0.8 && tc.getY()>0.2 && tc.getX()>0.2 && tc.getX()<0.5) {
 			client.removeTuioListener(this);
 			frame.dispose();
-			client.addTuioListener(new ListenerD1(client,pts));
+			if (pts.getPrimeraVez()) {
+				client.addTuioListener(new PresentacionD1Listener(client,pts));
+				pts.setPrimeraVez(false);
+			}
+			else {
+				client.addTuioListener(new ListenerD1(client, pts));
+			}
 		}
 //		if (tc.getY()<0.5 && tc.getX()>0.5 && tc.getX()<0.8) {
 //			client.removeTuioListener(this);

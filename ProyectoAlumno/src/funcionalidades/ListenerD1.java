@@ -2,27 +2,11 @@ package funcionalidades;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.random.*;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.spi.*;
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-
 import TUIO.TuioBlob;
 import TUIO.TuioCursor;
 import TUIO.TuioListener;
@@ -34,6 +18,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private JFrame frame;
 	private Desafio1 panel;
 	private int puntosO=0, puntosV=0;
+	private boolean congeladoO=false, congeladoV=false;
 	private int terminaron=0;
 	private int tiempoTotalV, tiempoTotalO;
 	private boolean terminoO=false, terminoV=false;
@@ -77,6 +62,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
     	this.client = client;
     	// Creo el frame (faltaria centrarlo en pantalla)
     	frame = new JFrame("Desafio 1");
+    	//frame.setUndecorated(true);
         frame.setSize(1024, 768);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -112,7 +98,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 
     }
 
-	
+	 
 	
 	@Override
 	public void addTuioBlob(TuioBlob arg0) {
@@ -125,8 +111,20 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		somb.addCursor(tc);
         somb.repaint();
         // Si terminaron los dos finaliza el juego y si se presiona una vez mas muestra resultados
-		if(terminaron==2 && tc.getY()>0.8) {
+		if(terminaron==4 && tc.getY()>0.8) {
 			this.fin(true);	
+		}
+		else {
+			if(terminoO && !congeladoO && tc.getX()<0.5 && tc.getY()>0.8) {
+				terminaron++;
+				panel.terminoJO();
+				this.congeladoO=true;
+			}
+			if(terminoV && !congeladoV && tc.getX()>0.5 && tc.getY()>0.8) {
+				terminaron++;
+				panel.terminoJV();
+				this.congeladoV=true;
+			}
 		}
 		// Si presiono del lado del equipo violeta y no termino
 		if (tc.getX()>0.5 && tc.getY()>0.8 && !terminoV) {
@@ -135,7 +133,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				sonido.escucharEnviar();
 				// Me traigo la porcion del fondo que voy a pintar
 				JLabel label = panel.getPEquipoV();
-				// Si el tamaño la lista de etiquetas del producto es 0, evaluo el producto como
+				// Si el tamaï¿½o la lista de etiquetas del producto es 0, evaluo el producto como
 				// sin etiquetas
 				// sino evaluo cuantas etiquetas acerto
 				if(productoV.getEtiquetas().size()==0) {
@@ -180,17 +178,18 @@ public class ListenerD1 extends JPanel implements TuioListener{
 					}
 					this.mostrarEtiquetasV(panel.getEtiquetasV());
 					this.panel.getContadorCorazonesV().setText(this.puntosV+"X");
-					this.panel.terminoJV();
-					frame.repaint();
 					tiempoTotalV = panel.terminoV(puntosV);
 					terminoV=true;
 					terminaron++;
+					panel.sigImgV();
+					frame.repaint();
 				}
 			}
 			progresoV++;
 
 		}
 		else {
+		
 			if (tc.getX()<0.5 && tc.getY()>0.8 && !terminoO) {
 				if (progresoO%2!=0 && progresoO<9) {
 					sonido.escucharEnviar();
@@ -234,21 +233,22 @@ public class ListenerD1 extends JPanel implements TuioListener{
 						}
 						this.mostrarEtiquetasO(panel.getEtiquetasO());
 						this.panel.getContadorCorazonesO().setText(this.puntosO+"X");
-						this.panel.terminoJO();
-						frame.repaint();
 						tiempoTotalO = panel.terminoO(puntosO);
 						terminoO=true;
 						terminaron++;
+						panel.sigImgO();
+						frame.repaint();
 					}
 				}
 				progresoO++;
 			}
-		}
+		
 		// Si los dos terminaron detengo el timer y muestro boton de continuar
-		if(terminaron==2) {
+		if(terminaron==4) {
 			panel.termine();
 			panel.continuar();			
 		}
+	}
 	}
 	
 	public void fin(boolean ok) {
@@ -292,12 +292,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
     }
 	
 	public void evaluarO(JLabel label, List<Integer> ets, List<Integer> etiquetas) {
-		// Si el tamaño de la lista de etiquetas colocadas es igual al de las etiquetas del
+		// Si el tamaï¿½o de la lista de etiquetas colocadas es igual al de las etiquetas del
 		// producto acierta, sino si al menos hay un elemento en comun es incompleto
 		// y si no tiene elementos en comun es fallo
 		int ok = contarElementosCompartidos(ets, etiquetas);
 		label.setOpaque(true);
-		if(ok==etiquetas.size()) {
+		if(ok==etiquetas.size() && etiquetas.size()==ets.size()) {
 			fondo.tresCorazones(label);
 			puntosO+=3;
 		}
@@ -314,12 +314,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	}
 	
 	public void evaluarV(JLabel label, List<Integer> ets, List<Integer> etiquetas) {
-		// Si el tamaño de la lista de etiquetas colocadas es igual al de las etiquetas del
+		// Si el tamaï¿½o de la lista de etiquetas colocadas es igual al de las etiquetas del
 		// producto acierta, sino si al menos hay un elemento en comun es incompleto
 		// y si no tiene elementos en comun es fallo
 		label.setOpaque(true);
 		int ok = contarElementosCompartidos(ets, etiquetas);
-		if(ok==etiquetas.size()) {
+		if(ok==etiquetas.size() && etiquetas.size()==ets.size()) {
 			fondo.tresCorazones(label);
 			puntosV+=3;
 		}
@@ -374,20 +374,41 @@ public class ListenerD1 extends JPanel implements TuioListener{
 			for(int i=0;i<productoO.getEtiquetas().size();i++) {
 
 				if(this.listaAciertosO.contains(productoO.getEtiquetas().get(i))) {
-					Icon img = new ImageIcon(
-							new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoO.getEtiquetas()
-									.get(i)-112)+"OK.png")).getImage()
-									.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
+					if(productoO.getEtiquetas().get(i)<117) {
+						Icon img = new ImageIcon(
+								new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoO.getEtiquetas()
+										.get(i)-112)+"OK.png")).getImage()
+										.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
+						
+						ets[i].setIcon(img);
+					}
+					else {
+						Icon img = new ImageIcon(
+								new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoO.getEtiquetas()
+										.get(i)-112)+"OK.png")).getImage()
+										.getScaledInstance(ets[productoO.getEtiquetas().get(i)-112].getWidth(), ets[productoO.getEtiquetas().get(i)-112].getHeight(), 0));
+						
+						ets[productoO.getEtiquetas().get(i)-112].setIcon(img);
+					}
 					
-					ets[i].setIcon(img);
 				}
 				else {
-					Icon img = new ImageIcon(
-							new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoO.getEtiquetas()
-									.get(i)-112)+"ERROR.png")).getImage()
-									.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
-					
-					ets[i].setIcon(img);
+					if(productoO.getEtiquetas().get(i)<117) {
+						Icon img = new ImageIcon(
+								new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoO.getEtiquetas()
+										.get(i)-112)+"ERROR.png")).getImage()
+										.getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
+						
+						ets[i].setIcon(img);
+					}
+					else {
+						Icon img = new ImageIcon(
+								new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoO.getEtiquetas()
+										.get(i)-112)+"ERROR.png")).getImage()
+										.getScaledInstance(ets[productoO.getEtiquetas().get(i)-112].getWidth(), ets[productoO.getEtiquetas().get(i)-112].getHeight(), 0));
+						
+						ets[productoO.getEtiquetas().get(i)-112].setIcon(img);
+					}
 				}
 			}
 		}
@@ -403,15 +424,33 @@ public class ListenerD1 extends JPanel implements TuioListener{
 			for(int i=0;i<productoV.getEtiquetas().size();i++) {
 				
 				if(this.listaAciertosV.contains(productoV.getEtiquetas().get(i))) {
-					Icon img = new ImageIcon(
-							new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoV.getEtiquetas()
-									.get(i)-112)+"OK.png")).getImage().getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
-					ets[i].setIcon(img);				}
+					if(productoV.getEtiquetas().get(i)<117) {
+						Icon img = new ImageIcon(
+								new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoV.getEtiquetas()
+										.get(i)-112)+"OK.png")).getImage().getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
+						ets[i].setIcon(img);
+					}
+					else {
+						Icon img = new ImageIcon(
+								new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoV.getEtiquetas()
+										.get(i)-112)+"OK.png")).getImage().getScaledInstance(ets[productoV.getEtiquetas().get(i)-112].getWidth(), ets[productoV.getEtiquetas().get(i)-112].getHeight(), 0));
+						ets[productoV.getEtiquetas().get(i)-112].setIcon(img);
+					}
+				}
 				else {
-					Icon img = new ImageIcon(
-							new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoV.getEtiquetas()
-									.get(i)-112)+"ERROR.png")).getImage().getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
-					ets[i].setIcon(img);				
+					if(productoV.getEtiquetas().get(i)<117) {
+						Icon img = new ImageIcon(
+								new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoV.getEtiquetas()
+										.get(i)-112)+"ERROR.png")).getImage().getScaledInstance(ets[i].getWidth(), ets[i].getHeight(), 0));
+						ets[i].setIcon(img);
+					}
+					else {
+						Icon img = new ImageIcon(
+								new ImageIcon(getClass().getResource(etiquetasTotales.getLista().get(productoV.getEtiquetas()
+										.get(i)-112)+"ERROR.png")).getImage().getScaledInstance(ets[productoV.getEtiquetas().get(i)-112].getWidth(), ets[productoV.getEtiquetas().get(i)-112].getHeight(), 0));
+						ets[productoV.getEtiquetas().get(i)-112].setIcon(img);
+					}
+									
 					}
 			}
 		}
@@ -424,21 +463,25 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// Si coloco un objeto me fijo que tenga id valido
 		// si lo tiene me fijo en que parte de la pantalla se coloco para agregarlo al equipo
 		// correspondiente, ademas chequeo que no se repita el elemento
-		if (to.getSymbolID()<119 && to.getSymbolID()>111) {
-			if (to.getX()>0.5) {
-				if (!this.etiquetasV.contains(to.getSymbolID())) {
-					System.out.println("V +"+to.getSymbolID());
-					this.etiquetasV.add(to.getSymbolID());
+		
+		System.out.println("X " + to.getX());
+		int nro = to.getSymbolID()/*+ 102*/;
+		
+		if (nro<119 && nro>111) {
+			if (to.getX()>0.47) {
+				if (!this.etiquetasV.contains(nro)) {
+					System.out.println("V +"+nro);
+					this.etiquetasV.add(nro);
 					somb.addObjectV(to);
 			        somb.repaint();
 
 				}
 			}
 			else {
-				if(to.getX()<0.5) {
-					if (!this.etiquetasO.contains(to.getSymbolID())) {
-						System.out.println("O +"+to.getSymbolID());
-						this.etiquetasO.add(to.getSymbolID());
+				if(to.getX()<0.4) {
+					if (!this.etiquetasO.contains(nro)) { 
+						System.out.println("O +"+nro);
+						this.etiquetasO.add(nro);
 						somb.addObjectO(to);
 				        somb.repaint();
 				}
@@ -472,50 +515,73 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// Si saco un objeto me fijo que tenga id valido
 		// si lo tiene me fijo en que parte de la pantalla se coloco para sacarlo del equipo
 		// correspondiente, ademas chequeo que se encuentre en la lista de etiquetas
-		if(to.getSymbolID()<119 && to.getSymbolID()>111) {
-			if (to.getX()>0.5) {
-				System.out.println("V -"+to.getSymbolID());
-				if (this.etiquetasV.contains(to.getSymbolID())) {
-					int i = this.etiquetasV.indexOf(to.getSymbolID());
-					//System.out.println(i);
-					this.etiquetasV.remove(i);
-					somb.removeObjectV(to);
-					somb.repaint();
+		
+		int nro = to.getSymbolID()/*+ 102*/;
+		
+		if(nro<119 && nro>111) {
+			if (to.getX()>=0.5) {
+				if (this.etiquetasV.contains(nro)) {
+					System.out.println("V -"+nro);
+					int i = this.etiquetasV.indexOf(nro);
+					this.removerObjV(i, nro, to);
 				}
 				else {
-					int i = this.etiquetasO.indexOf(to.getSymbolID());
-					//System.out.println(i);
+					int i = this.etiquetasO.indexOf(nro);
 					if(i != -1) {
-						this.etiquetasO.remove(i);
-						somb.removeObjectO(to);
-						somb.repaint();
+						System.out.println("O -"+nro);
+						this.removerObjO(i, nro, to);
 					}
 				}
 				
 			}
 			else {
-				System.out.println("O -"+to.getSymbolID());
-				if(this.etiquetasO.contains(to.getSymbolID())) {
-					int i = this.etiquetasO.indexOf(to.getSymbolID());
-					//System.out.println(i);
-					this.etiquetasO.remove(i);
-					somb.removeObjectO(to);
-					somb.repaint();
-				}
-				else {
-					int i = this.etiquetasV.indexOf(to.getSymbolID());
-					if (i != -1) {
-						//System.out.println(i);
-						this.etiquetasV.remove(i);
-						somb.removeObjectV(to);
-						somb.repaint();
-					}
+				if (to.getX()<0.5) {
+					if(this.etiquetasO.contains(nro)) {
+						System.out.println("O -"+nro);
+						int i = this.etiquetasO.indexOf(nro);
+						this.removerObjO(i, nro, to);
+						}
+				
+					else {
+						int i = this.etiquetasV.indexOf(nro);
+						if (i != -1) {
+							System.out.println("V -"+nro);
+							this.removerObjV(i, nro, to);
+						}
 					
 				}
+				
 				
 			}
 		}
 		
+	}
+	}
+	
+	public void removerObjO(int pos, int id, TuioObject to) {
+		TuioObject tuio = somb.getEquipoO().stream().filter(t -> t.getSymbolID()/*+ 102*/==id).findAny().orElse(null); 
+		//if (tuio!=null) {
+			System.out.println("Guardado X,Y: "+tuio.getX()+", "+tuio.getY());
+			System.out.println("A Eliminar X,Y: "+to.getX()+", "+to.getY());
+			if(tuio.getX()==to.getX() && tuio.getY()>=to.getY()) {
+					this.etiquetasO.remove(pos);
+					somb.removeObjectO(to);
+					somb.repaint();
+				}
+			//}
+	}
+	
+	public void removerObjV(int pos, int id, TuioObject to) {
+		TuioObject tuio = somb.getEquipoV().stream().filter(t -> t.getSymbolID()/*+ 102*/==id).findAny().orElse(null);
+		//if (tuio!=null) {
+			System.out.println("Guardado X,Y: "+tuio.getX()+", "+tuio.getY());
+			System.out.println("A Eliminar X,Y: "+to.getX()+", "+to.getY());
+			if(tuio.getX()==to.getX() && tuio.getY()>=to.getY()) {
+					this.etiquetasV.remove(pos);
+					somb.removeObjectV(to);
+					somb.repaint();
+				}
+			//}
 	}
 	
 

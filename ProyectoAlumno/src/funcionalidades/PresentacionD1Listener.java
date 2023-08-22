@@ -1,19 +1,15 @@
 package funcionalidades;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.EventQueue;
-import java.io.File;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-
 import TUIO.TuioBlob;
 import TUIO.TuioCursor;
 import TUIO.TuioListener;
@@ -26,38 +22,79 @@ import javafx.scene.media.MediaView;
 public class PresentacionD1Listener extends JFrame implements TuioListener{
 	private Puntaje p;
 	private JFrame frame;
-	private JPanel panel;
-	private final JFXPanel jfxpanel = new JFXPanel();
+	private boolean corriendo=false;
+	private TuioClient client;
+	private Puntaje pts;
+	private VideoD1 video;
 	
 	
-	public PresentacionD1Listener() {
-        setLayout(null);
+	public PresentacionD1Listener(TuioClient cli, Puntaje puntos) {
+		pts=puntos;
+		client = cli;
+        //setLayout(null);
 		frame = new JFrame("Presentacion");
         setSize(1024, 768);
-        createScene();
-        //setBounds(0,0,1024,768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //jfxpanel.setSize(400,200);
-        jfxpanel.setBounds(0,0,1024/2,768/2);
-        panel = new JPanel();
-        panel.setBounds(0,0,1024,768);
-        panel.add(jfxpanel,BorderLayout.CENTER);
-        add(panel);
+        setUndecorated(true);
+//        JPanel panel = new JPanel();
+//        panel.setBounds(900, 5, 30, 30);
+//        panel.setLayout(null);
+//        panel.setOpaque(true);
+//        panel.setBackground(Color.black);
+//        JButton btnNewButton = new JButton("SALTAR >>>");
+//		btnNewButton.setBounds(900, 5, 30, 30);
+//		btnNewButton.setVisible(true);
+//		btnNewButton.setOpaque(true);
+//		btnNewButton.addMouseListener(new saltarAdapter());
+//		panel.add(btnNewButton);
+//        add(panel);
+//        setVisible(true);
         
+        video = new VideoD1();
+        video.setVisible(true);
+        add(video);
         setVisible(true);
+        
+		
+//		try {
+//			Thread.sleep(38000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+        
+		//this.saltear();
 	}
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PresentacionD1Listener frame = new PresentacionD1Listener();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void saltear(){
+		if (!corriendo){
+			client.removeTuioListener(this);
+			corriendo = true;
+			ListenerD1 prueba = new ListenerD1(client, pts);
+			client.addTuioListener(prueba);
+			this.dispose();
+		}
 	}
+	
+	private class saltarAdapter extends MouseAdapter {
+
+		public void mouseReleased(MouseEvent c) {
+			saltear();
+			
+		}
+	}
+
+	
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					PresentacionD1Listener frame = new PresentacionD1Listener(new TuioClient(), new Puntaje());
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	@Override
 	public void addTuioBlob(TuioBlob arg0) {
@@ -66,9 +103,11 @@ public class PresentacionD1Listener extends JFrame implements TuioListener{
 	}
 
 	@Override
-	public void addTuioCursor(TuioCursor arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void addTuioCursor(TuioCursor tcur) {
+		if((tcur.getX()>0.3)&&(tcur.getX()<0.6)){
+			if((tcur.getY()>0.3)&&(tcur.getY()<0.6))
+				saltear();
+		}	}
 
 	@Override
 	public void addTuioObject(TuioObject arg0) {
@@ -117,36 +156,6 @@ public class PresentacionD1Listener extends JFrame implements TuioListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
-	private void createScene(){
-		try{
-		  Thread hilo= new Thread(new Runnable() {
-             @Override
-             public void run() {   
-                //File file = new File("C:\\users\\"+(System.getProperty("user.name"))+ "\\Desktop\\MiPelicula.mp4"); 
-            	 URL file;
-                file=getClass().getResource("/pistas/presentacionCarreraDeSellos.mp4");
-                    MediaPlayer oracleVid = new MediaPlayer(                                       
-                        new javafx.scene.media.Media(file.toString())
-                    );
-                    //se añade video al jfxPanel
-                    jfxpanel.setScene(new javafx.scene.Scene(new javafx.scene.Group(new MediaView(oracleVid))));                    
-                    oracleVid.setVolume(1.0);//volumen
-//                    oracleVid.setCycleCount(MediaPlayer.INDEFINITE);//repite video      
-                    oracleVid.play();//play video               
-             }
-        });
-		  hilo.start();
-
-		 
-		}
-		catch(Exception e){
-			
-		}
-		  
-		  
-	}
-
 	
 
 }

@@ -16,14 +16,13 @@ import TUIO.TuioObject;
 
 public class Sombreado extends JPanel {
 	
-	private ArrayList<TuioObject> equipoV = new ArrayList<TuioObject>();
-	private ArrayList<TuioObject> equipoO = new ArrayList<TuioObject>();
-    private ArrayList<TuioCursor> cursors = new ArrayList<TuioCursor>();
+	private List<TuioObject> equipoV = new ArrayList<TuioObject>();
+	private List<TuioObject> equipoO = new ArrayList<TuioObject>();
+    private List<TuioCursor> cursors = new ArrayList<TuioCursor>();
     private List<Integer> aciertosO = new ArrayList<Integer>();
     private List<Integer> aciertosV = new ArrayList<Integer>();
     private boolean evaluarO=false,evaluarV=false;
-    private Image backgroundImage;
-    private final int tamañoO = 200;
+    private final int tamano = 200;
 	
 	public Sombreado() {
 		setLayout(null);
@@ -37,19 +36,19 @@ public class Sombreado extends JPanel {
         for (TuioObject tuioObject : equipoV) {
             //int x = (int) (tuioObject.getScreenX(this.getWidth())-tamañoO*2/3);
         	int x = (int) (tuioObject.getScreenX(this.getWidth())*0.9);
-            int y = (int) (tuioObject.getScreenY(this.getHeight())-tamañoO*2/3);
+            int y = (int) (tuioObject.getScreenY(this.getHeight())-tamano*2/3);
             if(!evaluarV) {
                 //g2d.setColor(Color.gray);
-            	this.drawDifuminadoGrisCirculo(g2d, x, y, tamañoO);
+            	this.drawDifuminadoGrisCirculo(g2d, x, y, tamano);
             }
             else {
             	if(aciertosV.contains(tuioObject.getSymbolID())) {
             		//g2d.setColor(Color.green);
-            		this.drawDifuminadoVerdeCirculo(g2d, x, y, tamañoO);
+            		this.drawDifuminadoVerdeCirculo(g2d, x, y, tamano);
             	}
             	else {
             		//g2d.setColor(Color.red);
-            		this.drawDifuminadoRojoCirculo(g2d, x, y, tamañoO);
+            		this.drawDifuminadoRojoCirculo(g2d, x, y, tamano);
             	}
             }
             //Ellipse2D.Double oval = new Ellipse2D.Double(x, y, tamañoO, tamañoO);
@@ -62,20 +61,20 @@ public class Sombreado extends JPanel {
             //g2d.fillOval(x, y, width, height);
         } 
         for (TuioObject tuioObject : equipoO) {
-            int x = (int) (tuioObject.getScreenX(this.getWidth())-tamañoO*2/3);
-            int y = (int) (tuioObject.getScreenY(this.getHeight())-tamañoO*2/3);
+            int x = (int) (tuioObject.getScreenX(this.getWidth())-tamano*2/3);
+            int y = (int) (tuioObject.getScreenY(this.getHeight())-tamano*2/3);
             if(!evaluarO) {
                 //g2d.setColor(Color.gray);
-            	this.drawDifuminadoGrisCirculo(g2d, x, y, tamañoO);
+            	this.drawDifuminadoGrisCirculo(g2d, x, y, tamano);
             }
             else {
             	if(aciertosO.contains(tuioObject.getSymbolID())) {
             		//g2d.setColor(Color.green);
-            		this.drawDifuminadoVerdeCirculo(g2d, x, y, tamañoO);
+            		this.drawDifuminadoVerdeCirculo(g2d, x, y, tamano);
             	}
             	else {
             		//g2d.setColor(Color.red);
-            		this.drawDifuminadoRojoCirculo(g2d, x, y, tamañoO);
+            		this.drawDifuminadoRojoCirculo(g2d, x, y, tamano);
             	}
             }          
             //Ellipse2D.Double oval = new Ellipse2D.Double(x, y, tamañoO, tamañoO);
@@ -142,6 +141,14 @@ public class Sombreado extends JPanel {
 	
 	public void setEvaluarV(boolean ok) {
 		this.evaluarV=ok;
+	}
+	
+	public List<TuioObject> getEquipoO() {
+		return this.equipoO;
+	}
+	
+	public List<TuioObject> getEquipoV() {
+		return this.equipoV;
 	}
 	
 	

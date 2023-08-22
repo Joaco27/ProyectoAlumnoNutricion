@@ -267,6 +267,22 @@ public class Desafio1 extends JPanel{
 		return etiquetas[1];
 	}
 	
+	public void sigImgO() {
+		Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/siguienteO.png")).getImage()
+				.getScaledInstance(sigImg1.getWidth(), sigImg1.getHeight(), 0));
+		
+		sigImg1.setIcon(img1);
+		sigImg1.setOpaque(true);
+	}
+	
+	public void sigImgV() {
+		Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/siguienteV.png")).getImage()
+				.getScaledInstance(sigImg2.getWidth(), sigImg2.getHeight(), 0));
+		
+		sigImg2.setIcon(img2);
+		sigImg2.setOpaque(true);
+	}
+	
 	public JLabel getSinEtiquetasO() {
 		if(pActualO>=1) {
 			Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/siguienteO.png")).getImage()
@@ -340,9 +356,6 @@ public class Desafio1 extends JPanel{
 	public void terminoJO() {
 		this.blanquearEtsO();
 		this.removeImgO();
-//		this.sigImg1.setText("<html>Espera al<br>otro jugador</html>");
-//		this.sigImg1.setForeground(Color.white);
-//		this.sigImg1.setBackground(Color.black);
 		sigImg1.setBounds(43, 90, ancho/2-56, alto-130);
 		Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/finNaranja.png")).getImage()
 				.getScaledInstance(sigImg1.getWidth(), sigImg1.getHeight(), 0));
@@ -355,9 +368,6 @@ public class Desafio1 extends JPanel{
 	public void terminoJV() {
 		this.blanquearEtsV();
 		this.removeImgV();
-//		this.sigImg2.setText("<html>Espera al<br>otro jugador</html>");
-//		this.sigImg2.setForeground(Color.white);
-//		this.sigImg2.setBackground(Color.black);
 		sigImg2.setBounds(ancho/2, 90, ancho/2-56, alto-130);
 		Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/finVioleta.png")).getImage()
 				.getScaledInstance(sigImg2.getWidth(), sigImg2.getHeight(), 0));

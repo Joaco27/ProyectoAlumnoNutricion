@@ -15,7 +15,7 @@ public class Sonido {
 			fondo=AudioSystem.getClip();
 			fondo.open(AudioSystem.getAudioInputStream(getClass().getResource("/pistas/fondo.wav")));
 	    }catch(Exception ex){
-		  	System.out.println("No se encontró el audio "+ex);
+		  	System.out.println("No se encontrï¿½ el audio "+ex);
 	     }
 		
 

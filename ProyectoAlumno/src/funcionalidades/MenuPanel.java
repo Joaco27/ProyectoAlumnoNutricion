@@ -9,12 +9,13 @@ import javax.swing.*;
 public class MenuPanel extends JPanel{
 	private Image img;
 	private JLabel cSellos, cAlimentos;
+	private Puntaje pts;
 
 	
-	public MenuPanel(int v, int n, int ancho, int alto) {
+	public MenuPanel(int v, int n, int ancho, int alto, Puntaje p) {
 		setLayout(null);
 		
-		
+		this.pts=p;
 		cSellos = new JLabel();
 		cSellos.setOpaque(true);
 		cSellos.setBackground(new Color(0,0,0,0));
@@ -53,6 +54,7 @@ public class MenuPanel extends JPanel{
 	
 	public void setGanador(int v, int n) {
 		if (v>n) {
+			pts.setUltimoGanador("/imagenes/FondosYBotones/InicioCarreraDeSellosConMedalla.png");
 			cSellos.setBounds(50, 200, 400, 480);
 			Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/InicioCarreraDeSellosConMedalla.png")).getImage()
 					.getScaledInstance(cSellos.getWidth(), cSellos.getHeight(), 0));
@@ -60,10 +62,19 @@ public class MenuPanel extends JPanel{
 		}
 		else {
 			if(n>v) {
+				pts.setUltimoGanador("/imagenes/FondosYBotones/InicioCarreraDeSellosConMedallaNaranja.png");
 				cSellos.setBounds(50, 200, 400, 480);
 				Icon i = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/InicioCarreraDeSellosConMedallaNaranja.png")).getImage()
 						.getScaledInstance(cSellos.getWidth(), cSellos.getHeight(), 0));
 				cSellos.setIcon(i);
+			}
+			else {
+				if(!pts.getUltimoGanador().equals("")) {
+					cSellos.setBounds(50, 200, 400, 480);
+					Icon i = new ImageIcon(new ImageIcon(getClass().getResource(pts.getUltimoGanador())).getImage()
+							.getScaledInstance(cSellos.getWidth(), cSellos.getHeight(), 0));
+					cSellos.setIcon(i);
+				}
 			}
 		}
 	}
