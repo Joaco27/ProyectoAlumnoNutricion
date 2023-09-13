@@ -56,11 +56,12 @@ public class ListenerMP extends JPanel implements TuioListener {
 				client.addTuioListener(new ListenerD1(client, pts));
 			}
 		}
-//		if (tc.getY()<0.5 && tc.getX()>0.5 && tc.getX()<0.8) {
-//			client.removeTuioListener(this);
-//			frame.dispose();
-//			client.addTuioListener(new ListenerD2(client,pts));
-//		}
+		
+		if (tc.getY()<0.8 && tc.getY()>0.2 && tc.getX()>0.5 && tc.getX()<0.8) {
+			client.removeTuioListener(this);
+			frame.dispose();
+			client.addTuioListener(new ListenerD2(client,pts));
+		}
 	}
 
 	@Override
@@ -111,6 +112,6 @@ public class ListenerMP extends JPanel implements TuioListener {
 		
 	}
     
-    // Implementación de métodos de la interfaz TUIOListener
+    // Implementaciï¿½n de mï¿½todos de la interfaz TUIOListener
     // ...
 }

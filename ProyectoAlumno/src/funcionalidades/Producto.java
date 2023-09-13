@@ -5,6 +5,7 @@ import java.util.List;
 public class Producto {
 	
 	private String id;
+	private Integer categoria;  // Esto es para el desafio 2
 	private List <Integer> etiquetas;
 	private String path;
 	public Producto(String id) {
@@ -20,6 +21,14 @@ public class Producto {
 	}
 	public List<Integer> getEtiquetas() {
 		return etiquetas;
+	}
+	
+	public Integer getCategoria() {
+		return categoria;
+	}
+	
+	public void setCategoria(int cat) {
+		this.categoria = cat;
 	}
 	
 	public void agregar(int i) {

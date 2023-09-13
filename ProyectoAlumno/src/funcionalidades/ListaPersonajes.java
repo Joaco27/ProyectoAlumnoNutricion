@@ -1,5 +1,4 @@
 package funcionalidades;
-import funcionalidades.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,11 +10,35 @@ public class ListaPersonajes {
 	
 	public ListaPersonajes() {
 		Personaje p = new Personaje("Personaje Naranja");
-		p.setPath("/imagenes/CartoonLittleKidOrange (1024x768).png");
+		p.setPath("/imagenes/Pj/canionO(Vacio).png");
 		persons.add(p);
 		
 		p = new Personaje("Personaje Violeta");
-		p.setPath("/imagenes/CartoonLittleKidViolet (1024x768).png");
+		p.setPath("/imagenes/Pj/canionV(Vacio).png");
+		persons.add(p);
+		
+		p = new Personaje("Personaje Naranja");
+		p.setPath("/imagenes/Pj/canionO(1Tercio).png");
+		persons.add(p);
+		
+		p = new Personaje("Personaje Violeta");
+		p.setPath("/imagenes/Pj/canionV(1Tercio).png");
+		persons.add(p);
+		
+		p = new Personaje("Personaje Naranja");
+		p.setPath("/imagenes/Pj/canionO(2Tercios).png");
+		persons.add(p);
+		
+		p = new Personaje("Personaje Violeta");
+		p.setPath("/imagenes/Pj/canionV(2Tercios).png");
+		persons.add(p);
+		
+		p = new Personaje("Personaje Naranja");
+		p.setPath("/imagenes/Pj/canionO(Lleno).png");
+		persons.add(p);
+		
+		p = new Personaje("Personaje Violeta");
+		p.setPath("/imagenes/Pj/canionV(Lleno).png");
 		persons.add(p);
 	}
 	

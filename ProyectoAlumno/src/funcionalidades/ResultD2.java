@@ -1,62 +1,91 @@
 package funcionalidades;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import TUIO.TuioBlob;
+import TUIO.TuioCursor;
+import TUIO.TuioListener;
+import TUIO.TuioObject;
+import TUIO.TuioTime;
+
 public class ResultD2 extends JPanel{
+	private Image img;
 	
 	
-	
-	public ResultD2(int alto, int ancho, Puntaje pts, int terminoO, int terminoV){
+	public ResultD2(int alto, int ancho, Puntaje pts){
 		
 		setLayout(null);
-		int anchoBtn = ancho/3;
-		int altoBtn = alto/8;
-		int abajoBtn = alto/3/2;
 		
-		JLabel titulo = new JLabel("", SwingConstants.CENTER);
-		if(terminoO>terminoV) {
+		
+		if(pts.getEquipoV()>pts.getEquipoO()) {
 			pts.aumentarEquipoV(5);
-			titulo.setText("Ganador Violeta");
 		}
 		else {
-			titulo.setText("Ganador Naranja");
-			pts.aumentarEquipoO(5);
+			if(pts.getEquipoV()<pts.getEquipoO()) {
+				pts.aumentarEquipoO(5);
+			}
 		}
-		titulo.setBounds(anchoBtn, abajoBtn, anchoBtn, altoBtn);
-		titulo.setFont(new Font(null, 0, 40));
-		add(titulo);
+
 		
-		int anchito = anchoBtn-anchoBtn/2/2;
-		JLabel siguiente = new JLabel("Siguiente", SwingConstants.CENTER);
-		siguiente.setForeground(Color.WHITE); 
-		siguiente.setOpaque(true);
-		siguiente.setBackground(Color.blue);
-		siguiente.setFont(new Font(null, 0, 40));
-		siguiente.setBounds(anchito, abajoBtn*3, anchoBtn+anchoBtn/2, altoBtn);
-		add(siguiente);
+		int anchoBtn = ancho/3;
+		int altoBtn = alto/8;
+		int abajoBtn = alto/2;
+		int derechaTM = ancho/7;
 		
-		int derechaTM = ancho/4/2;
+		JLabel puntosO= new JLabel(""+pts.getEquipoO(), SwingConstants.CENTER);
+		puntosO.setOpaque(true);
+		puntosO.setForeground(Color.white);
+		puntosO.setBackground(new Color(0, 0, 0, 0));
+		puntosO.setFont(new Font(null, 0, 40));
+		puntosO.setBounds(derechaTM+15, abajoBtn-25, anchoBtn, altoBtn);
+		add(puntosO);
 		
-		JLabel teamV = new JLabel("Equipo Violeta: "+pts.getEquipoV(), SwingConstants.CENTER);
-		teamV.setForeground(Color.WHITE);
-		teamV.setOpaque(true);
-		teamV.setBackground(new Color(159, 0, 255));
-		teamV.setFont(new Font(null, 0, 30));
-		teamV.setBounds(derechaTM*4, abajoBtn*2, anchoBtn, altoBtn);
-		add(teamV);
+		JLabel tiempoO= new JLabel("30", SwingConstants.CENTER);
+		tiempoO.setOpaque(true);
+		tiempoO.setForeground(Color.white);
+		tiempoO.setBackground(new Color(0, 0, 0, 0));
+		tiempoO.setFont(new Font(null, 0, 40));
+		tiempoO.setBounds(derechaTM+15, abajoBtn+35, anchoBtn, altoBtn);
+		add(tiempoO);
 		
-		JLabel teamO = new JLabel("Equipo Naranja: "+pts.getEquipoO(), SwingConstants.CENTER);
-		teamO.setForeground(Color.WHITE);
-		teamO.setOpaque(true);
-		teamO.setBackground(Color.ORANGE);
-		teamO.setFont(new Font(null, 0, 30));
-		teamO.setBounds(derechaTM, abajoBtn*2, anchoBtn, altoBtn);
-		add(teamO);
+		JLabel puntosV= new JLabel(""+pts.getEquipoV(), SwingConstants.CENTER);
+		puntosV.setOpaque(true);
+		puntosV.setForeground(Color.white);
+		puntosV.setBackground(new Color(0, 0, 0, 0));
+		puntosV.setFont(new Font(null, 0, 40));
+		puntosV.setBounds(derechaTM*4+60, abajoBtn-25, anchoBtn, altoBtn);
+		add(puntosV);
+		
+		JLabel tiempoV= new JLabel("30", SwingConstants.CENTER);
+		tiempoV.setOpaque(true);
+		tiempoV.setForeground(Color.white);
+		tiempoV.setBackground(new Color(0, 0, 0, 0));
+		tiempoV.setFont(new Font(null, 0, 40));
+		tiempoV.setBounds(derechaTM*4+60, abajoBtn+40, anchoBtn, altoBtn);
+		add(tiempoV);
+		
 		
 	}
 	
-}
+	public void paint(Graphics g) {
+			
+			img = new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/fondoResultadosDesafio1024x768.png")).getImage();
+			
+			g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+			
+			setOpaque(false);
+			
+			setBackground(new Color(0,0,0,0));
+			
+			super.paint(g);
+		}
+		
+	}

@@ -1,10 +1,6 @@
 package funcionalidades;
-import funcionalidades.*;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import TUIO.TuioBlob;
 import TUIO.TuioCursor;
 import TUIO.TuioListener;
@@ -18,16 +14,16 @@ public class ListenerRD2 extends JPanel implements TuioListener{
 	private ResultD2 panel;
 	private Puntaje pts;
 	
-	public ListenerRD2(TuioClient client, Puntaje pts, int tiempoO, int tiempoV) {
+	public ListenerRD2(TuioClient client, Puntaje pts) {
 		
 		this.client = client;
 		this.pts=pts;
-    	frame = new JFrame("Resultados Desafio 1");
+    	frame = new JFrame("Resultados Desafio 2");
         //frame.setContentPane(new Desafio1(frame.getHeight(), frame.getWidth()));
         frame.setSize(1024, 768);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        panel = new ResultD2(frame.getHeight(), frame.getWidth(),pts, tiempoO, tiempoV);
+        panel = new ResultD2(frame.getHeight(), frame.getWidth(),pts);
         frame.add(panel);
 	}
 	
