@@ -14,6 +14,8 @@ public class ListenerRD1 extends JPanel implements TuioListener{
 	private ResultD1 panel;
 	private Puntaje pts;
 	private Sonido sonido;
+	private ResultTimer timerR;
+	private Boolean tiempoCero = false;
 	
 	public ListenerRD1(TuioClient client, Puntaje pts, int tiempoO, int tiempoV, Sonido s) {
 		this.sonido = s;
@@ -24,7 +26,17 @@ public class ListenerRD1 extends JPanel implements TuioListener{
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new ResultD1(frame.getHeight(), frame.getWidth(),pts, tiempoO, tiempoV);
+        timerR = new ResultTimer(this);
+        add(timerR);
         frame.add(panel);
+	}
+	
+	public void tiempoCeroIsTrue() {
+		tiempoCero = true;
+	}
+	
+	public void tiempoCeroIsFalse() {
+		tiempoCero = false;
 	}
 	
 	@Override
@@ -36,7 +48,7 @@ public class ListenerRD1 extends JPanel implements TuioListener{
 	@Override
 	public void addTuioCursor(TuioCursor tc) {
 		// TODO Auto-generated method stub
-		if(tc.getY()>0.8) {
+		if((tc.getY()>0.5)&&(tiempoCero == true)) {
 			sonido.detenerMusica();
 			client.removeTuioListener(this);
 			frame.dispose();

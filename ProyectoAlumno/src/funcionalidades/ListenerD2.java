@@ -27,62 +27,116 @@ public class ListenerD2 extends JPanel implements TuioListener{
 	private DefaultTimerD2 dtV,dtO;
 	private Desafio2 panel;
 	private int puntosO=0, puntosV=0;
-	private int rachaO=1, rachaV=1;
-	private int termine=0;
-	private boolean terminoO=false, terminoV=false;
+	private int rachaO=0, rachaV=0;
 	private int progresoO=1, progresoV=1;
 	private Puntaje pts;	
-	private int pos = 0;
+	private int cant = 10;
+	private Sonido sonido;
 	
 	
+	private ListaCategorias carteles = new ListaCategorias();
+	private Categoria [][] cartel = new Categoria[2][6];
 	private ListaProductosD2 balas = new ListaProductosD2();
-	private Producto [][] bala = new Producto[2][10];     		//CAMBIAR
+	private Producto [][] bala = new Producto[2][cant];    
 	
 	
 	private ListaPersonajes personajesO = new ListaPersonajes();
     private ListaPersonajes personajesV = new ListaPersonajes();
-	private Personaje personajeO, personajeV;
+    private ListaCargasCanion cargasV = new ListaCargasCanion();
+    private ListaCargasCanion cargasO = new ListaCargasCanion();
+	private Personaje personajeO, personajeV, cargaCO, cargaCV;
+	
 	private Integer cargaCanionV = 3, cargaCanionO = 2;
 
 
 	//Agregar lista de comidas
 
 	public ListenerD2(TuioClient client, Puntaje p) {
+		
+		sonido = new Sonido();
+		sonido.escucharFondo();
+		
 		pts = p;
     	this.client = client;
     	frame = new JFrame("Desafio 2");
         frame.setSize(1024, 768);
         //frame.setContentPane(new Desafio1(frame.getHeight(), frame.getWidth()));
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        // Creo panel Fondo
-  /*      fondo = new FondoD2(frame.getWidth(), frame.getHeight());
-        fondo.setOpaque(false);
-        fondo.setBounds(0,0, frame.getWidth(), frame.getHeight());
-        fondo.setBackground(Color.gray);*/
-        
-        int alto = 768;
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      
         
         panel = new Desafio2(frame.getHeight(), frame.getWidth(), this);
-        personajeO = personajesO.getPersonaje(cargaCanionO);
-        panel.paintImgO(personajeO.getPath());
-        personajeV = personajesV.getPersonaje(cargaCanionV);
-        panel.paintImgV(personajeV.getPath());
-        personajeO.setX(0);
-        personajeV.setX((1024 - 14)-185);
-        personajeO.setY(alto / 2);
-        personajeV.setY(alto / 2);
+        
+        
+		cargaCO = cargasO.getPersonaje(cargaCanionO);
+		cargaCV = cargasV.getPersonaje(cargaCanionV);
+        personajeV = personajesV.getPersonaje(cargaCanionV);      
+		personajeO = personajesO.getPersonaje(cargaCanionO);
+		
+		int pOx = (int)(Math.random() * cant);
+		int pVx = (int)(Math.random() * cant);
+
+		for (int i=0; i<4; i++) {
+			while (bala[0][pOx] != null) {
+				pOx++;
+				if (pOx == cant) pOx = 0;
+			}
+			while (bala[1][pVx] != null) {
+				pVx++;
+				if (pVx == cant) pVx = 0;
+			}
+			bala[0][pOx] = balas.getProducto();
+			while (bala[0][pOx].getCategoria() != panel.getCatV()) {
+				bala[0][pOx] = balas.getProducto();
+			}
+			bala[1][pVx] = balas.getProducto();
+			while (bala[1][pVx].getCategoria() != panel.getCatO()) {
+				bala[1][pVx] = balas.getProducto();
+			}
+			pOx = (int)(Math.random() * cant);
+			pVx = (int)(Math.random() * cant);
+		}	
+			   
         for (int i=0;i<2;i++) {
 	        for (int j=0;j<10;j++) {
-	        	bala[i][j] = balas.getProducto();
+	        	if (bala[i][j] == null) {
+	        		bala[i][j] = balas.getProducto();
+	        		if (i == 0)
+	        			while (bala[i][j].getCategoria() == panel.getCatV()) {
+	        				bala[i][j] = balas.getProducto();
+	        			}
+	        		else 
+	        			while (bala[i][j].getCategoria() == panel.getCatO()) {
+	        				bala[i][j] = balas.getProducto();
+	        			}		
+	        	} 
 	        	panel.paintProd(i,j,bala[i][j].getPath());
 	        }
 		}
-        
+        for (int j=0;j<6;j++) {
+    		cartel[0][j] = carteles.getCategoria(j*2);
+    		panel.paintCartel(0,j,cartel[0][j].getPath());
+    		cartel[1][j] = carteles.getCategoria((j*2)+1);
+    		panel.paintCartel(1,j,cartel[1][j].getPath());
+    	}
+
         //Agrego los paneles
         frame.add(panel); 
         frame.setVisible(true);
+        
+		cargaCO.setX(0);
+		cargaCO.setY((float)0.5);
+		panel.reubicarImgO(cargaCO.getPath(),(float)0.5,frame.getHeight(), frame.getWidth());	
+        cargaCV.setY((float)0.5);
+        cargaCV.setX((1024 - 14)-185);
+        panel.reubicarImgV(cargaCV.getPath(),(float)0.5,frame.getHeight(), frame.getWidth());
+        
+		personajeO.setX(0);
+		personajeO.setY((float)0.5);
+		panel.reubicarImgO(personajeO.getPath(),(float)0.5,frame.getHeight(), frame.getWidth());	
+        personajeV.setY((float)0.5);
+        personajeV.setX((1024 - 14)-185);
+        panel.reubicarImgV(personajeV.getPath(),(float)0.5,frame.getHeight(), frame.getWidth());
+        
        /* frame.add(fondo);
         frame.setVisible(true);*/
     }
@@ -97,44 +151,23 @@ public class ListenerD2 extends JPanel implements TuioListener{
 	@Override
 	public void addTuioCursor(TuioCursor tc) {
 		
-		/*if(termine==0 && tc.getX()>0.5) {
-			pts.aumentarEquipoO(puntosO);
-			pts.aumentarEquipoV(puntosV);
-			client.removeTuioListener(this);
-			frame.dispose();
-			client.addTuioListener(new ListenerRD2(client,pts));			
-		}*/
-		if ((tc.getX()>0.7) && (tc.getX()<0.94)) {
-			if (progresoV<3) {
-				personajeV = personajesV.getPersonaje(cargaCanionV);
-		        panel.reubicarImgV(personajeV.getPath(),tc.getY(),frame.getHeight(), frame.getWidth());
-		        personajeV.setY(tc.getY());
-			}
-		}
-		else if ((tc.getX()>0.3) && (tc.getX()<0.06)) {
-			if (progresoO<3) {
-				personajeO = personajesO.getPersonaje(cargaCanionO);
-		        panel.reubicarImgO(personajeO.getPath(),tc.getY(),frame.getHeight(), frame.getWidth());
-		        personajeO.setY(tc.getY());
-			}
-		}
+
 	}
 	
-public void cambioV(int i) {
+	public void cambioV(int i) {
 		
-		personajeV = personajesV.getPersonaje(i);
-        panel.paintImgV(personajeV.getPath());
+		cargaCV = personajesV.getPersonaje(i);
+        panel.paintImgV(cargaCV.getPath());
         cargaCanionV = i;
 		
 	}
 	
 	public void cambioO(int i) {
 		
-		personajeO = personajesO.getPersonaje(i);
-        panel.paintImgO(personajeO.getPath());
+		cargaCO = personajesO.getPersonaje(i);
+        panel.paintImgO(cargaCO.getPath());
         cargaCanionO = i;
 		
-
 	}
 	
 	
@@ -160,7 +193,7 @@ public void cambioV(int i) {
 		pts.aumentarEquipoV(puntosV);
 		client.removeTuioListener(this);
 		frame.dispose();
-		client.addTuioListener(new ListenerRD2(client,pts));
+		client.addTuioListener(new ListenerRD2(client,pts,sonido));
 		
 	}
 	
@@ -168,6 +201,17 @@ public void cambioV(int i) {
 	
 		panel.transparentarHit(panel.getHit());
 		panel.transparentarMiss(panel.getMiss());
+		
+	}
+	
+	public void transparentarCartel(int n) {
+		
+		if (this.contadoresFin == 0) {
+			panel.transparentarCartelV(n);
+		}	
+		else if (this.contadoresFin == 1) {
+			panel.transparentarCartelO(n);
+		} 
 		
 	}
 	
@@ -189,7 +233,7 @@ public void cambioV(int i) {
 		int alto = 768;
 		int anchoBarra = ancho / 8;
 		int altoImg = alto/2/2;
-		int anchoImg = (ancho-anchoBarra*2)/4;
+		int anchoImg = (ancho-14)/6;
 		
 		if (this.contadoresFin == 0) {
 			b.setBounds(1134, b.getY(), anchoImg/2, altoImg/2);
@@ -199,13 +243,23 @@ public void cambioV(int i) {
 		} 
 	}
 	
+	public void mostrarCartel(int n) {
+		if (this.contadoresFin == 0) {
+			panel.drawCatV(n);
+		}	
+		else if (this.contadoresFin == 1) {
+			panel.drawCatO(n);
+		} 
+	}
+	
+	
 	public void moverObj(JLabel b) {
 		
 		int ancho = 1024;
 		int alto = 768;
 		int anchoBarra = ancho / 8;
 		int altoImg = alto/2/2;
-		int anchoImg = (ancho-anchoBarra*2)/4;
+		int anchoImg = (ancho-14)/6;
 		
 		if (this.contadoresFin == 0) {
 			b.setBounds(b.getX() + 10, b.getY(), anchoImg/2, altoImg/2);
@@ -221,16 +275,17 @@ public void cambioV(int i) {
 		int alto = 768;
 		int anchoBarra = ancho / 8;
 		int altoImg = alto/2/2;
-		int anchoImg = (ancho-anchoBarra*2)/4;
+		int anchoImg = (ancho-14)/6;
     	
     //	bala[contadoresFin][i] = balas.getProducto();
     //	panel.paintProd(i,contadoresFin,bala[contadoresFin][i].getPath());
 		
 		if (this.contadoresFin == 0) {
-			b.setBounds(0, personajeO.getY()-30, anchoImg/2, altoImg/2);
+			b.setBounds(2, personajeO.getY()-35, anchoImg/2, altoImg/2);
+			
 		}	
-		else if (this.contadoresFin == 1) {
-			b.setBounds((1024 - 14)-185, personajeV.getY()-30, anchoImg/2, altoImg/2);
+		else if (this.contadoresFin == 1) {	    	
+			b.setBounds((1024 - 14)-185, personajeV.getY()-35, anchoImg/2, altoImg/2);
 		} 
 	}
 	
@@ -261,35 +316,40 @@ public void cambioV(int i) {
 	    
 		if (this.contadoresFin == 0) {
 		    if (bordeIzqV == bordeDerB) {
-		    	System.out.println("Hubo COLISION Violeta");
 		    	if ((bordeAltoB < bordeAltoV && bordeBajoB > bordeAltoV) || (bordeAltoB > bordeAltoV && bordeBajoB < bordeBajoV) || (bordeAltoB < bordeBajoV && bordeBajoB > bordeBajoV)) {
 		    		coli = true;
 		    		if (cat == bala[0][n].getCategoria()) {
-					puntosV+= (2+rachaV) ;
+					puntosV+= (3+rachaV) ;
 		    		rachaV+=1;
-		    		panel.drawHit((1024 - 14)-185,personajeO.getY()+50);
+		    		sonido.escucharAcierto();
+		    		panel.drawHit((1024 - 14)-185,personajeV.getY()+55);
+		    		panel.updateRachaV(rachaV);
 		    		} else {
 		    			puntosV-=1;
-		    			rachaV = 1;
-		    			panel.drawMiss((1024 - 14)-185,personajeO.getY()+50);
+		    			rachaV = 0;
+		    			sonido.escucharFallo();
+		    			panel.drawMiss((1024 - 14)-185,personajeV.getY()+55);
+		    			panel.updateRachaV(rachaV);
 		    		}
 		    	}
 		    }
 		}	
 		else if (this.contadoresFin == 1) {
-			System.out.println("Borde izquierdo B: "+bordeIzqB);
 			if (bordeDerO == bordeIzqB) {
-				System.out.println("Hubo COLISION Naranja");
 				if ((bordeAltoB < bordeAltoO && bordeBajoB > bordeAltoO) || (bordeAltoB > bordeAltoO && bordeBajoB < bordeBajoO) || (bordeAltoB < bordeBajoO && bordeBajoB > bordeBajoO)) {
 		    		coli = true;
 		    		if (cat == bala[1][n].getCategoria()) {
-						puntosO+= (2+rachaO) ;
+						puntosO+= (3+rachaO) ;
 			    		rachaO+=1;
-			    		panel.drawHit(0,personajeV.getY()+50);
+			    		sonido.escucharAcierto();
+			    		panel.drawHit(0,personajeO.getY()+55);
+			    		panel.updateRachaO(rachaO);
 			    		} else {
 			    			puntosO-=1;
-			    			rachaO = 1;
-			    			panel.drawMiss(0,personajeV.getY()+50);
+			    			rachaO = 0;
+			    			sonido.escucharFallo();
+			    			panel.drawMiss(0,personajeO.getY()+55);
+			    			panel.updateRachaO(rachaO);
 			    		}
 		    	}
 		    }
