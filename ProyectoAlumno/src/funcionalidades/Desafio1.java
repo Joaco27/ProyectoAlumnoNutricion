@@ -248,7 +248,7 @@ public class Desafio1 extends JPanel{
 	
 	public JLabel[] getEtiquetasO() {
 		if(pActualO>=1) {
-			Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/siguienteO.png")).getImage()
+			Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loading.gif")).getImage()
 					.getScaledInstance(sigImg1.getWidth(), sigImg1.getHeight(), 0));
 			
 			sigImg1.setIcon(img1);
@@ -258,7 +258,7 @@ public class Desafio1 extends JPanel{
 	}
 	public JLabel[] getEtiquetasV() {
 		if(pActualV>=1) {
-			Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/siguienteV.png")).getImage()
+			Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loading.gif")).getImage()
 					.getScaledInstance(sigImg2.getWidth(), sigImg2.getHeight(), 0));
 			
 			sigImg2.setIcon(img2);
@@ -268,7 +268,7 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void sigImgO() {
-		Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/siguienteO.png")).getImage()
+		Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loading.gif")).getImage()
 				.getScaledInstance(sigImg1.getWidth(), sigImg1.getHeight(), 0));
 		
 		sigImg1.setIcon(img1);
@@ -276,7 +276,7 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void sigImgV() {
-		Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/siguienteV.png")).getImage()
+		Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loading.gif")).getImage()
 				.getScaledInstance(sigImg2.getWidth(), sigImg2.getHeight(), 0));
 		
 		sigImg2.setIcon(img2);

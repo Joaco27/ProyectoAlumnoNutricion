@@ -84,17 +84,17 @@ public class PresentacionD1Listener extends JFrame implements TuioListener{
 	}
 
 	
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					PresentacionD1Listener frame = new PresentacionD1Listener(new TuioClient(), new Puntaje());
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PresentacionD1Listener frame = new PresentacionD1Listener(new TuioClient(), new Puntaje());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	@Override
 	public void addTuioBlob(TuioBlob arg0) {

@@ -22,8 +22,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private int terminaron=0;
 	private int tiempoTotalV, tiempoTotalO;
 	private boolean terminoO=false, terminoV=false;
-	private int progresoO=1, progresoV=1;
+	private int progresoO=0, progresoV=0;
 	private Puntaje pts;
+	
+	private TimerD1 timerV, timerO, timerFinO, timerFinV;
+	
+	private boolean puedeO = true, puedeV = true;
 	
 	private String [][] etiquetas;
 
@@ -50,12 +54,20 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	
 	// Panel de sombreado
 	private Sombreado somb;
+	
+	public void puedeV() {
+		this.puedeV = !this.puedeV;
+	}
+	
+	public void puedeO() {
+		this.puedeO = !this.puedeO;
+	}
 
 
 	public ListenerD1(TuioClient client, Puntaje p) {
 		
-		sonido = new Sonido();
-		sonido.escucharFondo();
+		//sonido = new Sonido();
+		//sonido.escucharFondo();
 		// Reseteo los puntos
 		pts = p;
 		pts.resetear();
@@ -95,7 +107,6 @@ public class ListenerD1 extends JPanel implements TuioListener{
         frame.setVisible(true);
         frame.add(fondo);
         frame.setVisible(true);
-
     }
 
 	 
@@ -105,14 +116,134 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void addTuioCursor(TuioCursor tc) {
+		somb.addCursor(tc);
+		somb.repaint();
+		
+		if (terminoV && terminoO && tc.getY()>0.8 && puedeV && puedeO) {
+			//Finalizaron los dos a tiempo
+			this.fin();
+		}
+		
+		if (tc.getX()>0.5 && tc.getY()>0.8 && !terminoV && puedeV) {
+			//Presiona del lado Der (Violeta)
+			//sonido.escucharEnviar();
+			this.puedeV=false;
+			timerV = new TimerD1(this, true);
+			JLabel label = this.panel.getPEquipoV();
+			if (this.productoV.getEtiquetas().size()==0) {
+				this.evaluarBlancoV(label, etiquetasV);
+			}
+			else {
+				this.evaluarV(label, etiquetasV, productoV.getEtiquetas());
+			}
+			this.cargarAciertos(etiquetasV, productoV.getEtiquetas(), listaAciertosV);
+			somb.sombrearV(listaAciertosV);
+			this.mostrarEtiquetasV(panel.getEtiquetasV());
+			this.panel.getContadorCorazonesV().setText(this.puntosV+"X");
+			frame.repaint();
+			this.progresoV++;
+			if (progresoV==5) {
+				panel.sigImgV();
+				frame.repaint();
+				this.tiempoTotalV = panel.terminoV(puntosV);
+				this.puedeV = false;
+				timerFinV = new TimerD1(this);
+			}
+			
+		}
+		else {
+			if (tc.getX()<0.5 && tc.getY()>0.8 && !terminoO && puedeO) {
+				//Prseiona del lado Izq (Naranja)
+				//sonido.escucharEnviar();
+				this.puedeO=false;
+				timerO = new TimerD1(this, false);
+				JLabel label = this.panel.getPEquipoO();
+				if (this.productoO.getEtiquetas().size()==0) {
+					this.evaluarBlancoO(label, etiquetasO);
+				}
+				else {
+					this.evaluarO(label, etiquetasO, productoO.getEtiquetas());
+				}
+				this.cargarAciertos(etiquetasO, productoO.getEtiquetas(), listaAciertosO);
+				somb.sombrearO(listaAciertosO);
+				this.mostrarEtiquetasO(panel.getEtiquetasO());
+				this.panel.getContadorCorazonesO().setText(this.puntosO+"X");
+				frame.repaint();
+				this.progresoO++;
+				if (progresoO==5) {
+					panel.sigImgO();
+					frame.repaint();
+					this.tiempoTotalO = panel.terminoO(puntosO);
+					this.puedeO = false;
+					timerFinO = new TimerD1(this);
+				}
+			}
+
+		}
+
+
+		
+	}
+
+	public void finDelJuego() {
+		this.puedeO = true;
+		this.puedeV = true;
+	}
+	
+	public void cambiarV() {
+		//Reseteo etiquetas, sombreados y cambio de producto
+		if (progresoV<5) {
+			panel.blanquearEtsV();
+			this.listaAciertosV = new ArrayList<Integer>();
+			somb.setEvaluarV(false);
+			productoV = listaProductos.getProducto();
+	        panel.paintImgV(productoV.getPath());
+		}
+		else {
+				this.terminoV=true;
+				this.terminaron++;
+				panel.terminoJV();	
+		}
+		frame.repaint();
+		if (terminaron==2) {
+			panel.termine();
+			panel.continuar();
+		}
+		
+	}
+	
+	public void cambiarO() {
+		//Reseteo etiquetas, sombreados y cambio de producto
+		if (progresoO<5) {
+			panel.blanquearEtsO();
+			this.listaAciertosO = new ArrayList<Integer>();
+			somb.setEvaluarO(false);
+			productoO = listaProductos.getProducto();
+	        panel.paintImgO(productoO.getPath());
+		}
+		else {
+				this.terminoO=true;
+				this.terminaron++;
+				panel.terminoJO();	
+			}
+		frame.repaint();
+		if (terminaron==2) {
+			panel.termine();
+			panel.continuar();
+		}
+		
+	}
+
+	
+	public void addtuioCursor(TuioCursor tc) {
 		somb.addCursor(tc);
         somb.repaint();
         // Si terminaron los dos finaliza el juego y si se presiona una vez mas muestra resultados
 		if(terminaron==4 && tc.getY()>0.8) {
-			this.fin(true);	
+			this.fin();	
 		}
 		else {
 			if(terminoO && !congeladoO && tc.getX()<0.5 && tc.getY()>0.8) {
@@ -129,7 +260,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// Si presiono del lado del equipo violeta y no termino
 		if (tc.getX()>0.5 && tc.getY()>0.8 && !terminoV) {
 			// Si mi mi click es impar muestro etiquetas, si es par cambio la imagen
-			if (progresoV%2!=0 && progresoV<9) {
+			if (progresoV%2!=0 && progresoV<5) {
 				sonido.escucharEnviar();
 				// Me traigo la porcion del fondo que voy a pintar
 				JLabel label = panel.getPEquipoV();
@@ -191,7 +322,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		else {
 		
 			if (tc.getX()<0.5 && tc.getY()>0.8 && !terminoO) {
-				if (progresoO%2!=0 && progresoO<9) {
+				if (progresoO%2!=0 && progresoO<5) {
 					sonido.escucharEnviar();
 					JLabel label = panel.getPEquipoO();
 					if(productoO.getEtiquetas().size()==0) {
@@ -251,14 +382,14 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	}
 	}
 	
-	public void fin(boolean ok) {
+	public void fin() {
 		// Finalizado el juego o el tiempo, sumo los puntos de los equipos, cierro el frame
 		// y activo listener del resultado de Desafio1
 		if (!terminoO) {
-			tiempoTotalO = 300;
+			tiempoTotalO = panel.terminoO(puntosO);
 		}
 		if (!terminoV) {
-			tiempoTotalV = 300;
+			tiempoTotalV = panel.terminoV(puntosV);
 		}
 		pts.aumentarEquipoO(puntosO);
 		pts.aumentarEquipoV(puntosV);

@@ -35,7 +35,7 @@ public class DefaultTimer extends JPanel{
                 // Cuando llega a cero se detiene el timer
                 if (seconds == 0) {
                     timer.stop();
-                    list.fin(false);
+                    list.fin();
                     
                     // Agregar cualquier código que quieras que se ejecute cuando el timer llega a cero
                 }
