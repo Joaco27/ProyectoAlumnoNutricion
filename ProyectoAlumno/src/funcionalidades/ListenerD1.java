@@ -25,7 +25,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	private int progresoO=0, progresoV=0;
 	private Puntaje pts;
 	
-	private TimerD1 timerV, timerO, timerFinO, timerFinV;
+	private TimerD1 timerV, timerO, timerFin;
 	
 	private boolean puedeO = true, puedeV = true;
 	
@@ -55,19 +55,12 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	// Panel de sombreado
 	private Sombreado somb;
 	
-	public void puedeV() {
-		this.puedeV = !this.puedeV;
-	}
-	
-	public void puedeO() {
-		this.puedeO = !this.puedeO;
-	}
 
 
 	public ListenerD1(TuioClient client, Puntaje p) {
 		
-		//sonido = new Sonido();
-		//sonido.escucharFondo();
+		sonido = new Sonido();
+		sonido.escucharFondo();
 		// Reseteo los puntos
 		pts = p;
 		pts.resetear();
@@ -121,7 +114,8 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	public void addTuioCursor(TuioCursor tc) {
 		somb.addCursor(tc);
 		somb.repaint();
-		
+		sonido.escucharEnviar();
+
 		if (terminoV && terminoO && tc.getY()>0.8 && puedeV && puedeO) {
 			//Finalizaron los dos a tiempo
 			this.fin();
@@ -129,7 +123,6 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		
 		if (tc.getX()>0.5 && tc.getY()>0.8 && !terminoV && puedeV) {
 			//Presiona del lado Der (Violeta)
-			//sonido.escucharEnviar();
 			this.puedeV=false;
 			timerV = new TimerD1(this, true);
 			JLabel label = this.panel.getPEquipoV();
@@ -146,18 +139,19 @@ public class ListenerD1 extends JPanel implements TuioListener{
 			frame.repaint();
 			this.progresoV++;
 			if (progresoV==5) {
+				this.terminoV=true;
+				this.terminaron++;
 				panel.sigImgV();
 				frame.repaint();
 				this.tiempoTotalV = panel.terminoV(puntosV);
-				this.puedeV = false;
-				timerFinV = new TimerD1(this);
+				//this.puedeV = false;
+				//timerFinV = new TimerD1(this);
 			}
 			
 		}
 		else {
 			if (tc.getX()<0.5 && tc.getY()>0.8 && !terminoO && puedeO) {
 				//Prseiona del lado Izq (Naranja)
-				//sonido.escucharEnviar();
 				this.puedeO=false;
 				timerO = new TimerD1(this, false);
 				JLabel label = this.panel.getPEquipoO();
@@ -174,11 +168,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 				frame.repaint();
 				this.progresoO++;
 				if (progresoO==5) {
+					this.terminoO=true;
+					this.terminaron++;
 					panel.sigImgO();
 					frame.repaint();
 					this.tiempoTotalO = panel.terminoO(puntosO);
-					this.puedeO = false;
-					timerFinO = new TimerD1(this);
+					//this.puedeO = false;
+					//timerFinO = new TimerD1(this);
 				}
 			}
 
@@ -198,19 +194,20 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		if (progresoV<5) {
 			panel.blanquearEtsV();
 			this.listaAciertosV = new ArrayList<Integer>();
-			somb.setEvaluarV(false);
 			productoV = listaProductos.getProducto();
 	        panel.paintImgV(productoV.getPath());
 		}
 		else {
-				this.terminoV=true;
-				this.terminaron++;
 				panel.terminoJV();	
 		}
+		somb.setEvaluarV(false);
 		frame.repaint();
+        this.puedeV = true;
 		if (terminaron==2) {
+			this.finDelJuego();
 			panel.termine();
 			panel.continuar();
+			frame.repaint();
 		}
 		
 	}
@@ -220,19 +217,20 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		if (progresoO<5) {
 			panel.blanquearEtsO();
 			this.listaAciertosO = new ArrayList<Integer>();
-			somb.setEvaluarO(false);
 			productoO = listaProductos.getProducto();
 	        panel.paintImgO(productoO.getPath());
 		}
 		else {
-				this.terminoO=true;
-				this.terminaron++;
 				panel.terminoJO();	
 			}
+		somb.setEvaluarO(false);
+        this.puedeO = true;
 		frame.repaint();
 		if (terminaron==2) {
+			this.finDelJuego();
 			panel.termine();
 			panel.continuar();
+			frame.repaint();
 		}
 		
 	}
@@ -595,13 +593,13 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// si lo tiene me fijo en que parte de la pantalla se coloco para agregarlo al equipo
 		// correspondiente, ademas chequeo que no se repita el elemento
 		
-		System.out.println("X " + to.getX());
-		int nro = to.getSymbolID()/*+ 102*/;
+		//System.out.println("X " + to.getX());
+		int nro = to.getSymbolID()/*+112*/;
 		
 		if (nro<119 && nro>111) {
 			if (to.getX()>0.47) {
 				if (!this.etiquetasV.contains(nro)) {
-					System.out.println("V +"+nro);
+					//System.out.println("V +"+nro);
 					this.etiquetasV.add(nro);
 					somb.addObjectV(to);
 			        somb.repaint();
@@ -611,7 +609,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 			else {
 				if(to.getX()<0.4) {
 					if (!this.etiquetasO.contains(nro)) { 
-						System.out.println("O +"+nro);
+						//System.out.println("O +"+nro);
 						this.etiquetasO.add(nro);
 						somb.addObjectO(to);
 				        somb.repaint();
@@ -647,19 +645,19 @@ public class ListenerD1 extends JPanel implements TuioListener{
 		// si lo tiene me fijo en que parte de la pantalla se coloco para sacarlo del equipo
 		// correspondiente, ademas chequeo que se encuentre en la lista de etiquetas
 		
-		int nro = to.getSymbolID()/*+ 102*/;
+		int nro = to.getSymbolID()/*+112*/;
 		
 		if(nro<119 && nro>111) {
 			if (to.getX()>=0.5) {
 				if (this.etiquetasV.contains(nro)) {
-					System.out.println("V -"+nro);
+					//System.out.println("V -"+nro);
 					int i = this.etiquetasV.indexOf(nro);
 					this.removerObjV(i, nro, to);
 				}
 				else {
 					int i = this.etiquetasO.indexOf(nro);
 					if(i != -1) {
-						System.out.println("O -"+nro);
+						//System.out.println("O -"+nro);
 						this.removerObjO(i, nro, to);
 					}
 				}
@@ -668,7 +666,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 			else {
 				if (to.getX()<0.5) {
 					if(this.etiquetasO.contains(nro)) {
-						System.out.println("O -"+nro);
+						//System.out.println("O -"+nro);
 						int i = this.etiquetasO.indexOf(nro);
 						this.removerObjO(i, nro, to);
 						}
@@ -676,7 +674,7 @@ public class ListenerD1 extends JPanel implements TuioListener{
 					else {
 						int i = this.etiquetasV.indexOf(nro);
 						if (i != -1) {
-							System.out.println("V -"+nro);
+							//System.out.println("V -"+nro);
 							this.removerObjV(i, nro, to);
 						}
 					
@@ -690,10 +688,10 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	}
 	
 	public void removerObjO(int pos, int id, TuioObject to) {
-		TuioObject tuio = somb.getEquipoO().stream().filter(t -> t.getSymbolID()/*+ 102*/==id).findAny().orElse(null); 
+		TuioObject tuio = somb.getEquipoO().stream().filter(t -> t.getSymbolID()/*+112*/==id).findAny().orElse(null); 
 		//if (tuio!=null) {
-			System.out.println("Guardado X,Y: "+tuio.getX()+", "+tuio.getY());
-			System.out.println("A Eliminar X,Y: "+to.getX()+", "+to.getY());
+			//System.out.println("Guardado X,Y: "+tuio.getX()+", "+tuio.getY());
+			//System.out.println("A Eliminar X,Y: "+to.getX()+", "+to.getY());
 			if(tuio.getX()==to.getX() && tuio.getY()>=to.getY()) {
 					this.etiquetasO.remove(pos);
 					somb.removeObjectO(to);
@@ -703,10 +701,10 @@ public class ListenerD1 extends JPanel implements TuioListener{
 	}
 	
 	public void removerObjV(int pos, int id, TuioObject to) {
-		TuioObject tuio = somb.getEquipoV().stream().filter(t -> t.getSymbolID()/*+ 102*/==id).findAny().orElse(null);
+		TuioObject tuio = somb.getEquipoV().stream().filter(t -> t.getSymbolID()/*+112*/==id).findAny().orElse(null);
 		//if (tuio!=null) {
-			System.out.println("Guardado X,Y: "+tuio.getX()+", "+tuio.getY());
-			System.out.println("A Eliminar X,Y: "+to.getX()+", "+to.getY());
+			//System.out.println("Guardado X,Y: "+tuio.getX()+", "+tuio.getY());
+			//System.out.println("A Eliminar X,Y: "+to.getX()+", "+to.getY());
 			if(tuio.getX()==to.getX() && tuio.getY()>=to.getY()) {
 					this.etiquetasV.remove(pos);
 					somb.removeObjectV(to);

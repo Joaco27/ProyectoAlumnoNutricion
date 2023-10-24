@@ -42,7 +42,7 @@ public class Sombreado extends JPanel {
             	this.drawDifuminadoGrisCirculo(g2d, x, y, tamano);
             }
             else {
-            	if(aciertosV.contains(tuioObject.getSymbolID())) {
+            	if(aciertosV.contains(tuioObject.getSymbolID()/*+112*/)) {
             		//g2d.setColor(Color.green);
             		this.drawDifuminadoVerdeCirculo(g2d, x, y, tamano);
             	}
@@ -68,7 +68,7 @@ public class Sombreado extends JPanel {
             	this.drawDifuminadoGrisCirculo(g2d, x, y, tamano);
             }
             else {
-            	if(aciertosO.contains(tuioObject.getSymbolID())) {
+            	if(aciertosO.contains(tuioObject.getSymbolID()/*+112*/)) {
             		//g2d.setColor(Color.green);
             		this.drawDifuminadoVerdeCirculo(g2d, x, y, tamano);
             	}

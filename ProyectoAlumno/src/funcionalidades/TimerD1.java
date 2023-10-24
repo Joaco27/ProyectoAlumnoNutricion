@@ -21,11 +21,9 @@ public class TimerD1 {
                 if (seconds == 0) {
                     timer.stop();
                     if (soyV) {
-                        list.puedeV();    
                         list.cambiarV();
                     }
                     else {
-                    	list.puedeO();
                     	list.cambiarO();
                     }
                 }
