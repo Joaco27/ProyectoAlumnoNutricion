@@ -119,7 +119,7 @@ public class Desafio1 extends JPanel{
 		int derechaSig=(ancho/2)/2-(ancho/6)/2+17;
 		
 		sigImg1 = new JLabel("", SwingConstants.CENTER);
-		sigImg1.setBounds(derechaSig-5, alto-135, ancho/6+35, heightBtn+20);
+		sigImg1.setBounds(derechaSig-5, alto-135, ancho/6+35, heightBtn+10);
 		sigImg1.setOpaque(false);
 		sigImg1.setBackground(new Color(0,0,0,0));
 		add(sigImg1);
@@ -147,7 +147,7 @@ public class Desafio1 extends JPanel{
 		add(imagen2);
 		
 		sigImg2 = new JLabel("", SwingConstants.CENTER);
-		sigImg2.setBounds(derechaSig*4-75, alto-135, ancho/6+35, heightBtn+20);
+		sigImg2.setBounds(derechaSig*4-75, alto-135, ancho/6+35, heightBtn+10);
 		sigImg2.setOpaque(false);
 		sigImg2.setBackground(new Color(0,0,0,0));
 		add(sigImg2);
@@ -248,9 +248,9 @@ public class Desafio1 extends JPanel{
 	
 	public JLabel[] getEtiquetasO() {
 		if(pActualO>=1) {
-			Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loading.gif")).getImage()
-					.getScaledInstance(sigImg1.getWidth(), sigImg1.getHeight(), 0));
-			
+			Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loadingO.gif")).getImage()
+					.getScaledInstance(sigImg1.getWidth()/2, sigImg1.getHeight(), 0));
+			sigImg1.setBackground(new Color(255, 128, 0));
 			sigImg1.setIcon(img1);
 			sigImg1.setOpaque(true);
 		}
@@ -258,9 +258,9 @@ public class Desafio1 extends JPanel{
 	}
 	public JLabel[] getEtiquetasV() {
 		if(pActualV>=1) {
-			Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loading.gif")).getImage()
-					.getScaledInstance(sigImg2.getWidth(), sigImg2.getHeight(), 0));
-			
+			Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loadingV.gif")).getImage()
+					.getScaledInstance(sigImg2.getWidth()/2, sigImg2.getHeight(), 0));
+			sigImg2.setBackground(new Color(76, 40, 130));
 			sigImg2.setIcon(img2);
 			sigImg2.setOpaque(true);
 		}
@@ -268,17 +268,17 @@ public class Desafio1 extends JPanel{
 	}
 	
 	public void sigImgO() {
-		Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loading.gif")).getImage()
-				.getScaledInstance(sigImg1.getWidth(), sigImg1.getHeight(), 0));
-		
+		Icon img1 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loadingO.gif")).getImage()
+				.getScaledInstance(sigImg1.getWidth()/2, sigImg1.getHeight(), 0));
+		sigImg1.setBackground(new Color(255, 128, 0));
 		sigImg1.setIcon(img1);
 		sigImg1.setOpaque(true);
 	}
 	
 	public void sigImgV() {
-		Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loading.gif")).getImage()
-				.getScaledInstance(sigImg2.getWidth(), sigImg2.getHeight(), 0));
-		
+		Icon img2 = new ImageIcon(new ImageIcon(getClass().getResource("/imagenes/FondosYBotones/loadingV.gif")).getImage()
+				.getScaledInstance(sigImg2.getWidth()/2, sigImg2.getHeight(), 0));
+		sigImg2.setBackground(new Color(76, 40, 130));
 		sigImg2.setIcon(img2);
 		sigImg2.setOpaque(true);
 	}

@@ -96,7 +96,7 @@ public class Sombreado extends JPanel {
             //g2d.fillOval(x, y, width, height);
         }
         
-        
+        repaint();
     }
 	
 	public void addCursor(TuioCursor tc) {

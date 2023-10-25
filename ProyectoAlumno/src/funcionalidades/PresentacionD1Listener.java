@@ -31,7 +31,7 @@ public class PresentacionD1Listener extends JFrame implements TuioListener{
 	public PresentacionD1Listener(TuioClient cli, Puntaje puntos) {
 		pts=puntos;
 		client = cli;
-        //setLayout(null);
+        setLayout(null);
 		frame = new JFrame("Presentacion");
         setSize(1024, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,26 +75,26 @@ public class PresentacionD1Listener extends JFrame implements TuioListener{
 		}
 	}
 	
-	private class saltarAdapter extends MouseAdapter {
-
-		public void mouseReleased(MouseEvent c) {
-			saltear();
-			
-		}
-	}
+//	private class saltarAdapter extends MouseAdapter {
+//
+//		public void mouseReleased(MouseEvent c) {
+//			saltear();
+//			
+//		}
+//	}
 
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PresentacionD1Listener frame = new PresentacionD1Listener(new TuioClient(), new Puntaje());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					PresentacionD1Listener frame = new PresentacionD1Listener(new TuioClient(), new Puntaje());
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	@Override
 	public void addTuioBlob(TuioBlob arg0) {

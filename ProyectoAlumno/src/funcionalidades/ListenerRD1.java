@@ -50,7 +50,7 @@ public class ListenerRD1 extends JPanel implements TuioListener{
 	public void addTuioCursor(TuioCursor tc) {
 		// TODO Auto-generated method stub
 		if((tc.getY()>0.5 && tiempoCero)) {
-			//sonido.detenerMusica();
+			sonido.detenerMusica();
 			client.removeTuioListener(this);
 			frame.dispose();
 			client.addTuioListener(new ListenerMP(client,pts));

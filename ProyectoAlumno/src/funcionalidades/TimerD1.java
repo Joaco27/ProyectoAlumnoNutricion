@@ -7,7 +7,7 @@ import javax.swing.Timer;
 
 public class TimerD1 {
 	private Timer timer;
-    private int seconds = 2;
+    private int seconds = 3;
     
     public TimerD1(ListenerD1 list, boolean soyV) {
 
